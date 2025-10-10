@@ -26,6 +26,10 @@
   padding: 15px 40px;
 }
 
+.logo-container {
+  display: flex;
+}
+
 /* Logo */
 .logo-container .logo {
   height: 60px;

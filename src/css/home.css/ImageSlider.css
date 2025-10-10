@@ -91,3 +91,11 @@
   transform: scale(1.2);
 }
 
+.shop-name h1 {
+  font-family: 'Brush Script MT'; /* Cursive font for a stylish look */
+  font-size: 2.5rem; /* Adjust size as needed */
+  color: #FF69B4; /* Vibrant pink color */
+  margin: 0;
+  padding: 0;
+}
+
