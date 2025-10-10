@@ -29,10 +29,11 @@ function Navbar() {
 
                 <div className="nav-container">
                     <div className="nav-links">
-                        <Link to="/about">About Us</Link>
-                        <Link to="/franchise">Franchise Enquiry</Link>
-                        <Link to="/contact">Contact Us</Link>
+                        <Link to="/about">Home</Link>
+                        <Link to="/franchise">Offers</Link>
+                        <Link to="/contact">About Us</Link>
                     </div>
+
                     <div className="nav-icons">
                         <Link to="/wishlist" aria-label="Wishlist">
                             <FaRegHeart />
@@ -41,13 +42,8 @@ function Navbar() {
                             <FaShoppingCart />
                             <span className="cart-badge">0</span>
                         </Link>
-                        <Link to="/profile" aria-label="User Profile">
-                            <FaRegUser />
-                        </Link>
-                        <div className="language-selector">
-                            <span>English</span>
-                            <FaAngleDown />
-                        </div>
+                       
+                     
                     </div>
                 </div>
             </div>
