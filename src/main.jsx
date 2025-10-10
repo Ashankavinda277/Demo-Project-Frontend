@@ -1,12 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import Navbar from './component/common/Navbar/Navbar.jsx'
+import ImagesSlider from './component/ImagesSlider.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navbar />,
+    element: <ImagesSlider />,
     errorElement: <div>Page Not Found</div>,
   },
 ]);

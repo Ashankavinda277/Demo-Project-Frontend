@@ -1,0 +1,93 @@
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 500px; /* Adjust height as needed */
+  overflow: hidden;
+  margin-top: -1px; /* To prevent gap with navbar */
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease-in-out; /* Smooth fade transition */
+  opacity: 0;
+  display: flex; /* For content positioning */
+  align-items: center; /* Vertically center content */
+  justify-content: flex-start; /* Align content to the left */
+  padding-left: 10%; /* Adjust as needed */
+  box-sizing: border-box; /* Include padding in width/height */
+}
+
+.slide.active {
+  opacity: 01;
+  z-index: 1; /* Bring active slide to front */
+}
+
+.slide-content {
+  color: rgb(8, 6, 6); /* Text color for the overlay content */
+  text-align: left;
+  max-width: 500px; /* Limit width of content block */
+  z-index: 2; /* Ensure content is above the image but below the dots */
+  /* Styles to match the image provided */
+  background: rgba(0, 0, 0, 0.408); /* Slightly transparent background for readability */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.slide-content .slide-tagline {
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  color: #FFA500; /* Orange color */
+}
+
+.slide-content h2 {
+  font-size: 3.5rem; /* Large font size for title */
+  margin: 0 0 15px 0;
+  line-height: 1.1;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'Georgia', serif; /* Example, use a font that matches your design */
+  -webkit-text-stroke: 1.5px black; /* For the outline effect */
+  color: white;
+}
+
+.slide-content p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  line-height: 1.5;
+  color: #f0f0f0;
+}
+
+/* Navigation Dots */
+.slider-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; /* Ensure dots are on top */
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(132, 11, 102, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dot.active {
+  background-color: rgb(195, 39, 179);
+  transform: scale(1.2);
+}
+
