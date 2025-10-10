@@ -29,9 +29,9 @@ function Navbar() {
 
                 <div className="nav-container">
                     <div className="nav-links">
-                        <Link to="/about">Home</Link>
-                        <Link to="/franchise">Offers</Link>
-                        <Link to="/contact">About Us</Link>
+                        <Link to="/Home">Home</Link>
+                        <Link to="/offers">Offers</Link>
+                        <Link to="/About Us">About Us</Link>
                     </div>
 
                     <div className="nav-icons">
