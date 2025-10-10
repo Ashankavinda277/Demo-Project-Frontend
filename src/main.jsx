@@ -1,14 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import ImagesSlider from './component/ImagesSlider.jsx';
+import HomePage from './pages/HomePage.jsx';
+
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <ImagesSlider />,
+    element: <HomePage />,
     errorElement: <div>Page Not Found</div>,
   },
+  
+
 ]);
 
 createRoot(document.getElementById('root')).render(
