@@ -1,14 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import Navbar from './component/common/Navbar/Navbar.jsx'
+import HomePage from './pages/HomePage.jsx';
+
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navbar />,
+    element: <HomePage />,
     errorElement: <div>Page Not Found</div>,
   },
+  
+
 ]);
 
 createRoot(document.getElementById('root')).render(

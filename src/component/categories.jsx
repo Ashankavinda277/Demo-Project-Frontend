@@ -9,3 +9,5 @@ const Categories = ({ image, title }) => {
         </div>
     );
 };
+
+export default Categories;

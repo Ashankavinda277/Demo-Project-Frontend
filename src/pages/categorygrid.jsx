@@ -1,9 +1,12 @@
 import react from 'react'
 import CategoryCard from '../component/categories'
+import '../css/categorygrid.css'
 
 function CategoryGrid(){
     return(
         <div className="categoryGrid">
+            <h1 className="text1">Shop By Categories</h1>
+            <h3 className="text">"From timeless classics to signature delights, explore the flavors that make every occasion sweeter."</h3>
             <div className="row">
                 <div className="col1">
                     <CategoryCard 
