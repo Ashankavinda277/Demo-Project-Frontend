@@ -1,0 +1,126 @@
+/* Navbar General Styling */
+.site-navbar { /* Renamed from .site-header */
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+/* Top Green Bar */
+.top-bar {
+  background-color: #00843D;
+  color: white;
+  text-align: center;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+}
+
+.top-bar p {
+  margin: 0;
+}
+
+/* Main Navbar Area */
+.main-nav { /* Renamed from .main-header */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+}
+
+/* Logo */
+.logo-container .logo {
+  height: 60px;
+  display: block;
+}
+
+/* Search Bar */
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #00843D;
+  border-radius: 25px;
+  padding: 5px 15px;
+  width: 40%;
+  max-width: 500px;
+}
+
+.search-container input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.search-container button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 5px;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+/* Navigation Section */
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links, .nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-links a {
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-links a:hover {
+  color: #00843D;
+}
+
+.nav-icons a, .language-selector {
+  font-size: 1.4rem;
+  color: #333;
+  position: relative;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-icons a:hover {
+    color: #00843D;
+}
+
+/* Cart Badge */
+.cart-icon {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #00843D;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Language Selector */
+.language-selector {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  gap: 5px;
+}
