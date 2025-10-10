@@ -1,16 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import Offers from './pages/Offers';
-
+import HomePage from './pages/HomePage.jsx';
 
 
 const router = createBrowserRouter([
   {
-    path: '/offers',
-    element: <Offers/>,
+    path: '/',
+    element: <HomePage />,
     errorElement: <div>Page Not Found</div>,
   },
+  
+
 ]);
 
 createRoot(document.getElementById('root')).render(
