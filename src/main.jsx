@@ -1,12 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import Navbar from './component/common/Navbar/Navbar.jsx'
+import Offers from './pages/Offers';
+
+
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Navbar />,
+    path: '/offers',
+    element: <Offers/>,
     errorElement: <div>Page Not Found</div>,
   },
 ]);
