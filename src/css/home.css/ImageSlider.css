@@ -26,7 +26,7 @@
 .slide.active {
   opacity: 01;
   z-index: 1;
-
+}
 .slide-content {
   color: rgb(8, 6, 6);
   text-align: left;
