@@ -1,0 +1,34 @@
+import React from 'react'
+import MainOfferCard from '../component/home/Main-OfferCard'
+
+const MainOfferGrid = () => {
+  return (
+  <div className="MainOfferGrid">
+    <div className="row">
+        <div className="card1">
+            <MainOfferCard 
+            image={new URL('../assets/img1.jpg', import.meta.url).href}
+            title="New Year offers"
+            discount="20% Off"
+            />
+        </div>
+        <div className="card2">
+            <MainOfferCard 
+            image={new URL('../assets/img9.jpg', import.meta.url).href}
+            title="Valentine Special"
+            discount="15% Off"
+            />
+        </div>
+        <div className="card3">
+            <MainOfferCard 
+            image={new URL('../assets/image1.jpg', import.meta.url).href}
+            title="Merry Discount"
+            discount="25% Off"
+            />
+        </div>
+    </div>
+  </div>
+  )
+}
+
+export default MainOfferGrid

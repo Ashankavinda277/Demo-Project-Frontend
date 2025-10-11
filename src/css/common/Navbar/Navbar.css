@@ -1,13 +1,13 @@
 /* Navbar General Styling */
-.site-navbar { /* Renamed from .site-header */
+.site-navbar {
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
 }
 
-/* Top Green Bar */
+/* Top Bar */
 .top-bar {
-  background-color: #00843D;
+  background-color: #840049;
   color: white;
   text-align: center;
   padding: 8px 20px;
@@ -19,11 +19,15 @@
 }
 
 /* Main Navbar Area */
-.main-nav { /* Renamed from .main-header */
+.main-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
+}
+
+.logo-container {
+  display: flex;
 }
 
 /* Logo */
@@ -36,7 +40,7 @@
 .search-container {
   display: flex;
   align-items: center;
-  border: 1px solid #00843D;
+  border: 1px solid #840049;
   border-radius: 25px;
   padding: 5px 15px;
   width: 40%;
@@ -81,18 +85,12 @@
 }
 
 .nav-links a:hover {
-  color: #00843D;
+  color: #840049;
 }
 
-.nav-icons a, .language-selector {
-  font-size: 1.4rem;
-  color: #333;
-  position: relative;
-  transition: color 0.2s ease-in-out;
-}
 
 .nav-icons a:hover {
-    color: #00843D;
+    color: #840049;
 }
 
 /* Cart Badge */
@@ -104,7 +102,7 @@
   position: absolute;
   top: -8px;
   right: -10px;
-  background-color: #00843D;
+  background-color: #840049;
   color: white;
   border-radius: 50%;
   width: 18px;
@@ -114,13 +112,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* Language Selector */
-.language-selector {
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-  cursor: pointer;
-  gap: 5px;
 }

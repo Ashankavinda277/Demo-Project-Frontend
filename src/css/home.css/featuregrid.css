@@ -1,0 +1,32 @@
+.featurecard .row {
+    display: flex;
+    justify-content: space-between; 
+    gap: 10px;                      
+    padding: 2px;
+}
+
+.featurecard .row > div {
+    flex: 1;                    
+}
+
+
+.feature-card {
+    background: #f1dae5;            
+    border-radius: 15px;           
+    padding: 2px;
+    width: 400px;
+    height: 160px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.feature-card .icon img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 0px;
+}
+
+.feature-card .title{
+    color: brown;
+}
