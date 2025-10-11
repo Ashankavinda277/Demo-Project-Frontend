@@ -4,6 +4,7 @@
     justify-content: space-between; 
     gap: 20px;             
     padding: 10px;
+    margin-bottom: 30px;
 }
 
 .text1{
@@ -39,7 +40,7 @@
 .categoryGrid .row > div {
     flex: 1 1 calc(16.66% - 20px); 
     box-sizing: border-box;
-    height: 1000px;                 
+    height: 250px;                 
     display: flex;
     flex-direction: column;
     background: #fff;              
@@ -58,13 +59,13 @@
     margin: 10px 0;
     text-align: center;
     flex-grow: 1; 
-    color: #f0cf60;
+    color: #fefdfb;
     font-weight: 2000;  
     font-size: 30px;              
 }
 
 .categories-card h3 {
-    color: rgb(23, 22, 22);                 /* inside text color */
-    -webkit-text-stroke: 0.5px rgb(18, 18, 18);  /* outline thickness + color */
-    font-weight: bold;           /* optional for better effect */
+    color: rgb(23, 22, 22);                 
+    -webkit-text-stroke: 0.5px rgb(18, 18, 18);  
+    font-weight: bold;           
 }

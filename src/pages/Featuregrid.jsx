@@ -1,5 +1,6 @@
 import react from 'react'
 import Featurecard from   '../component/Featurecard'
+import '../css/Featuregrid.css'
 
 function Featuregrid() {
     return(
