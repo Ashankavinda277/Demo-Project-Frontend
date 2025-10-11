@@ -11,7 +11,7 @@
 
 
 .feature-card {
-    background: #f1dae5;            
+    background: #eec5d8;            
     border-radius: 15px;           
     padding: 2px;
     width: 400px;
@@ -30,3 +30,56 @@
 .feature-card .title{
     color: brown;
 }
+
+/* ...existing code... */
+
+/* badge: 10-point star, black border, text centered */
+.offer-card .offer-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 80px;           /* smaller size so text fits */
+  height: 80px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.offer-card .offer-badge svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.offer-card .offer-badge svg polygon {
+  fill: #ffd54a;      /* star fill color */
+  stroke: #000;       /* black border */
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+/* text over the star */
+.offer-card .offer-badge .badge-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #000;              /* text color inside star */
+  font-size: 0.9rem;        /* adjust to fit */
+  line-height: 1;
+  z-index: 8;
+  pointer-events: none;
+  padding-top: 2px;         /* small vertical tweak */
+}
+
+/* responsive tweak */
+@media (max-width: 480px) {
+  .offer-card .offer-badge { width: 56px; height: 56px; top: 8px; right: 8px; }
+  .offer-card .offer-badge .badge-text { font-size: 0.7rem; }
+}
+
+/* ...existing code... */
