@@ -1,0 +1,325 @@
+.footer {
+  background: linear-gradient(135deg, #840049f0 0%, #840049aa 100%);
+  color: #ffffff;
+  padding: 60px 0 0;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  pointer-events: none;
+}
+
+.row1 {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.2fr;
+  gap: 50px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Company Description Section */
+.company-description {
+  max-width: 400px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.1);
+}
+
+.shop-Name h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(45deg, #fff, #ecf0f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.company-description p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  text-align: justify;
+}
+
+/* Products, Quick Links, Get in Touch Sections */
+.products,
+.Quick.Links,
+.Get.in.Touch {
+  display: flex;
+  flex-direction: column;
+}
+
+.products h2,
+.Quick.Links h2,
+.Get.in.Touch h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  position: relative;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.products h2::after,
+.Quick.Links h2::after,
+.Get.in.Touch h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(45deg, #e74c3c, #f39c12);
+  border-radius: 2px;
+}
+
+.products ul,
+.Quick.Links ul,
+.Get.in.Touch ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.products li,
+.Quick.Links li {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.products li:hover,
+.Quick.Links li:hover {
+  color: #fff;
+  padding-left: 10px;
+  transform: translateX(5px);
+}
+
+.products li::before,
+.Quick.Links li::before {
+  content: '▶';
+  position: absolute;
+  left: -15px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  color: #e74c3c;
+  font-size: 10px;
+}
+
+.products li:hover::before,
+.Quick.Links li:hover::before {
+  opacity: 1;
+  left: -10px;
+}
+
+/* Get in Touch Section */
+.Get.in.Touch li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.Get.in.Touch li svg {
+  color: #e74c3c;
+  font-size: 16px;
+  min-width: 16px;
+}
+
+.Get.in.Touch li strong {
+  color: #fff;
+  margin-right: 5px;
+  font-weight: 600;
+}
+
+/* Footer Bottom */
+.row2 {
+  background: rgba(0, 0, 0, 0.457);
+  padding: 20px 0;
+  margin-top: 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.row2 p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .row1 {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  
+  .company-description {
+    grid-column: span 2;
+    max-width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 0 0;
+  }
+  
+  .row1 {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 0 15px;
+  }
+  
+  .company-description {
+    grid-column: span 1;
+    text-align: center;
+  }
+  
+  .logo {
+    justify-content: center;
+  }
+  
+  .shop-name h1 {
+    font-size: 24px;
+  }
+  
+  .products h2,
+  .Quick.Links h2,
+  .Get.in.Touch h2 {
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .products h2::after,
+  .Quick.Links h2::after,
+  .Get.in.Touch h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .products ul,
+  .Quick.Links ul,
+  .Get.in.Touch ul {
+    text-align: center;
+  }
+  
+  .Get.in.Touch li {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 30px 0 0;
+  }
+  
+  .row1 {
+    gap: 25px;
+    padding: 0 10px;
+  }
+  
+  .logo img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .shop-name h1 {
+    font-size: 20px;
+  }
+  
+  .company-description p {
+    font-size: 13px;
+  }
+  
+  .products h2,
+  .Quick.Links h2,
+  .Get.in.Touch h2 {
+    font-size: 16px;
+  }
+  
+  .products li,
+  .Quick.Links li,
+  .Get.in.Touch li {
+    font-size: 13px;
+  }
+}
+
+/* Hover Effects and Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer .row1 > div {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.footer .row1 > div:nth-child(1) { animation-delay: 0.1s; }
+.footer .row1 > div:nth-child(2) { animation-delay: 0.2s; }
+.footer .row1 > div:nth-child(3) { animation-delay: 0.3s; }
+.footer .row1 > div:nth-child(4) { animation-delay: 0.4s; }
+
+/* Additional Professional Touches */
+.footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e74c3c, #f39c12, transparent);
+}
