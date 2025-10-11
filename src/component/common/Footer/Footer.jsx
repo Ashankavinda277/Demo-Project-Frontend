@@ -1,5 +1,5 @@
 import React from 'react'
-
+import '../../../css/common/Footer/Footer.css'
 import { FaAddressCard, FaLocationArrow, FaPhone} from 'react-icons/fa'
 
 const Footer = () => {

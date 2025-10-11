@@ -1,6 +1,6 @@
 import React from 'react'
 import MainOfferCard from '../component/home/Main-OfferCard'
-import '../css/home.css/Main-Offersgrid.css'
+import '../css/home.css/Main-OfferGrids.css'
 
 const MainOfferGrid = () => {
   return (
@@ -8,7 +8,7 @@ const MainOfferGrid = () => {
     <div className="row">
         <div className="card1">
             <MainOfferCard 
-            image={new URL('', import.meta.url).href}
+            image={new URL('../assets/img6.jpeg', import.meta.url).href}
             title="New Year offers"
             discount="20% Off"
             />
