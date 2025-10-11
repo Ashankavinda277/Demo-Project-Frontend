@@ -1,7 +1,7 @@
 .MainOfferGrid .row {
   display: flex;
   justify-content: flex-start; /* Keeps them in one row */
-  gap: 0; /* Removes spacing */
+  gap: 5px; /* Removes spacing */
 }
 
 .MainOfferGrid .row > div {
@@ -19,7 +19,7 @@
   align-items: stretch;
   color: #fff;
   padding: 0; 
-    box-shadow: 0 4px 8px rgba(233, 101, 189, 0.1);
+    box-shadow: 0 5px 8px rgba(218, 136, 191, 0.1);
 }
 
 /* background layer so we can apply blur independently */
@@ -52,7 +52,7 @@
   align-self: flex-start;
   font-size: 3rem;
   font-weight: 700;
-  color: rgb(235, 89, 206);
+  color: rgb(243, 148, 224);
   text-align: left;
   font-style: italic;
    order: 0;               /* ensure title is first in visual order */

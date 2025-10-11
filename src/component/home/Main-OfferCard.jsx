@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../css/home.css/Main-Offersgrid.css'
+
 
 const MainOfferCard = ({ image, title, discount }) => {
   // background div uses the inline background-image so we can blur it independently
