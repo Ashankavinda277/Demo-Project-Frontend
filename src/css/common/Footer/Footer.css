@@ -1,5 +1,5 @@
 .footer {
-  background: linear-gradient(135deg, #5e035b 0%, #d76ad8 100%);
+  background: linear-gradient(135deg, #840049f0 0%, #840049aa 100%);
   color: #ffffff;
   padding: 60px 0 0;
   font-family: 'Arial', sans-serif;
@@ -176,7 +176,7 @@
 
 /* Footer Bottom */
 .row2 {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.457);
   padding: 20px 0;
   margin-top: 50px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
