@@ -1,4 +1,3 @@
-import react from 'react'
 import Featurecard from   '../component/Featurecard'
 
 function Featuregrid() {
