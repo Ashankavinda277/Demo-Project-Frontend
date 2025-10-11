@@ -3,31 +3,29 @@ import axios from 'axios';
 import Offercard from '../component/promotion/OfferCard';
 import '../css/promotion.css/offerGrid.css';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-const OfferGrid = () => {
+const OfferGrid = () =>{
     const [offers, setOffers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchOffers = async () => {
+  const fetchOffers = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/offers');
-            setOffers(response.data);
+            const response = await axios.get('/promotion'); // Updated endpoint
+            console.log('Response:', response.data);
+            setOffer(response.data);
             setLoading(false);
         } catch (err) {
+            console.error('Error fetching offers:', err);
             setError('Failed to fetch offers');
             setLoading(false);
         }
     };
 
-    // Initial fetch
     useEffect(() => {
-        fetchOffers();
-        
-        // Set up polling for updates every 30000 mili seconds
+        fetchOffer();
         const intervalId = setInterval(fetchOffers, 30000);
-        
-        // Cleanup on unmount
         return () => clearInterval(intervalId);
     }, []);
 
@@ -38,18 +36,16 @@ const OfferGrid = () => {
         <div className="offer-grid-container">
             <h2>Special Offers</h2>
             <div className="offer-grid">
-                {offers.map((offer) => (
-                    <Offercard
-                        key={offer.id}
-                        icon={offer.icon}
-                        title={offer.title}
-                        weight={offer.weight}
-                        description={offer.description}
-                        discountPrice={offer.discountPrice}
-                        currentPrice={offer.currentPrice}
-                        expiryDate={offer.expiryDate}
-                    />
-                ))}
+                {offer?.length === 0 ? (
+                    <div className="no-offers">No offers available</div>
+                ) : (
+                    offer?.map((offer) => (
+                        <Offercard
+                            key={offer._id} // Changed from id to _id for MongoDB
+                            {...offer}
+                        />
+                    ))
+                )}
             </div>
         </div>
     );
