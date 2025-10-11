@@ -5,6 +5,7 @@ import Featuregrid from '../Featuregrid'
 import ImagesSlider from '../../component/home/ImagesSlider'
 import MainOfferGrid from '../Main-OfferGrid'
 import Footer from '../../component/common/Footer/Footer'
+import ImageUpload from '../../component/admin/ImageUpload'
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
     <MainOfferGrid />
     <Featuregrid />
     <Footer />
+    <ImageUpload />
 
 
     </>
