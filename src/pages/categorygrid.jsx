@@ -1,6 +1,6 @@
 import react from 'react'
-import CategoryCard from '../component/categories'
-import '../css/categorygrid.css'
+import CategoryCard from '../component/home/categories'
+import '../css/home.css/categorygrid.css'
 
 function CategoryGrid(){
     return(
