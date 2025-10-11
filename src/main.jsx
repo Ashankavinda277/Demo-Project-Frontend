@@ -24,18 +24,18 @@ const router = createBrowserRouter([
    {
     path: '/products',
     element: <ProductsPage />, 
-  }
+  },
 
-]);
-
+  
   {
     path: '/aboutUs',
     element: <AboutUs/>,
     errorElement: <div>Page Not Found</div>,
   },
-  
 
 ]);
+
+  
 
 
 
