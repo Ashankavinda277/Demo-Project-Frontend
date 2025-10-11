@@ -26,6 +26,18 @@
   padding: 15px 40px;
 }
 
+.navbar-shop-name h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(45deg, #840049, #ff6f91);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
 .logo-container {
   display: flex;
 }

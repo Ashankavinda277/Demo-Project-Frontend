@@ -4,6 +4,7 @@ import CategoryGrid from '../categorygrid'
 import Featuregrid from '../Featuregrid'
 import ImagesSlider from '../../component/home/ImagesSlider'
 import MainOfferGrid from '../Main-OfferGrid'
+import Footer from '../../component/common/Footer/Footer'
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
     <CategoryGrid />
     <MainOfferGrid />
     <Featuregrid />
+    <Footer />
 
 
     </>

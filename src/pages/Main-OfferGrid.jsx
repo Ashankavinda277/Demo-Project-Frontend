@@ -8,7 +8,7 @@ const MainOfferGrid = () => {
     <div className="row">
         <div className="card1">
             <MainOfferCard 
-            image={new URL('../assets/img1.jpg', import.meta.url).href}
+            image={new URL('', import.meta.url).href}
             title="New Year offers"
             discount="20% Off"
             />
