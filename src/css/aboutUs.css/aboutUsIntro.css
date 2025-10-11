@@ -1,0 +1,74 @@
+.about-intro {
+  padding: 2rem 1rem;
+  background: #fffaf6;
+  color: #2b2b2b;
+}
+
+.about-intro__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Swap order when image on left */
+.about-intro--image-left .about-intro__media { order: -1; }
+
+.about-intro__title {
+  font-size: 1.9rem;
+  margin: 0 0 0.6rem 0;
+}
+
+.about-intro__text {
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Media (image) styles */
+.about-intro__media {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(30, 30, 30, 0.12);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.about-intro__media--rounded {
+  border-radius: 18px;
+}
+
+.about-intro__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 240px;
+  transform-origin: center;
+  transition: transform 450ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* subtle overlay for readable captions or visual polish */
+.about-intro__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.12) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* Hover pop effect */
+.about-intro__media:hover .about-intro__img {
+  transform: scale(1.04);
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 820px) {
+  .about-intro__container {
+    grid-template-columns: 1fr;
+  }
+
+  .about-intro__media { width: 100%; }
+}
