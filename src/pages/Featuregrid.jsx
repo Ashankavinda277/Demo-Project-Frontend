@@ -1,4 +1,4 @@
-import react from 'react'
+import React from 'react'
 import Featurecard from   '../component/home/featurecard'
 import '../css/home.css/featuregrid.css'
 

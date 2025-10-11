@@ -2,6 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import HomePage from './pages/customer/HomePage.jsx';
+import OfferPage from './pages/customer/OfferPage.jsx';
+
 
 
 const router = createBrowserRouter([
@@ -13,10 +15,10 @@ const router = createBrowserRouter([
 
   {
     path: '/Offers',
-    element: <Offers />,
+    element: <OfferPage />,
     errorElement: <div>Page Not Found</div>,
   }
-  
+
 
 ]);
 

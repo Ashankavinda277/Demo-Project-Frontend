@@ -1,4 +1,4 @@
-import react from 'react'
+import React from 'react'
 import CategoryCard from '../component/home/categories'
 import '../css/home.css/categorygrid.css'
 

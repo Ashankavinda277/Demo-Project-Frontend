@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Offercard = ({ icon, title,weight,description,discountPrice,currentPrice,expiryDate }) => {
     return (
         
