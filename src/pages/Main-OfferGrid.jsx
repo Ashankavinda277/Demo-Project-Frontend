@@ -1,10 +1,14 @@
 import React from 'react'
-import MainOfferCard from '../component/home/Main-OfferCard'
-import '../css/home.css/Main-OfferGrids.css'
+import MainOfferCard from '../component/home/Main-OfferCard';
+import '../css/home.css/Main-OfferGrids.css';
 
 const MainOfferGrid = () => {
   return (
   <div className="MainOfferGrid">
+    <h1 className = "text1">Exclusive Offers & Sweet Deals</h1>
+    <p className = "text2">Unwrap irresistible discounts on your favorite treats—because 
+      every celebration deserves a little extra sweetness without the 
+      extra cost</p>
     <div className="row">
         <div className="card1">
             <MainOfferCard 

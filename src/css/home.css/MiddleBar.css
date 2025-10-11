@@ -1,0 +1,107 @@
+.MidBar {
+  max-width: 1100px;          /* reduce overall width here */
+  width: calc(100% - 48px);   /* keep side breathing room on narrow screens */
+  margin: 48px auto;          /* center horizontally and add vertical gap */
+  background-position: center;
+  border-radius: 10px;        /* optional rounded corners */
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(16,24,40,0.08);
+}
+.mid-row {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  min-height: 520px;
+}
+
+/* Left image column */
+.mid-left {
+  flex: 1;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  overflow: hidden;
+}
+
+/* dark gradient overlay + content box (left) */
+.mid-left-overlay {
+  width: 100%;
+  padding: 48px 36px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.48) 60%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* left title and CTA */
+.mid-left-title {
+  margin: 0;
+  font-size: 3.2rem;
+  line-height: 1;
+  font-weight: 800;
+  font-family: 'Georgia', serif;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+.mid-left-cta {
+  width: fit-content;
+  background: #f7a800;
+  color: #111;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 26px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* Right text column */
+.mid-right {
+  flex: 1;
+  background: #113a56; /* deep blue */
+  color: #fff;
+  padding: 56px 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mid-kicker {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+  letter-spacing: 0.6px;
+}
+
+.mid-heading {
+  margin: 0 0 20px 0;
+  font-size: 2.8rem;
+  line-height: 1.05;
+  font-weight: 700;
+  max-width: 720px;
+  font-family: 'Georgia', serif;
+}
+
+.mid-text {
+  margin: 0;
+  color: rgba(255,255,255,0.9);
+  font-size: 1.05rem;
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .MidBar {
+    max-width: 100%;
+    width: calc(100% - 32px);
+    margin: 20px auto;
+    border-radius: 6px;
+  }
+  /* existing mobile tweaks... */
+}
