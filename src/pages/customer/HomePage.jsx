@@ -2,9 +2,11 @@ import React from 'react'
 import Navbar from '../../component/common/Navbar/Navbar'
 import CategoryGrid from '../categorygrid'
 import Featuregrid from '../Featuregrid'
-import ImagesSlider from '../../component/home/ImagesSlider'
+import ImagesSlider from '../../component/home/ImagesSlider.jsx'
 import MainOfferGrid from '../Main-OfferGrid'
 import Footer from '../../component/common/Footer/Footer'
+import MidBar from '../MiddleBar.jsx'
+
 import ImageUpload from '../../component/admin/ImageUpload'
 
 const HomePage = () => {
@@ -13,9 +15,11 @@ const HomePage = () => {
     <Navbar />
     <ImagesSlider />
     <CategoryGrid />
+    <MidBar />
     <MainOfferGrid />
     <Featuregrid />
     <Footer />
+  
     <ImageUpload />
 
 

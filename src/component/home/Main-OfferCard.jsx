@@ -1,9 +1,8 @@
 import React from 'react'
 
-
 const MainOfferCard = ({ image, title, discount }) => {
   // background div uses the inline background-image so we can blur it independently
-  const bgStyle = image ? { backgroundImage:`url(${image})` } : { backgroundColor: '#ccc' }
+  const bgStyle = image ? { backgroundImage: `url(${image})` } : { backgroundColor: '#ccc' }
 
   return (
     <div className="offer-card">
@@ -15,8 +14,8 @@ const MainOfferCard = ({ image, title, discount }) => {
         {!image && <small style={{ opacity: 0.8 }}>No image provided</small>}
       </div>
 
-      <div className="offer-badge" aria-hidden>
-        <div className="badge-oval">
+    <div className="offer-badge" aria-hidden>
+        <div className="badge-circle">
           <span className="badge-text">{discount}</span>
         </div>
       </div>
