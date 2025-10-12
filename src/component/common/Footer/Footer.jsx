@@ -30,8 +30,8 @@ const Footer = () => {
       <div className="Quick Links">
         <h2>Quick Links</h2>
         <ul>
-          <Link to="/About Us"><li>About Us</li></Link>
-          <li>Contact Us</li>
+          <Link to="/aboutUs"><li>About Us</li></Link>
+          <Link to="/contactUs"><li>Contact Us</li></Link>
           <li>FAQ</li>
           <li>Terms of Service</li>
           <li>Privacy Policy</li>
@@ -41,9 +41,9 @@ const Footer = () => {
       <div className="Get in Touch">
         <h2>Get in Touch</h2>
         <ul>
-          <li><FaLocationArrow></FaLocationArrow><strong>Email:</strong> info@example.com</li>
-          <li><FaPhone></FaPhone><strong>Phone:</strong> +1 234 567 890</li>
-          <li><FaAddressCard></FaAddressCard><strong>Address:</strong> 123 Main Street, Anytown, USA</li>
+          <li><FaLocationArrow></FaLocationArrow><strong>Email:</strong> sliceofheaven@gmail.com</li>
+          <li><FaPhone></FaPhone><strong>Phone:</strong> 063 2222345</li>
+          <li><FaAddressCard></FaAddressCard><strong>Address:</strong> Colombo, Sri Lanka</li>
         </ul>
         </div>
 
