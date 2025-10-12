@@ -4,6 +4,7 @@ import Introduction from '../../component/aboutUs/aboutUsIntro'
 import cakeImg from '../../assets/cake.png' 
 import Footer from '../../component/common/Footer/Footer'
 
+
 const AboutUs = () => {
   return (
     <>  

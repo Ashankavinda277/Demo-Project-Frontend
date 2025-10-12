@@ -1,0 +1,63 @@
+/* Simple, clean ViewOrders styles */
+
+:root{
+  --vo-bg: #ec97f6;
+  --vo-card: #e9cde3;
+  --vo-accent: #590b5c;
+  --vo-text: #1f2937;
+  --vo-muted: #53555a;
+}
+
+.orders-container{
+  max-width:1100px;
+  margin:2rem auto;
+  padding:1rem;
+  background:var(--vo-bg);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.orders-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.orders-title{font-size:1.5rem;font-weight:700;color:var(--vo-text)}
+.orders-subtitle{color:var(--vo-muted);font-size:0.95rem}
+
+.loading-container{display:flex;align-items:center;justify-content:center;min-height:220px;color:var(--vo-muted)}
+
+.orders-list{display:grid;gap:1rem}
+
+.order-card{background:var(--vo-card);border-radius:10px;padding:1rem;border:1px solid rgba(15,23,42,0.04);box-shadow:0 6px 18px rgba(15,23,42,0.03);transition:transform .18s ease}
+.order-card:hover{transform:translateY(-4px)}
+
+.order-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:0.75rem;border-bottom:1px solid rgba(15,23,42,0.04)}
+.order-id{font-weight:600;color:var(--vo-text)}
+.order-date{color:var(--vo-muted);font-size:0.9rem}
+
+.status-badge{padding:0.35rem 0.8rem;border-radius:999px;font-weight:600;font-size:0.85rem}
+.status-pending{background:#fff4e6;color:#92400e}
+.status-processing{background:#eef2ff;color:#1e40af}
+.status-completed{background:#ecfdf5;color:#065f46}
+.status-cancelled{background:#fff1f2;color:#991b1b}
+
+.order-details{margin-top:0.75rem}
+.detail-row{display:flex;gap:0.75rem;font-size:0.95rem}
+.detail-label{color:var(--vo-muted);min-width:110px;font-weight:600}
+.detail-value{flex:1;color:var(--vo-text)}
+
+.order-items{margin-top:0.75rem;padding-top:0.75rem;border-top:1px dashed rgba(15,23,42,0.03)}
+.items-list{display:grid;gap:0.5rem}
+.item-row{display:flex;justify-content:space-between;padding:0.5rem;border-radius:8px;background:linear-gradient(180deg,#fff,#fbfbfb)}
+.item-name{font-weight:600;color:var(--vo-text)}
+.item-details{color:var(--vo-muted)}
+.item-price{font-weight:700;color:var(--vo-accent)}
+
+.order-total{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:1rem;border-top:2px solid rgba(15,23,42,0.03)}
+.total-label{font-weight:700;color:var(--vo-text)}
+.total-amount{font-weight:800;color:var(--vo-accent)}
+
+.empty-state{text-align:center;padding:2rem;color:var(--vo-muted)}
+
+@media(max-width:768px){
+  .orders-container{padding:0.6rem;margin:1rem}
+  .detail-row{flex-direction:column}
+  .detail-label{min-width:auto}
+  .item-row{flex-direction:column;gap:0.4rem}
+}
