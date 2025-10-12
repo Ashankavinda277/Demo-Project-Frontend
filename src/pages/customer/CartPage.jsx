@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 import '../../css/CartPage.css';
 
 const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
+  const navigate = useNavigate();
+  const handleCheckout = () => {
+      navigate('/order');
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -104,8 +109,8 @@ const CartPage = () => {
               </div>
             </div>
 
-            <button className="checkout-btn">
-              Proceed to Checkout
+            <button className="checkout-btn" onClick={handleCheckout}>
+              Proceed to Order
             </button>
 
             <Link to="/products" className="continue-link">

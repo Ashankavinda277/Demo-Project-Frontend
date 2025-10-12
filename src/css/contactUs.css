@@ -1,0 +1,97 @@
+/* Contact Us styles - themed */
+:root{
+  --cu-bg: #fff;
+  --cu-accent: #c89a4b; /* warm gold */
+  --cu-accent-2: #ff6b81; /* pink accent for gradient */
+  --cu-text: #2b2b2b;
+  --cu-muted: #7a7a7a;
+  --cu-accent-grad: linear-gradient(135deg, var(--cu-accent-2), var(--cu-accent));
+}
+
+.contact-us{
+  /* base gradient; when --about-bg-image is set on the element it will be layered above */
+  background: linear-gradient(180deg,#fffaf6,#fff3ea);
+  padding: 2.4rem 0;
+  color: var(--cu-text);
+  font-family: 'Rubik', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+}
+
+/* when a background image is provided via the component CSS variable, layer it and add a subtle dark overlay */
+.contact-us[style*="--about-bg-image"]{
+  background-image: var(--about-bg-image), linear-gradient(180deg,#fffaf6,#fff3ea);
+  background-size: cover, auto;
+  background-position: center;
+  background-repeat: no-repeat, no-repeat;
+  color: #fff;
+  position: relative;
+}
+.contact-us[style*="--about-bg-image"]::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0.36), rgba(0,0,0,0.18));
+  z-index: 0;
+}
+
+/* make inner content sit above overlay */
+.contact-us .cu-inner{position:relative;z-index:1}
+
+.cu-inner{max-width:1100px;margin:0 auto;padding:0 1rem}
+.cu-heading{text-align:center;font-size:2rem;margin:0 0 .4rem 0;font-weight:700}
+.cu-breadcrumb{display:none}
+
+/* heading gradient similar to About Us (theme colors) */
+.cu-heading{
+  --g1: #ff6b81; --g2: #ffb85c; --g3: #ffd06b;
+  background: linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+  background-size:200% 200%;
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  animation: cuHue 6s ease-in-out infinite;
+  text-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+.contact-us[style*="--about-bg-image"] .cu-heading{
+  background:none !important; -webkit-text-fill-color:#fff !important; color:#fff !important;
+  text-shadow:0 10px 36px rgba(0,0,0,0.6);
+}
+
+/* Cards row */
+.cu-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2.2rem;padding:1.6rem 0}
+.cu-card{
+  text-align:center;
+  padding:1.6rem 1rem;
+  background: rgba(255,255,255,0.78); /* slightly transparent white */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(25,25,25,0.08);
+  backdrop-filter: blur(6px);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+.cu-card:hover{transform: translateY(-6px);box-shadow:0 18px 40px rgba(25,25,25,0.12)}
+.cu-icon{
+  width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem auto;
+  background: var(--cu-accent-grad);
+  color:#fff;font-size:1.6rem;box-shadow:0 8px 22px rgba(30,30,30,0.12);
+}
+.cu-title{font-size:.78rem;color:var(--cu-muted);letter-spacing:.08em;margin-bottom:.6rem}
+.cu-body{font-weight:700;color:var(--cu-text);line-height:1.5}
+
+/* Social row */
+.cu-social-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;padding:1.6rem 1rem;margin-top:1.6rem;border-top:0;}
+.cu-social-row{background: rgba(255,255,255,0.74); border-radius:12px; box-shadow:0 12px 30px rgba(20,20,20,0.06); backdrop-filter: blur(6px);}
+.cu-social{text-align:center;padding:1rem}
+.cu-social-ico{width:84px;height:84px;border-radius:12px;margin:0 auto 0.8rem auto;background:var(--cu-accent-grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 8px 28px rgba(30,30,30,0.12);transition:transform .22s ease, box-shadow .22s ease}
+.cu-social-ico:hover{transform: translateY(-6px);box-shadow:0 18px 44px rgba(30,30,30,0.16)}
+.cu-social-title{font-size:.75rem;color:var(--cu-muted);font-weight:700;margin-bottom:.45rem}
+.cu-social-handle{color:var(--cu-accent);font-weight:700}
+
+@media(max-width:900px){
+  .cu-cards{grid-template-columns:1fr;}
+  .cu-social-row{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:480px){
+  .cu-social-row{grid-template-columns:1fr}
+}
+
+@keyframes cuHue{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@media (prefers-reduced-motion: reduce){.cu-heading{animation:none}}

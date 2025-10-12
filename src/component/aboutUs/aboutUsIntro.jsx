@@ -25,7 +25,8 @@ const Introduction = ({
             <h1>
               Welcome to <span className="about-intro__brand">Slice of Heaven</span>
             </h1>
-            <h2>– Where Every Moment Tastes Divine!</h2>
+            <h2 className="about-intro__subtitle">– Where Every Moment Tastes Divine!</h2>
+            <a className="about-intro__cta" href="/products">Explore Our Cakes</a>
           </header>
 
           <div className="about-intro__text">
