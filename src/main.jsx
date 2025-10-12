@@ -9,6 +9,7 @@ import AdminHome from './pages/admin/AdminHome.jsx';
 import ManageProduct from './pages/admin/ManageProduct.jsx';
 import CartPage from './pages/customer/CartPage.jsx';
 import ProductDetails from './pages/customer/ProductDetails.jsx';
+import ManageOffers from './pages/admin/ManageOffers.jsx';
 
 
 
@@ -47,6 +48,12 @@ const router = createBrowserRouter([
     element: <ManageProduct />,
     errorElement: <div>Page Not Found</div>,
   },
+{
+    path: '/ManageOffers',
+    element: <ManageOffers />,
+    errorElement: <div>Page Not Found</div>,
+  },
+
 
    {
     path: '/aboutUs',
