@@ -1,41 +1,182 @@
-import React from 'react'
+
+  import React from "react";
+import '../../css/promotions.css/offercard.css'
 
 
-const Offercard = ({ icon, title,weight,description,discountPrice,currentPrice,expiryDate }) => {
+const OfferCard = ({ offer }) => {
+    const discountPercentage = Math.round(
+        ((offer.Current_Price - offer.Discount_Price) / offer.Current_Price) * 100
+    );
+
+    const formatDate = (dateString) => {
+        return new Date(dateString).toLocaleDateString();
+    };
+
     return (
-        
-        <div className="offer-card"> //main card container
-            <div className="offer-icon">//image container
-            <imag src={icon} alt={title} />
-                <div className='expiryDate'>
-                <p>Expires on: {expiryDate}</p>
+        <div className="offer-card">
+            <div className="expires">
+                Expires: {formatDate(offer.End_Date)}
+            </div>
+            
+            <div className="offer-icon">
+                <img 
+                    src={offer.Icon} 
+                    alt={offer.Promotion_Name}
+                    className="card-image"
+                    onError={(e) => {
+                        e.target.src = '/placeholder-cake.jpg';
+                        e.target.onerror = null;
+                    }}
+                />
+                <div className="discount-badge">
+                    {discountPercentage}% OFF
                 </div>
             </div>
 
+            <h3>{offer.Promotion_Name}</h3>
+            <p>{offer.Description}</p>
 
-            <div className='offer-content'>
-                <h3>{title}</h3>//product name ex:choclate cake
-                <h4>{weight}</h4>// weight of cake ex: 1kg
-                <p>{description}</p>// short description of product
-            </div> 
-
-
-            <div className='offer-price'> 
-                <div className='currentPrice'>
-                    <p className='currentPrice'>Rs.{currentPrice}</p>// current price 
-                </div>
-                <div className='discountPrice'>
-                    <p className='discountPrice'>Rs.{discountPrice}</p>// discounted price
-                </div>
-                     
-
-            </div>
-            <div className='offer-action'>
-                <button className='add-to-cart'>Add to Cart</button>// add to cart button
+            <div className="price-info">
+                <span className="original-price">Rs. {offer.Current_Price}</span>
+                <span className="discount-price">Rs. {offer.Discount_Price}</span>
             </div>
 
+            <button className="add-to-cart">
+                Add to Cart
+            </button>
         </div>
     );
 };
 
-export default Offercard;
+export default OfferCard;
+
+// latest working code
+// const OfferCard = ({
+//     icon,
+//     title,
+//     weight,
+//     description,
+//     discountPrice,
+//     currentPrice,
+//     expiryDate,
+//     onAddToCart
+// }) => {
+//     const discountPercentage = Math.round(
+//         ((currentPrice - discountPrice) / currentPrice) * 100
+//     );
+
+//     return (
+//         <div className="offer-card">
+//             <div className="offer-icon">
+//                 <img 
+//                     src={icon} 
+//                     alt={`${title}`} 
+//                     className="card-image"
+//                     onError={(e) => {
+//                         e.target.src = '/placeholder-cake.jpg'; // Add a placeholder image
+//                         e.target.onerror = null;
+//                     }}
+//                 />
+//                 <div className="discount-badge">
+//                     <span>{discountPercentage}% OFF</span>
+//                 </div>
+//                 <div className="expiry-date">
+//                     <p>Expires: {expiryDate}</p>
+//                 </div>
+//             </div>
+
+//             <div className="offer-content">
+//                 <h3 className="product-title">{title}</h3>
+//                 <h4 className="product-weight">{weight}</h4>
+//                 <p className="product-description">{description}</p>
+//             </div>
+
+//             <div className="offer-price">
+//                 <div className="price-row">
+//                     <span className="original-price">Rs.{currentPrice}</span>
+//                     <span className="discounted-price">Rs.{discountPrice}</span>
+//                 </div>
+//             </div>
+
+//             <div className="offer-action">
+//                 <button
+//                     className="add-to-cart-btn"
+//                     onClick={onAddToCart}
+//                     aria-label={`Add ${title} to cart`}
+//                 >
+//                     Add to Cart
+//                 </button>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default OfferCard;
+
+// const OfferCard = ({
+//   icon,
+//   title,
+//   weight,
+//   description,
+//   discountPrice,
+//   currentPrice,
+//   expiryDate,
+//   onAddToCart,
+// }) => {
+//   const discountPercentage = Math.round(
+//     ((currentPrice - discountPrice) / currentPrice) * 100
+//   );
+
+//   const handleAddToCart = () => {
+//     if (onAddToCart) {
+//       onAddToCart({
+//         title,
+//         weight,
+//         discountPrice,
+//         currentPrice,
+//       });
+//     }
+//   };
+
+//   return (
+//     <div className="offer-card">
+//       <div className="offer-icon">
+//         <img src={icon} alt={`${title} - ${weight}`} className="card-image" />
+
+//         <div className="discount-badge">
+//           <span>{discountPercentage}% OFF</span>
+//         </div>
+
+//         <div className="expiry-date">
+//           <p>Expires: {expiryDate}</p>
+//         </div>
+//       </div>
+
+//       <div className="offer-content">
+//         <h3 className="product-title">{title}</h3>
+//         <h4 className="product-weight">{weight}</h4>
+//         <p className="product-description">{description}</p>
+//       </div>
+
+//       <div className="offer-price">
+//         <div className="price-row">
+//           <span className="original-price">Rs.{currentPrice}</span>
+
+//           <span className="discounted-price">Rs.{discountPrice}</span>
+//         </div>
+//       </div>
+
+//       <div className="offer-action">
+//         <button
+//           className="add-to-cart-btn"
+//           onClick={handleAddToCart}
+//           aria-label={`Add ${title} to cart`}
+//         >
+//           Add to Cart
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default OfferCard;
