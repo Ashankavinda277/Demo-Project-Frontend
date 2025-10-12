@@ -7,8 +7,17 @@ import '../../css/CartPage.css';
 const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
   const navigate = useNavigate();
+
   const handleCheckout = () => {
-      navigate('/order');
+    try {
+      // persist cart so OrderPage can load full cart if needed
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    } catch (e) {
+      console.warn('Failed to save cart before checkout', e);
+    }
+
+    // also pass cart via navigation state for immediate use
+    navigate('/order', { state: { cartItems } });
   };
 
   if (cartItems.length === 0) {
@@ -57,7 +66,7 @@ const CartPage = () => {
 
                 <div className="item-quantity">
                   <button 
-                    onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                    onClick={() => updateQuantity(item._id, Math.max(1, item.quantity - 1))}
                     className="qty-btn"
                   >
                     −
