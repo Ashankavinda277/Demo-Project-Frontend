@@ -14,6 +14,25 @@
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* page-level background to affect the whole viewport */
+body {
+  background: #fff7fb; /* soft, warm off-white with subtle pink hint */
+}
+
+.product-details-page {
+/* mobile: reduce product image height */
+@media (max-width: 900px) {
+  .product-image img {
+    height: 360px;
+  }
+}
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  background: transparent; /* let body show through */
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .product-details-card {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -23,21 +42,21 @@
 
 /* Left Section - Product Image */
 .product-image {
-  width: 100%;
+  width: auto;
   border-radius: 12px;
-  overflow: hidden;
-  background: #f9f9f9;
+  overflow: visible;
+  background: #fff7fb;
   position: sticky;
   top: 20px;
-  box-shadow: 0 4px 20px rgba(62, 30, 104, 0.1);
+  /* box-shadow: 0 4px 20px rgba(62, 30, 104, 0.1); */
 }
 
 .product-image img {
   width: 100%;
   height: auto;
   display: block;
-  object-fit: cover;
-  max-height: 600px;
+  object-fit:contain;
+  max-height: 500px;
   transition: transform 0.3s ease;
 }
 
@@ -57,11 +76,11 @@
 
 /* Product Description */
 .product-description {
-  font-size: 15px;
-  color: #666;
+  font-size: 20px;
+  color: #3c3c3c;
   line-height: 1.8;
   margin: 0 0 30px 0;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 /* Product Type Badge */
@@ -92,7 +111,6 @@
 .product-price::before {
   content: 'Rs. ';
   margin-right: 4px;
-  font-size: 24px;
 }
 
 /* Product Meta Information */
@@ -101,8 +119,8 @@
   gap: 40px;
   margin: 30px 0;
   padding: 20px;
-  background: linear-gradient(135deg, rgba(62, 30, 104, 0.03), rgba(93, 47, 119, 0.03));
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(62, 30, 104, 0.05), rgba(255, 172, 172, 0.1));
+  border-radius: 8px;
   border-left: 4px solid #E45A92;
 }
 
@@ -113,7 +131,7 @@
 }
 
 .product-weight::before {
-  content: '⚖️ Weight: ';
+  content: 'Weight: ';
   font-weight: 700;
   color: #3E1E68;
 }
@@ -185,7 +203,7 @@
 
 .qty-controls input:focus {
   outline: none;
-  background: #FFACAC;
+  background: rgba(255, 172, 172, 0.2);
 }
 
 /* Order Now Button */
@@ -233,6 +251,7 @@
   color: #fff !important;
   border-color: #5D2F77 !important;
   box-shadow: 0 4px 12px rgba(93, 47, 119, 0.3) !important;
+  transform: translateY(-2px);
 }
 
 /* Error Message */
@@ -403,13 +422,18 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
-/* Accent Highlights */
+/* Text Selection */
 ::selection {
   background: #E45A92;
   color: #fff;
 }
 
-/* Scrollbar Styling (optional) */
+::-moz-selection {
+  background: #E45A92;
+  color: #fff;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
