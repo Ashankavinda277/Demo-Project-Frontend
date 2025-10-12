@@ -5,7 +5,7 @@ import HomePage from './pages/customer/HomePage.jsx';
 import ProductsPage from './pages/customer/productPage.jsx';
 
 import AboutUs from './pages/customer/aboutUs.jsx';
-
+import ContactUs from './pages/customer/ContactUs.jsx';
 
 
 
@@ -30,6 +30,12 @@ const router = createBrowserRouter([
   {
     path: '/aboutUs',
     element: <AboutUs/>,
+    errorElement: <div>Page Not Found</div>,
+  },
+
+  {
+    path: '/ContactUs',
+    element: <ContactUs/>,
     errorElement: <div>Page Not Found</div>,
   },
 

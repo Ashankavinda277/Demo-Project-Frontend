@@ -34,6 +34,7 @@ function Navbar() {
                         <Link to="/Home">Home</Link>
                         <Link to="/offers">Offers</Link>
                         <Link to="/aboutUs">About Us</Link>
+                        <Link to="/ContactUs">Contact Us</Link>
                     </div>
 
                     <div className="nav-icons">
