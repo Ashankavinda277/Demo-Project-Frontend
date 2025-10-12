@@ -11,9 +11,10 @@
 
 .page-title {
   font-size: 2.5rem;
-  color: #333;
+  color: #3E1E68;
   margin-bottom: 30px;
   text-align: center;
+  font-family:cursive;
 }
 
 .products-grid {
