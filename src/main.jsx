@@ -43,17 +43,13 @@ const router = createBrowserRouter([
     path: '/ManageProducts',
     element: <ManageProduct />,
     errorElement: <div>Page Not Found</div>,
-  }
-]);
   },
 
-  
-  {
+   {
     path: '/aboutUs',
     element: <AboutUs/>,
     errorElement: <div>Page Not Found</div>,
   },
-
 ]);
 
   
