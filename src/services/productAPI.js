@@ -3,6 +3,19 @@ import axios from 'axios';
 const API_BASE_URL = '/api/product'; 
 
 const productService = {
+
+  //add product
+  addProduct: async (productData) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/add`, productData);
+      console.log('Add product response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error adding product:', error);
+      throw error;
+    }
+  },
+
   // Get all products
   getAllProducts: async () => {
     try {
