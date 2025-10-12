@@ -6,6 +6,7 @@ import ImagesSlider from '../../component/home/ImagesSlider.jsx'
 import MainOfferGrid from '../Main-OfferGrid'
 import Footer from '../../component/common/Footer/Footer'
 import MidBar from '../MiddleBar.jsx'
+import ImageUpload from '../../component/admin/ImageUpload'
 
 
 const HomePage = () => {
@@ -18,7 +19,8 @@ const HomePage = () => {
     <MainOfferGrid />
     <Featuregrid />
     <Footer />
-  
+    <ImageUpload />
+    
 
 
     </>
