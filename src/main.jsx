@@ -7,7 +7,9 @@ import ProductsPage from './pages/customer/productPage.jsx';
 import AboutUs from './pages/customer/aboutUs.jsx';
 import AdminHome from './pages/admin/AdminHome.jsx';
 import ManageProduct from './pages/admin/ManageProduct.jsx';
-import CartPage from './pages/customer/CartPage.jsx';import ProductDetails from './pages/customer/ProductDetails.jsx';
+import CartPage from './pages/customer/CartPage.jsx';
+import ProductDetails from './pages/customer/ProductDetails.jsx';
+
 
 
 const router = createBrowserRouter([
@@ -57,6 +59,12 @@ const router = createBrowserRouter([
   element: <CartPage />,
   errorElement: <div>Page Not Found</div>,
 },
+
+{
+  path:'/product/:id',
+  element:<ProductDetails/>
+}
+
 ]);
 
 createRoot(document.getElementById('root')).render(
