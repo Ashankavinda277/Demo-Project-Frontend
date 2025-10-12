@@ -1,4 +1,4 @@
-import react from 'react'
+
 import CategoryCard from '../component/home/categories'
 import '../css/home.css/categorygrid.css'
 import { Link } from 'react-router-dom';
@@ -15,8 +15,7 @@ function CategoryGrid(){
                       title="Birthday Cakes"
                     image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBGSekzdDLaxj9MCrgroeaJb1aiaAzHOeog&s"
                     />
-                  </Link>
-                  
+                  </Link>  
                 </div>
                 <div className="col2">
                     <Link to="/categories/wedding-cakes">
@@ -28,15 +27,6 @@ function CategoryGrid(){
                 </div>
 
                 <div className="col3">
-                    <Link to="/categories/cup-cakes">
-                    <CategoryCard 
-                    title="Cup Cakes"
-                    image="https://bakewithshivesh.com/wp-content/uploads/2021/02/IMG_2671-scaled.jpg"
-                    />
-                    </Link>
-                </div>
-
-                <div className="col4">
                     <Link to="/categories/muffins">
                     <CategoryCard 
                     title="Muffins"
@@ -45,7 +35,7 @@ function CategoryGrid(){
                     </Link>
                 </div>
                 
-                <div className="col5">
+                <div className="col4">
                     <Link to="/categories/chocolate-cakes">
                     <CategoryCard 
                     title="Chocolate Cakes"
@@ -54,11 +44,20 @@ function CategoryGrid(){
                     </Link>
                 </div>
 
-                <div className="col6">
+                <div className="col5">
                     <Link to="/categories/signature-gateau-cakes">
                     <CategoryCard 
                     title="Signature Gateau Cakes"
                     image="https://caravanfresh.lk/wp-content/uploads/2024/12/Black-forest-Gateau-3.png"
+                    />
+                    </Link>
+                </div>
+
+                 <div className="col6">
+                    <Link to="/categories/others">
+                    <CategoryCard 
+                    title="Others"
+                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3MmSNxmae4CD0CVZV9RsdxRXi_XkOFYj3M6cnbrK1PXXt84_8682Sn7rDqr-61zpggG8&usqp=CAU"
                     />
                     </Link>
                 </div>

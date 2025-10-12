@@ -1,6 +1,7 @@
 import React from 'react'
 import '../../../css/common/Footer/Footer.css'
 import { FaAddressCard, FaLocationArrow, FaPhone} from 'react-icons/fa'
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -17,20 +18,20 @@ const Footer = () => {
       <div className ="products">
         <h2>Products</h2>
         <ul>
-          <li>Birthday Cakes</li>
-          <li>Wedding Cakes</li>
-          <li>Chocolate Cakes</li>
-          <li>Signature Gateau Cakes</li>
-          <li>Muffins</li>
-          <li>Others</li>
+          <Link to="/categories/birthday-cakes"><li>Birthday Cakes</li></Link>
+           <Link to="/categories/wedding-cakes"><li>Wedding Cakes</li></Link>
+          <Link to="/categories/chocolate-cakes"><li>Chocolate Cakes</li></Link>
+          <Link to="/categories/signature-gateau-cakes"><li>Signature Gateau Cakes</li></Link>
+           <Link to="/categories/muffins"><li>Muffins</li></Link>
+          <Link to="/categories/others"><li>Others</li></Link>
         </ul>
         </div>
 
       <div className="Quick Links">
         <h2>Quick Links</h2>
         <ul>
-          <li>About Us</li>
-          <li>Contact Us</li>
+          <Link to="/aboutUs"><li>About Us</li></Link>
+          <Link to="/contactUs"><li>Contact Us</li></Link>
           <li>FAQ</li>
           <li>Terms of Service</li>
           <li>Privacy Policy</li>
@@ -40,9 +41,9 @@ const Footer = () => {
       <div className="Get in Touch">
         <h2>Get in Touch</h2>
         <ul>
-          <li><FaLocationArrow></FaLocationArrow><strong>Email:</strong> info@example.com</li>
-          <li><FaPhone></FaPhone><strong>Phone:</strong> +1 234 567 890</li>
-          <li><FaAddressCard></FaAddressCard><strong>Address:</strong> 123 Main Street, Anytown, USA</li>
+          <li><FaLocationArrow></FaLocationArrow><strong>Email:</strong> sliceofheaven@gmail.com</li>
+          <li><FaPhone></FaPhone><strong>Phone:</strong> 063 2222345</li>
+          <li><FaAddressCard></FaAddressCard><strong>Address:</strong> Colombo, Sri Lanka</li>
         </ul>
         </div>
 

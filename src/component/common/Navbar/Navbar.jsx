@@ -1,9 +1,12 @@
 import '../../../css/common/Navbar/navbar.css'
 import { Link } from 'react-router-dom';
 import { FaSearch, FaRegHeart, FaShoppingCart, FaRegUser, FaAngleDown } from 'react-icons/fa';
+import{useCart} from '../../../context/CartContext';
 
 
 function Navbar() {
+    const{cartItems} = useCart();
+    const cartCount = cartItems ? cartItems.length : 0;
     return (
         <>
         <nav className="site-navbar">
@@ -43,7 +46,7 @@ function Navbar() {
                         </Link>
                         <Link to="/cart" className="cart-icon" aria-label="Shopping Cart">
                             <FaShoppingCart />
-                            <span className="cart-badge">0</span>
+                            <span className="cart-badge">{cartCount}</span>
                         </Link>
                        
                      
