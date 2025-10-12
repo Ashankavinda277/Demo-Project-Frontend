@@ -8,7 +8,7 @@ import AboutUs from './pages/customer/aboutUs.jsx';
 
 import AdminHome from './pages/admin/AdminHome.jsx';
 import ManageProduct from './pages/admin/ManageProduct.jsx';
-
+import ProductDetails from './pages/customer/ProductDetails.jsx';
 
 
 const router = createBrowserRouter([

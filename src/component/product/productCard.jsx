@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../../css/productCard.css';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import '../../css/productCard.css'
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="product-card">
+    <Link to={`/product/${product._id}`} className="product-card">
       <div className="product-image">
         <img src={product.image || '/placeholder.jpg'} alt={product.Product_Name} />
       </div>
@@ -14,14 +14,12 @@ const ProductCard = ({ product }) => {
         <p className="product-description">{product.Description}</p>
         <div className="product-details">
           <span className="product-weight">{product.Weight}kg</span>
-          <span className="product-price">Rs. {product.Price.toFixed(2)}</span>
+          <span className="product-price">Rs. {Number(product.Price).toFixed(2)}</span>
         </div>
-        <Link to={`/product/${product._id}`} className="view-details-btn">
-       Order Now
-        </Link>
+        <button className="view-details-btn" type="button">Order Now</button>
       </div>
-    </div>
-  );
-};
+    </Link>
+  )
+}
 
-export default ProductCard;
+export default ProductCard
