@@ -1,179 +1,112 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import Navbar from '../../component/common/Navbar/Navbar.jsx'
-import Footer from '../../component/common/Footer/Footer.jsx'
-import productService from '../../services/productAPI.js'
+import React, { useState, useEffect } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import '../../css/pages/ProductDetails.css'
+import axios from 'axios'
 
-const normalizeToSlug = (s) =>
-  s
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/[\s_]+/g, '-')
-    .replace(/[^a-z0-9-]/g, '')
-    .replace(/-+/g, '-')
+const URL = 'http://localhost:5000'
 
 const ProductDetails = () => {
-  const { slug } = useParams()
-  const location = useLocation()
-  const passedId = location && location.state && location.state.id
-  const navigate = useNavigate()
 
-  const [product, setProduct] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const { slug } = useParams()
+
+  const [Id, setID] = useState(slug);
+  const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    let cancelled = false
-
-    const fetchById = async (idVal) => {
+    const fetchProductData = async () => {
       try {
-        const data = await productService.getProductById(idVal)
-        if (!cancelled) setProduct(data)
-      } catch (err) {
-        if (!cancelled) setError(err.message || 'Failed to load product by id')
-      } finally {
-        if (!cancelled) setLoading(false)
+        const response = await axios.get(`${URL}/api/product/get/${Id}`)
+        setProduct(response.data.data)
+      } catch (error) {
+        console.error('Error:', error)
       }
     }
 
-    const fetchByName = async (nameVal) => {
-      try {
-        const results = await productService.getProductsByName(nameVal)
-        const first = Array.isArray(results) ? results[0] : results
-        if (!cancelled) setProduct(first || null)
-      } catch (err) {
-        try {
-          const all = await productService.getAllProducts()
-          const found = all.find((p) => normalizeToSlug(p.Product_Name || p.name || '') === slug)
-          if (!cancelled) setProduct(found || null)
-        } catch (err2) {
-          if (!cancelled) setError(err2.message || 'Failed to load product by name')
-        }
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
+    if (Id) {
+      fetchProductData()
     }
-
-    ;(async () => {
-      setLoading(true)
-      setError(null)
-      setProduct(null)
-
-      if (passedId) {
-        await fetchById(passedId)
-        return
-      }
-
-      if (slug) {
-        const decoded = decodeURIComponent(slug).replace(/-/g, ' ')
-        await fetchByName(decoded)
-        return
-      }
-
-      setLoading(false)
-    })()
-
-    return () => {
-      cancelled = true
-    }
-  }, [slug, passedId])
-
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <div className="loading-container">
-          <div className="spinner" />
-          <p>Loading product...</p>
-        </div>
-        <Footer />
-      </>
-    )
-  }
+  }, [Id])
 
   if (error) {
     return (
-      <>
-        <Navbar />
-        <div className="error-container">
-          <h2>Error</h2>
-          <p>{error}</p>
+      <div className="product-details-page container">
+        <div className="error-message">
+          <p>Error:{error}</p>
           <button onClick={() => navigate(-1)}>Go Back</button>
         </div>
-        <Footer />
-      </>
+      </div>
     )
   }
 
   if (!product) {
     return (
-      <>
-        <Navbar />
-        <div className="no-products">
-          <p>Product not found.</p>
-          <button onClick={() => navigate(-1)}>Go Back</button>
-        </div>
-        <Footer />
-      </>
+      <div className="product-details-page container">
+        <h2>Loading product...</h2>
+      </div>
     )
   }
 
+  const clickHandler = () => {
+    console.log(product)
+  }
+
+
   return (
-    <>
-      <Navbar />
-      <div className="product-details-page container">
-        <div className="product-details-card">
-          <div className="product-left">
-            <h1 className="product-page-title">{product.Product_Name}</h1>
-            <div className="product-image">
-              {/* Try common image fields: image, Image, Product_Image, Photo, photos[0], images[0] */}
-              {(() => {
-                const imgSrc = product.image || product.Image || product.Product_Image || product.Photo ||
-                  (product.photos && product.photos[0]) || (product.images && product.images[0]) || '/placeholder.jpg'
-                return (
-                  <>
-                    <img src={imgSrc} alt={product.Product_Name} onError={(e) => { e.target.src = '/placeholder.jpg' }} />
-                    {!product.image && !product.Image && !product.Product_Image && !product.photos && !product.images && (
-                      <small style={{ display: 'block', marginTop: 8, color: '#8a8a8a' }}>No product image available</small>
-                    )}
-                  </>
-                )
-              })()}
-            </div>
-          </div>
+    <div className="product-details-page container">
+      {/* <div className="product-details-card">
+        <h1 className="product-page-title">{product.Product_Name}</h1>
+        <h4 className="product-page-title">{product.Description}</h4>
+        <h2 className="product-page-title">{product.Price}</h2>
+        <h3 className="product-page-title">{product.Product_Type}</h3>
+        <h3 className="product-page-title">{product.Weight}</h3>
+        
+        <h1 className="product-page-title">{product.image}</h1>
+        
+        <h3 className="product-page-title">{product.status}</h3>
+        
+      </div> */}
 
-          <div className="product-right">
-            <p className="product-type">{product.Product_Type}</p>
-            <p className="product-description">{product.Description}</p>
-
-            <div className="product-meta">
-              <span>Weight: {product.Weight ?? 'N/A'}kg</span>
-              <span>Price: Rs. {product.Price ? Number(product.Price).toFixed(2) : 'N/A'}</span>
-            </div>
-
-            <div className="product-quantity">
-              <label>Quantity</label>
-              <div className="qty-controls">
-                <button type="button" onClick={() => setQuantity((q) => Math.max(1, q - 1))} aria-label="Decrease quantity">−</button>
-                <input type="number" value={quantity} readOnly />
-                <button type="button" onClick={() => setQuantity((q) => q + 1)} aria-label="Increase quantity">+</button>
-              </div>
-            </div>
-
-            <div className="product-actions">
-              <button onClick={() => alert(`Order ${quantity} of ${product.Product_Name} — flow not implemented`)}>Order Now</button>
-              <button onClick={() => navigate(-1)}>Back</button>
-            </div>
+      <div className="product-details-card">
+        <div>
+          <h1 className="product-page-title">{product.Product_Name}</h1>
+          <div className="product-image">
+            <img src={product.image || '/placeholder.jpg'} alt={product.Product_Name || 'product'} onError={(e)=>{e.target.src='/placeholder.jpg'}} />
           </div>
         </div>
+
+
+
+      <div>
+          <p className="product-description">{product.Description}</p>
+          <p className="product-type">{product.Product_Type}</p>
+
+          <div className="product-meta">
+            <div className="product-weight">Weight:{product.Weight ?? 'N/A'}</div>
+            <div className="product-price">Price: Rs. {product.Price ? Number(product.Price).toFixed(2) : 'N/A'}</div>
+          </div>
+
+           <div className="product-quantity">
+            <label>Quantity</label>
+            <div className="qty-controls">
+              <button type="button" onClick={()=>setQuantity((q)=>Math.max(1, q-1))} aria-label="Decrease quantity">-</button>
+              <input type="number" value={quantity} readOnly />
+              <button type="button" onClick={()=>setQuantity((q)=>q+1)} aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+           <div className="product-quantity">
+            <button onClick={()=>alert(`Order ${quantity} of ${product.Product_Name}-demo only`)}>Order Now</button>
+            <button className="back-btn" onClick={()=>navigate_-1}>Back</button>
+          </div> 
+        </div>
       </div>
-      <Footer />
-    </>
+      
+
+    </div>
+
   )
 }
-
 export default ProductDetails
 
