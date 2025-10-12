@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import ImageUpload from "./ImageUpload";
-import '../../css/OfferForm.css';
+import "../../css/OfferForm.css";
 
-const AddOffer = () => {
+const AddOfferPage = () => {
   const [formData, setFormData] = useState({
     Promotion_Name: "",
-    Promotion_Type: "",
-    Discount_Percentage: "",
-    Start_Date: "",
+    Discount_Price: "",
     End_Date: "",
     Description: "",
+    Weight: "",
+    Current_Price: "",
   });
+  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
@@ -25,6 +26,19 @@ const AddOffer = () => {
     setImageFile(file);
   };
 
+  // Calculate savings percentage
+  const calculateSavings = () => {
+    if (formData.Current_Price && formData.Discount_Price) {
+      const current = parseFloat(formData.Current_Price);
+      const discount = parseFloat(formData.Discount_Price);
+      if (current > 0 && discount < current) {
+        const savings = ((current - discount) / current) * 100;
+        return savings.toFixed(1);
+      }
+    }
+    return null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -34,11 +48,11 @@ const AddOffer = () => {
       // Validation
       if (
         !formData.Promotion_Name ||
-        !formData.Promotion_Type ||
-        !formData.Discount_Percentage ||
-        !formData.Start_Date ||
+        !formData.Discount_Price ||
         !formData.End_Date ||
-        !formData.Description
+        !formData.Description ||
+        !formData.Weight ||
+        !formData.Current_Price
       ) {
         setMessage({
           type: "error",
@@ -48,46 +62,68 @@ const AddOffer = () => {
         return;
       }
 
-      // Validate discount percentage
-      const discount = parseFloat(formData.Discount_Percentage);
-      if (discount < 0 || discount > 100) {
+      // Validate prices
+      const currentPrice = parseFloat(formData.Current_Price);
+      const discountPrice = parseFloat(formData.Discount_Price);
+      const weight = parseFloat(formData.Weight);
+
+      if (currentPrice <= 0 || discountPrice <= 0 || weight <= 0) {
         setMessage({
           type: "error",
-          text: "Discount percentage must be between 0 and 100",
+          text: "Price and weight must be greater than 0",
         });
         setLoading(false);
         return;
       }
 
-      // Validate dates
-      const startDate = new Date(formData.Start_Date);
+      if (discountPrice >= currentPrice) {
+        setMessage({
+          type: "error",
+          text: "Discount price must be less than current price",
+        });
+        setLoading(false);
+        return;
+      }
+
+      // Validate end date
       const endDate = new Date(formData.End_Date);
-      if (endDate <= startDate) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      if (endDate < today) {
         setMessage({
           type: "error",
-          text: "End date must be after start date",
+          text: "End date cannot be in the past",
         });
         setLoading(false);
         return;
       }
 
-      const data = {
-        Promotion_Name: formData.Promotion_Name.trim(),
-        Promotion_Type: formData.Promotion_Type,
-        Discount_Percentage: discount,
-        Start_Date: formData.Start_Date,
+      const data = new FormData();
+      data.append("Promotion_Name", formData.Promotion_Name.trim());
+      data.append("Discount_Price", discountPrice);
+      data.append("End_Date", formData.End_Date);
+      data.append("Description", formData.Description.trim());
+      data.append("Weight", weight);
+      data.append("Current_Price", currentPrice);
+
+      if (imageFile) {
+        data.append("icon", imageFile);
+      }
+
+      console.log("Submitting offer data:", {
+        Promotion_Name: formData.Promotion_Name,
+        Discount_Price: discountPrice,
         End_Date: formData.End_Date,
-        Description: formData.Description.trim(),
-      };
+        Description: formData.Description,
+        Weight: weight,
+        Current_Price: currentPrice,
+        hasIcon: !!imageFile,
+      });
 
-      console.log("Submitting offer data:", data);
-
-      const response = await fetch("/api/offer/add", {
+      const response = await fetch("/api/promotion/add", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        body: data,
       });
 
       const result = await response.json();
@@ -97,12 +133,13 @@ const AddOffer = () => {
         // Reset form
         setFormData({
           Promotion_Name: "",
-          Promotion_Type: "",
-          Discount_Percentage: "",
-          Start_Date: "",
+          Discount_Price: "",
           End_Date: "",
           Description: "",
+          Weight: "",
+          Current_Price: "",
         });
+        setImageFile(null);
       } else {
         setMessage({
           type: "error",
@@ -117,77 +154,111 @@ const AddOffer = () => {
     }
   };
 
+  const savings = calculateSavings();
+
   return (
-    
-    <div className="add-product-page">
+    <div className="add-offer-page">
       <div className="container">
-        <h1>Add New Offer</h1>
+        <h1>Create New Offer</h1>
+        <p className="subtitle">Set up special promotional pricing for your products</p>
 
         {message.text && (
           <div className={`message ${message.type}`}>{message.text}</div>
         )}
 
         <form onSubmit={handleSubmit} className="offer-form">
-            <ImageUpload onImageSelect={handleImageSelect} currentImage={null} /> 
-          <div className="form-group">
-            <label>Promotion Name *</label>
-            <input
-              type="text"
-              name="Promotion_Name"
-              value={formData.Promotion_Name}
-              onChange={handleChange}
-              placeholder="e.g., Summer Sale, Weekend Special"
-              required
-            />
+          <div className="form-section">
+            <h3 className="form-section-title">Offer Icon</h3>
+            <ImageUpload onImageSelect={handleImageSelect} currentImage={null} />
           </div>
 
-          <div className="form-group">
-            <label>Promotion Type *</label>
-            <select
-              name="Promotion_Type"
-              value={formData.Promotion_Type}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Type</option>
-              <option value="seasonal">Seasonal Offer</option>
-              <option value="flash-sale">Flash Sale</option>
-              <option value="weekend-special">Weekend Special</option>
-              <option value="holiday-promo">Holiday Promotion</option>
-              <option value="bulk-discount">Bulk Discount</option>
-              <option value="clearance">Clearance Sale</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Discount Percentage (%) *</label>
-            <input
-              type="number"
-              name="Discount_Percentage"
-              value={formData.Discount_Percentage}
-              onChange={handleChange}
-              min="0"
-              max="100"
-              step="0.01"
-              placeholder="e.g., 15"
-              required
-            />
-          </div>
-
-          <div className="form-row">
+          <div className="form-section">
+            <h3 className="form-section-title">Basic Information</h3>
+            
             <div className="form-group">
-              <label>Start Date *</label>
+              <label>
+                Promotion Name <span className="required">*</span>
+              </label>
               <input
-                type="date"
-                name="Start_Date"
-                value={formData.Start_Date}
+                type="text"
+                name="Promotion_Name"
+                value={formData.Promotion_Name}
                 onChange={handleChange}
+                placeholder="e.g., Weekend Special Chocolate Cake"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label>End Date *</label>
+              <label>
+                Weight (kg) <span className="required">*</span>
+              </label>
+              <input
+                type="number"
+                name="Weight"
+                value={formData.Weight}
+                onChange={handleChange}
+                min="0"
+                step="0.01"
+                placeholder="e.g., 1.5"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-section">
+            <h3 className="form-section-title">Pricing Details</h3>
+            
+            <div className="form-row">
+              <div className="form-group">
+                <label>
+                  Current Price (Rs) <span className="required">*</span>
+                </label>
+                <input
+                  type="number"
+                  name="Current_Price"
+                  value={formData.Current_Price}
+                  onChange={handleChange}
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g., 2500"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>
+                  Discount Price (Rs) <span className="required">*</span>
+                </label>
+                <input
+                  type="number"
+                  name="Discount_Price"
+                  value={formData.Discount_Price}
+                  onChange={handleChange}
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g., 1999"
+                  required
+                />
+              </div>
+            </div>
+
+            {savings && (
+              <div className="savings-display">
+                <span className="savings-badge">
+                  🎉 Save {savings}% (Rs {(parseFloat(formData.Current_Price) - parseFloat(formData.Discount_Price)).toFixed(2)})
+                </span>
+              </div>
+            )}
+          </div>
+
+          <div className="form-section">
+            <h3 className="form-section-title">Offer Duration</h3>
+            
+            <div className="form-group">
+              <label>
+                End Date <span className="required">*</span>
+              </label>
               <input
                 type="date"
                 name="End_Date"
@@ -195,28 +266,41 @@ const AddOffer = () => {
                 onChange={handleChange}
                 required
               />
+              <p className="date-info">
+                Offer will be active until the selected end date
+              </p>
             </div>
           </div>
 
-          <div className="form-group">
-            <label>Description *</label>
-            <textarea
-              name="Description"
-              value={formData.Description}
-              onChange={handleChange}
-              rows="4"
-              placeholder="Describe the offer details, terms and conditions..."
-              required
-            />
+          <div className="form-section">
+            <h3 className="form-section-title">Description</h3>
+            
+            <div className="form-group">
+              <label>
+                Offer Description <span className="required">*</span>
+              </label>
+              <textarea
+                name="Description"
+                value={formData.Description}
+                onChange={handleChange}
+                rows="4"
+                placeholder="Describe the offer details, terms and conditions..."
+                required
+              />
+            </div>
           </div>
 
           <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Adding Offer..." : "Add Offer"}
+            {loading ? "Creating Offer..." : "Create Offer"}
           </button>
+
+          <div className="form-footer">
+            All fields marked with <span style={{color: '#e53e3e'}}>*</span> are required
+          </div>
         </form>
       </div>
     </div>
   );
 };
 
-export default AddOffer;
+export default AddOfferPage;

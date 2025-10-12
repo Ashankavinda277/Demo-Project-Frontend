@@ -1,13 +1,17 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api/offer'; 
+const API_BASE_URL = '/api/promotion'; 
 
 const offerService = {
 
-  // Add offer
+  // Add offer (with FormData for image upload)
   addOffer: async (offerData) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/add`, offerData);
+      const response = await axios.post(`${API_BASE_URL}/add`, offerData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       console.log('Add offer response:', response.data);
       return response.data;
     } catch (error) {
@@ -40,19 +44,6 @@ const offerService = {
     }
   },
 
-  // Get offers by type
-  getOffersByType: async (type) => {
-    try {
-      console.log('Fetching offers for type:', type);
-      const response = await axios.get(`${API_BASE_URL}/get/type/${type}`);
-      console.log(`Offers for type "${type}":`, response.data);
-      return response.data;
-    } catch (error) {
-      console.error(`Error fetching offers by type "${type}":`, error.response?.data || error.message);
-      throw error;
-    }
-  },
-
   // Get offer by ID
   getOfferById: async (id) => {
     try {
@@ -77,10 +68,14 @@ const offerService = {
     }
   },
 
-  // Update offer
+  // Update offer (with FormData for image upload)
   updateOffer: async (id, offerData) => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/update/${id}`, offerData);
+      const response = await axios.put(`${API_BASE_URL}/update/${id}`, offerData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       console.log('Update offer response:', response.data);
       return response.data;
     } catch (error) {
@@ -147,6 +142,34 @@ const offerService = {
       return response.data;
     } catch (error) {
       console.error('Error fetching expired offers:', error);
+      throw error;
+    }
+  },
+
+  // Get offers by weight range
+  getOffersByWeight: async (minWeight, maxWeight) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/get/weight`, {
+        params: { minWeight, maxWeight }
+      });
+      console.log('Offers by weight response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching offers by weight:', error);
+      throw error;
+    }
+  },
+
+  // Get offers by discount range
+  getOffersByDiscountRange: async (minDiscount, maxDiscount) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/get/discount-range`, {
+        params: { minDiscount, maxDiscount }
+      });
+      console.log('Offers by discount range response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching offers by discount range:', error);
       throw error;
     }
   }
