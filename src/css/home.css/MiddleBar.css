@@ -60,7 +60,7 @@
 
 .mid-right {
   flex: 1;
-  background: #113a56; 
+  background: #5D2F77; 
   color: #fff;
   padding: 56px 72px;
   display: flex;
@@ -70,9 +70,10 @@
 
 .mid-kicker {
   color: rgba(255,255,255,0.75);
-  font-size: 0.95rem;
+  font-size: 1.3rem;
   margin-bottom: 14px;
   letter-spacing: 0.6px;
+  font-style: italic;
 }
 
 .mid-heading {

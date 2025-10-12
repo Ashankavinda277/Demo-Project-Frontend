@@ -1,6 +1,7 @@
 import React from 'react'
 import '../../../css/common/Footer/Footer.css'
 import { FaAddressCard, FaLocationArrow, FaPhone} from 'react-icons/fa'
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -17,19 +18,19 @@ const Footer = () => {
       <div className ="products">
         <h2>Products</h2>
         <ul>
-          <li>Birthday Cakes</li>
-          <li>Wedding Cakes</li>
-          <li>Chocolate Cakes</li>
-          <li>Signature Gateau Cakes</li>
-          <li>Muffins</li>
-          <li>Others</li>
+          <Link to="/categories/birthday-cakes"><li>Birthday Cakes</li></Link>
+           <Link to="/categories/wedding-cakes"><li>Wedding Cakes</li></Link>
+          <Link to="/categories/chocolate-cakes"><li>Chocolate Cakes</li></Link>
+          <Link to="/categories/signature-gateau-cakes"><li>Signature Gateau Cakes</li></Link>
+           <Link to="/categories/muffins"><li>Muffins</li></Link>
+          <Link to="/categories/others"><li>Others</li></Link>
         </ul>
         </div>
 
       <div className="Quick Links">
         <h2>Quick Links</h2>
         <ul>
-          <li>About Us</li>
+          <Link to="/About Us"><li>About Us</li></Link>
           <li>Contact Us</li>
           <li>FAQ</li>
           <li>Terms of Service</li>
