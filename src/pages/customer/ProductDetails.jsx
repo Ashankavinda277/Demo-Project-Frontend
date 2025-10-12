@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../../component/common/Navbar/Navbar.jsx';
-import Footer from '../../component/common/Footer/Footer.jsx';
-import productService from '../../services/productAPI.js';
-import '../../css/pages/productPage.css';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import Navbar from "../../component/common/Navbar/Navbar.jsx";
+import Footer from "../../component/common/Footer/Footer.jsx";
+import productService from "../../services/productAPI.js";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,13 +14,14 @@ const ProductDetails = () => {
   useEffect(() => {
     if (!id) return;
     setLoading(true);
-    productService.getProductById(id)
+    productService
+      .getProductById(id)
       .then((data) => {
         setProduct(data);
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message || 'Failed to load product');
+        setError(err.message || "Failed to load product");
         setLoading(false);
       });
   }, [id]);
@@ -65,6 +65,14 @@ const ProductDetails = () => {
       </>
     );
   }
+   const handleOrderNow = () => {
+    navigate('/order', { 
+      state: { 
+        product: product,
+        quantity: quantity 
+      } 
+    });
+  };
 
   return (
     <>
@@ -72,7 +80,10 @@ const ProductDetails = () => {
       <div className="product-details-page container">
         <div className="product-details-card">
           <div className="product-image">
-            <img src={product.image || '/placeholder.jpg'} alt={product.Product_Name} />
+            <img
+              src={product.image || "/placeholder.jpg"}
+              alt={product.Product_Name}
+            />
           </div>
           <div className="product-info">
             <h2>{product.Product_Name}</h2>
@@ -83,7 +94,9 @@ const ProductDetails = () => {
               <span>Price: Rs. {Number(product.Price).toFixed(2)}</span>
             </div>
             <div className="product-actions">
-              <button onClick={() => alert('Order flow not implemented')}>Order Now</button>
+              <button className="order-now-btn" onClick={handleOrderNow}>
+                Order Now
+              </button>
               <button onClick={() => navigate(-1)}>Back</button>
             </div>
           </div>

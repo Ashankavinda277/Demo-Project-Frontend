@@ -12,7 +12,7 @@
 }
 
 .about-intro{
-  padding: 3.2rem 1rem;
+  padding: 4.2rem 1rem;
   background:
     radial-gradient(circle at 10% 10%, rgba(255,107,129,0.06), transparent 10%),
     linear-gradient(180deg, var(--bg-start), var(--bg-end));
@@ -94,6 +94,52 @@
   letter-spacing: -0.5px;
 }
 
+/* decorative underline */
+.about-intro__header h1::after{
+  content: "";
+  display:block;
+  width:110px;
+  height:6px;
+  margin-top:10px;
+  border-radius:6px;
+  background: linear-gradient(90deg,var(--accent1),var(--accent2));
+  opacity:0.95;
+}
+
+.about-intro__subtitle{
+  margin-top: 0.35rem;
+  font-size: 1.05rem;
+  color: rgba(33,33,33,0.82);
+  font-weight: 400;
+}
+
+.about-intro__cta{
+  display:inline-block;
+  margin-top:1.2rem;
+  padding:0.6rem 1.1rem;
+  background: linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#fff;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:600;
+  box-shadow: 0 10px 30px rgba(255,107,129,0.08);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.about-intro__cta:hover{transform: translateY(-3px);box-shadow:0 22px 48px rgba(255,107,129,0.12)}
+
+/* decorative left accent bar for large screens */
+.about-intro__content::before{
+  content:"";
+  position: absolute;
+  left: calc(50% - 560px);
+  top: 8%;
+  width: 6px;
+  height: 60%;
+  background: linear-gradient(180deg,var(--accent1),var(--accent2));
+  border-radius:4px;
+  opacity:0.18;
+}
+
 .about-intro__header h2{
   font-family: 'Playfair Display', serif;
   font-weight: 600; /* stronger subheading */
@@ -114,6 +160,9 @@
   transition: transform 360ms cubic-bezier(.2,.9,.3,1), box-shadow 360ms;
   background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
 }
+
+/* when background image is used, slightly desaturate and scale the foreground image for polish */
+.about-intro[style*="--about-bg-image"] .about-intro__media{filter: saturate(0.98) contrast(0.98); transform: scale(1.01)}
 
 /* slightly larger radius when rounded flag present */
 .about-intro__media--rounded{ border-radius: 22px; }
@@ -145,6 +194,19 @@
   /* default translucent panel to separate text from background (for gray backgrounds) */
   background: rgba(255,255,255,0.92);
   box-shadow: 0 8px 24px rgba(34,34,34,0.06);
+}
+
+/* make content panel wider on large screens */
+@media (min-width: 1200px){
+  .about-intro__container{max-width:1280px}
+  .about-intro__text{max-width:78ch;padding:1.4rem 1.6rem}
+}
+
+/* when we have a background image, make content feel like a frosted panel */
+.about-intro[style*="--about-bg-image"] .about-intro__text{
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px) saturate(120%);
 }
 
 /* when using a background image, switch to a dark translucent panel and light text for contrast */

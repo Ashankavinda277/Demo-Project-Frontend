@@ -1,4 +1,4 @@
-import react from 'react'
+
 import CategoryCard from '../component/home/categories'
 import '../css/home.css/categorygrid.css'
 import { Link } from 'react-router-dom';
@@ -15,8 +15,7 @@ function CategoryGrid(){
                       title="Birthday Cakes"
                     image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBGSekzdDLaxj9MCrgroeaJb1aiaAzHOeog&s"
                     />
-                  </Link>
-                  
+                  </Link>  
                 </div>
                 <div className="col2">
                     <Link to="/categories/wedding-cakes">
@@ -26,8 +25,6 @@ function CategoryGrid(){
                     />
                     </Link>
                 </div>
-
-               
 
                 <div className="col3">
                     <Link to="/categories/muffins">
