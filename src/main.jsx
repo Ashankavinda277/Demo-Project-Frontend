@@ -9,6 +9,8 @@ import AdminHome from './pages/admin/AdminHome.jsx';
 import ManageProduct from './pages/admin/ManageProduct.jsx';
 import CartPage from './pages/customer/CartPage.jsx';
 import ProductDetails from './pages/customer/ProductDetails.jsx';
+import OrderSuccessPage from './pages/customer/OrderSuccessPage.jsx';
+import OrderPage from './pages/customer/OrderPage.jsx'; 
 
 
 
@@ -63,7 +65,19 @@ const router = createBrowserRouter([
 {
   path:'/product/:id',
   element:<ProductDetails/>
-}
+},
+
+{
+  path: '/order-success',
+  element: <OrderSuccessPage />,
+  errorElement: <div>Page Not Found</div>,
+},
+
+{
+  path: '/order',
+  element: <OrderPage />,
+  errorElement: <div>Page Not Found</div>,
+},
 
 ]);
 

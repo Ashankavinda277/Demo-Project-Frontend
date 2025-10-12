@@ -1,0 +1,84 @@
+.order-success-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+  padding: 20px;
+}
+
+.success-content {
+  text-align: center;
+  background: white;
+  padding: 60px 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+}
+
+.success-icon {
+  width: 100px;
+  height: 100px;
+  background: #4caf50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  margin: 0 auto 30px;
+}
+
+.success-content h1 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.success-content p {
+  color: #666;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.order-id {
+  font-weight: 600;
+  color: #e91e63;
+  margin-top: 20px;
+}
+
+.success-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+.continue-btn,
+.home-btn {
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.continue-btn {
+  background: #e91e63;
+  color: white;
+}
+
+.continue-btn:hover {
+  background: #c2185b;
+}
+
+.home-btn {
+  background: white;
+  color: #e91e63;
+  border: 2px solid #e91e63;
+}
+
+.home-btn:hover {
+  background: #e91e63;
+  color: white;
+}
