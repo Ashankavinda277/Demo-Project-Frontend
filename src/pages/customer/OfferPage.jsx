@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../../component/common/Navbar/Navbar'
 import OfferGrid from '../../component/promotion/OfferGrid';
+import Footer from '../../component/common/Footer/Footer';
 import '../../css/offerPage.css';
 
 const OfferPage = () => {
@@ -10,6 +11,7 @@ const OfferPage = () => {
             <Navbar />
              <h1 className='title'>Our Special Offers</h1>
             <OfferGrid />
+            <Footer />
         </div>
     );
 };

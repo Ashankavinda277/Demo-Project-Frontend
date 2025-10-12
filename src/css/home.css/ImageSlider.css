@@ -1,9 +1,9 @@
 .slider-container {
   position: relative;
   width: 100%;
-  height: 500px; /* Adjust height as needed */
+  height: 500px; 
   overflow: hidden;
-  margin-top: -1px; /* To prevent gap with navbar */
+  margin-top: -1px;
 }
 
 .slide {
@@ -14,28 +14,25 @@
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: opacity 1s ease-in-out; /* Smooth fade transition */
+  transition: opacity 1s ease-in-out; 
   opacity: 0;
-  display: flex; /* For content positioning */
-  align-items: center; /* Vertically center content */
-  justify-content: flex-start; /* Align content to the left */
-  padding-left: 10%; /* Adjust as needed */
-  box-sizing: border-box; /* Include padding in width/height */
+  display: flex; 
+  align-items: center; 
+  justify-content: flex-start; 
+  padding-left: 10%;
+  box-sizing: border-box; 
 }
 
 .slide.active {
   opacity: 01;
-  z-index: 1; /* Bring active slide to front */
+  z-index: 1;
 }
-
 .slide-content {
-  color: rgb(8, 6, 6); /* Text color for the overlay content */
+  color: rgb(8, 6, 6);
   text-align: left;
-  max-width: 500px; /* Limit width of content block */
-  z-index: 2; /* Ensure content is above the image but below the dots */
-  /* Styles to match the image provided */
-  background: rgba(0, 0, 0, 0.408); /* Slightly transparent background for readability */
-  padding: 20px;
+  max-width: 500px;
+  z-index: 2; 
+  background: rgba(0, 0, 0, 0.408); 
   border-radius: 8px;
 }
 
@@ -45,17 +42,17 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 5px;
-  color: #FFA500; /* Orange color */
+  color: #FFA500; 
 }
 
 .slide-content h2 {
-  font-size: 3.5rem; /* Large font size for title */
+  font-size: 3.5rem;
   margin: 0 0 15px 0;
   line-height: 1.1;
   font-weight: 700;
   text-transform: uppercase;
-  font-family: 'Georgia', serif; /* Example, use a font that matches your design */
-  -webkit-text-stroke: 1.5px black; /* For the outline effect */
+  font-family: 'Georgia', serif; 
+  -webkit-text-stroke: 1.5px black; 
   color: white;
 }
 
@@ -72,7 +69,7 @@
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10; /* Ensure dots are on top */
+  z-index: 10; 
   display: flex;
   gap: 10px;
 }
@@ -92,9 +89,9 @@
 }
 
 .shop-name h1 {
-  font-family: 'Brush Script MT'; /* Cursive font for a stylish look */
-  font-size: 2.5rem; /* Adjust size as needed */
-  color: #FF69B4; /* Vibrant pink color */
+  font-family: 'Brush Script MT'; 
+  font-size: 2.5rem; 
+  color: #FF69B4; 
   margin: 0;
   padding: 0;
 }

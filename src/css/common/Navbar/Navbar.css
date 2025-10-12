@@ -7,7 +7,7 @@
 
 /* Top Bar */
 .top-bar {
-  background-color: #840049;
+  background-color: #3E1E68;
   color: white;
   text-align: center;
   padding: 8px 20px;
@@ -24,6 +24,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
+}
+
+.navbar-shop-name h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(45deg, #840049, #ff6f91);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
 }
 
 .logo-container {
@@ -89,27 +101,58 @@
 }
 
 
-.nav-icons a:hover {
-    color: #840049;
+.nav-icons a {
+  color: #333;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+  position: relative;
 }
 
-/* Cart Badge */
+.nav-icons a:hover {
+  color: #840049;
+}
+
 .cart-icon {
   position: relative;
+  display: inline-block;
 }
 
 .cart-badge {
   position: absolute;
   top: -8px;
-  right: -10px;
-  background-color: #840049;
+  right: -8px;
+  background: #e91e63;
   color: white;
   border-radius: 50%;
   width: 18px;
   height: 18px;
-  font-size: 0.7rem;
-  font-weight: bold;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Remove conflicting styles */
+.cart-icon-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cart-icon-wrapper {
+  position: relative;
+}
+
+.icon-link,
+.cart-icon-link {
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.icon-link:hover,
+.cart-icon-link:hover {
+  color: #e91e63;
 }

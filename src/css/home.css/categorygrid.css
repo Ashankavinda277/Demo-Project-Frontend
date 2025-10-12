@@ -11,14 +11,14 @@
     text-align: center;
     font-size: 40px;              
     font-weight: 900;  
-    color: #840049;
+    color: #3E1E68;
     margin-bottom: 20px;         
 }
 .text{
     text-align: center;
     font-size: 20px;              
     font-weight: 500;  
-    color: #b55454;
+    color: #5D2F77;
     margin-bottom: 40px;         
 }
 
@@ -45,7 +45,10 @@
     flex-direction: column;
     background: #fff;              
     border-radius: 12px;            
-    overflow: hidden;           
+    overflow: hidden; 
+    transition: transform 360ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms cubic-bezier(.2,.9,.2,1);
+  will-change: transform, box-shadow;
+  transform-origin: center;          
 }
 
 .categoryGrid .row > div img {
@@ -53,6 +56,12 @@
     height: 75%;                     
     object-fit: cover;            
     display: block;
+}
+.categoryGrid .row > div img,
+.categories-card img {
+  transition: transform 420ms cubic-bezier(.2,.9,.2,1), filter 420ms;
+  transform-origin: center;
+  display: block;
 }
 
 .categoryGrid .row > div h3 {
@@ -69,3 +78,47 @@
     -webkit-text-stroke: 0.5px rgb(18, 18, 18);  
     font-weight: bold;           
 }
+.categories-card:hover,
+.categoryGrid .row > div:hover,
+.categoryGrid .row > div:focus-within {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(16,24,40,0.18);
+  z-index: 4;
+}
+
+.categoryGrid .row > div:hover img,
+.categories-card:hover img {
+  transform: scale(1.08);
+  filter: saturate(1.06) contrast(1.02);
+}
+
+.categories-card:hover::after,
+.categoryGrid .row > div:hover::after {
+  opacity: 1;
+}
+
+
+.categories-card h3,
+.categoryGrid .row > div h3 {
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1), color 260ms ease, text-shadow 360ms;
+  position: relative;
+  z-index: 3; 
+}
+
+
+.categoryGrid a {
+  text-decoration: none;
+  color: inherit;         
+  display: block;           
+}
+
+.categoryGrid a h3,
+.categoryGrid a * {
+  text-decoration: none;
+}
+
+.categoryGrid a:focus {
+  outline: 3px solid rgba(132,0,73,0.12);
+  outline-offset: 6px;
+}
+
