@@ -1,0 +1,222 @@
+/* ...existing code... */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Rubik:wght@300;400;600&display=swap');
+
+:root{
+  --bg-start: #fffaf6;
+  --bg-end: #fff3ea;
+  --accent1: #ff6b81; /* pink */
+  --accent2: #ffb85c; /* warm orange */
+  --text: #212121;
+  --muted: #6b6b6b;
+  --card-shadow: 0 10px 30px rgba(34,34,34,0.08);
+}
+
+.about-intro{
+  padding: 3.2rem 1rem;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,107,129,0.06), transparent 10%),
+    linear-gradient(180deg, var(--bg-start), var(--bg-end));
+  color: var(--text);
+  position: relative;
+  overflow: visible;
+  font-family: 'Rubik', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+/* when a background image is provided via the component CSS variable, layer it with a subtle dark gradient for contrast */
+.about-intro[style*="--about-bg-image"]{
+  /* use the CSS variable set on the section to show the image without repeating */
+  background-image: var(--about-bg-image), radial-gradient(circle at 10% 10%, rgba(255,107,129,0.03), transparent 12%), linear-gradient(180deg, var(--bg-start), var(--bg-end));
+  background-size: cover, auto, auto;
+  background-position: center, left top, left top;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  /* keep text readable but remove heavy dark overlay to retain cake colors */
+  color: var(--text);
+}
+
+/* remove the heavy dark overlay previously applied; rely on gentle gradients above for legibility */
+.about-intro[style*="--about-bg-image"]::after{
+  /* subtle dark overlay to increase contrast for the background image (cake.png) */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* slightly darker to improve contrast over lighter cake photos */
+  background: linear-gradient(180deg, rgba(0,0,0,0.48), rgba(0,0,0,0.28));
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* soft decorative glow circle */
+.about-intro::before{
+  content: "";
+  position: absolute;
+  right: 6%;
+  top: -40px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(255,184,92,0.12), transparent 40%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-intro__container{
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 2rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* swap order when image on left */
+.about-intro--image-left .about-intro__media { order: -1; }
+
+/* text area */
+.about-intro__content{
+  padding: 0.6rem 0;
+}
+
+.about-intro__header h1{
+  font-family: 'Playfair Display', serif;
+  font-weight: 800; /* bolder heading */
+  font-size: 2.4rem;
+  margin: 0 0 0.2rem 0;
+  line-height: 1.05;
+  /* colorful gradient text */
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 6px 26px rgba(255,107,129,0.06);
+  letter-spacing: -0.5px;
+}
+
+.about-intro__header h2{
+  font-family: 'Playfair Display', serif;
+  font-weight: 600; /* stronger subheading */
+  font-size: 1.05rem;
+  margin: 0 0 1rem 0;
+  color: rgba(255,255,255,0.92);
+  opacity: 0.95;
+}
+
+/* paragraph body */
+
+/* media (image) */
+.about-intro__media{
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  transition: transform 360ms cubic-bezier(.2,.9,.3,1), box-shadow 360ms;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+}
+
+/* slightly larger radius when rounded flag present */
+.about-intro__media--rounded{ border-radius: 22px; }
+
+/* image fill */
+.about-intro__img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  object-fit: cover;
+  object-position: center;
+  transform-origin: center;
+  transition: transform 550ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* overlay (soft darkening + subtle vignette) */
+.about-intro__text{
+  font-size: 1rem;
+  line-height: 1.72;
+  /* stronger contrast for gray or image backgrounds */
+  color: var(--text); /* dark base text color */
+  max-width: 70ch;
+  margin-top: 0.6rem;
+  font-weight: 600; /* bolder for better legibility */
+  position: relative;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  /* default translucent panel to separate text from background (for gray backgrounds) */
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 8px 24px rgba(34,34,34,0.06);
+}
+
+/* when using a background image, switch to a dark translucent panel and light text for contrast */
+.about-intro[style*="--about-bg-image"]{
+  color: #fff;
+}
+.about-intro[style*="--about-bg-image"] .about-intro__text{
+  /* stronger, darker panel to increase legibility */
+  background: rgba(0,0,0,0.56);
+  color: rgba(255,255,255,0.98);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.36);
+  font-weight: 700;
+}
+
+/* override colorful gradient heading so it reads white over darkened background */
+.about-intro[style*="--about-bg-image"] .about-intro__header h1{
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  text-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+.about-intro[style*="--about-bg-image"] .about-intro__header h2{
+  color: rgba(255,255,255,0.95) !important;
+  font-weight: 700;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* small screens: stack and adapt */
+@media (max-width: 820px){
+  .about-intro{
+    padding: 2rem 0.8rem;
+  }
+  .about-intro__container{
+    grid-template-columns: 1fr;
+  }
+  .about-intro--image-left .about-intro__media { order: 0; }
+  .about-intro__media{
+    width: 100%;
+    margin: 0 auto;
+    min-height: 220px;
+  }
+  .about-intro__header h1{
+    font-size: 1.8rem;
+  }
+  .about-intro__text{
+    margin-top: 0.8rem;
+    font-size: 0.98rem;
+  }
+}
+
+/* accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .about-intro__media,
+  .about-intro__img{
+    transition: none;
+  }
+}
+
+/* brand word gradient inside the heading */
+.about-intro__brand{
+  background: linear-gradient(90deg, var(--grad-1), var(--grad-2), var(--grad-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* keep brand readable when a dark background image is used */
+.about-intro[style*="--about-bg-image"] .about-intro__brand{
+  -webkit-text-fill-color: #fff !important;
+  background: none !important;
+  color: #fff !important;
+}
