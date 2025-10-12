@@ -34,6 +34,8 @@
   z-index: 2; 
   background: rgba(0, 0, 0, 0.408); 
   border-radius: 8px;
+  padding: 20px;
+  
 }
 
 .slide-content .slide-tagline {
