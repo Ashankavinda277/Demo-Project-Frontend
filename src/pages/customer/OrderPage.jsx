@@ -1,66 +1,115 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
-import '../../css/pages/OrderPage.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "../../css/pages/OrderPage.css";
+
+const PLACEHOLDER_SVG =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">' +
+      '<rect width="100%" height="100%" fill="#f3f4f6"/>' +
+      '<text x="50%" y="50%" fill="#9ca3af" dominant-baseline="middle" text-anchor="middle" font-size="20">No image</text>' +
+      "</svg>"
+  );
 
 const OrderPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { cartItems, clearCart, getTotalPrice } = useCart();
-  
-  // Get order items from either cart or single product
   const [orderItems, setOrderItems] = useState([]);
-  
-  useEffect(() => {
-    // Check if coming from product details with single item
-    if (location.state?.product) {
-      setOrderItems([{
-        ...location.state.product,
-        quantity: location.state.quantity || 1,
-        messageOnCake: ''
-      }]);
-    } 
-    // Otherwise use cart items
-    else if (cartItems.length > 0) {
-      setOrderItems(cartItems.map(item => ({
-        ...item,
-        messageOnCake: ''
-      })));
-    } else {
-      // No items, redirect to products
-      navigate('/products');
-    }
-  }, [location.state, cartItems, navigate]);
 
+  // Initialize all form fields with empty strings (fixes uncontrolled input warning)
   const [formData, setFormData] = useState({
-    customerName: '',
-    customerEmail: '',
-    customerPhone: '',
-    deliveryAddress: '',
-    deliveryDate: '',
-    deliveryTime: '',
-    specialInstructions: ''
+    customerName: "",
+    customerEmail: "",
+    customerPhone: "",
+    deliveryAddress: "",
+    deliveryDate: "",
+    deliveryTime: "",
+    specialInstructions: "",
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+
+  const getStoredCartItems = () => {
+    try {
+      const raw = localStorage.getItem("cartItems");
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      console.error("Failed to parse cartItems from localStorage", e);
+      return [];
+    }
+  };
+
+  const clearLocalCart = () => {
+    try {
+      localStorage.removeItem("cartItems");
+    } catch (e) {
+      console.error("Failed to clear cart", e);
+    }
+  };
+
+  useEffect(() => {
+    // Priority: single-product checkout -> navigation state cartItems -> localStorage
+    if (location.state?.product) {
+      setOrderItems([
+        {
+          ...location.state.product,
+          quantity: location.state.quantity || 1,
+          messageOnCake: "",
+        },
+      ]);
+      return;
+    }
+
+    if (
+      Array.isArray(location.state?.cartItems) &&
+      location.state.cartItems.length > 0
+    ) {
+      setOrderItems(
+        location.state.cartItems.map((i) => ({
+          ...i,
+          quantity: i.quantity || 1,
+          messageOnCake: "",
+        }))
+      );
+      return;
+    }
+
+    const stored = getStoredCartItems();
+    if (stored.length > 0) {
+      setOrderItems(
+        stored.map((i) => ({
+          ...i,
+          quantity: i.quantity || 1,
+          messageOnCake: "",
+        }))
+      );
+    } else {
+      navigate("/products");
+    }
+  }, [location.state, navigate]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleMessageChange = (index, message) => {
-    const updatedItems = [...orderItems];
-    updatedItems[index].messageOnCake = message;
-    setOrderItems(updatedItems);
+    setOrderItems((prev) => {
+      const copy = [...prev];
+      copy[index] = { ...copy[index], messageOnCake: message };
+      return copy;
+    });
   };
 
   const calculateTotal = () => {
-    const subtotal = orderItems.reduce((total, item) => 
-      total + (item.Price * item.quantity), 0
+    const subtotal = orderItems.reduce(
+      (total, item) =>
+        total + Number(item.Price || 0) * Number(item.quantity || 0),
+      0
     );
     const deliveryFee = 250;
     return subtotal + deliveryFee;
@@ -69,67 +118,124 @@ const OrderPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
+
+    // Validate order items
+    if (!orderItems || orderItems.length === 0) {
+      setError("No items in the order.");
+      setLoading(false);
+      return;
+    }
+
+    // Validate all required form fields
+    if (!formData.customerName || formData.customerName.trim() === "") {
+      setError("Please enter your full name.");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.customerEmail || formData.customerEmail.trim() === "") {
+      setError("Please enter your email address.");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.customerPhone || formData.customerPhone.trim() === "") {
+      setError("Please enter your phone number.");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.deliveryAddress || formData.deliveryAddress.trim() === "") {
+      setError("Please enter delivery address.");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.deliveryDate || formData.deliveryDate.trim() === "") {
+      setError("Please select delivery date.");
+      setLoading(false);
+      return;
+    }
 
     try {
-      // For now, we'll use a temporary customer ID
-      // In production, you'd get this from authentication
-      const tempCustomerId = '507f1f77bcf86cd799439011'; // Replace with actual customer ID
-
+      // Construct order data with proper structure
       const orderData = {
-        customerId: tempCustomerId,
-        items: orderItems.map(item => ({
-          productId: item._id,
-          name: item.Product_Name,
-          price: item.Price,
-          quantity: item.quantity,
-          messageOnCake: item.messageOnCake || ''
-        })),
-        totalAmount: calculateTotal(),
-        deliveryAddress: formData.deliveryAddress,
-        customerDetails: {
-          name: formData.customerName,
-          email: formData.customerEmail,
-          phone: formData.customerPhone
+        customer: {
+          name: formData.customerName.trim(),
+          email: formData.customerEmail.trim(),
+          phone: formData.customerPhone.trim(),
         },
+        items: orderItems.map((item) => ({
+          productId: item._id || item.id,
+          quantity: Number(item.quantity) || 1,
+          messageOnCake: item.messageOnCake || "",
+        })),
+        deliveryAddress: formData.deliveryAddress.trim(),
         deliveryDate: formData.deliveryDate,
-        deliveryTime: formData.deliveryTime,
-        specialInstructions: formData.specialInstructions
+        deliveryTime: formData.deliveryTime || "",
+        specialInstructions: formData.specialInstructions || "",
       };
 
-      const response = await fetch('http://localhost:5000/api/orders/add', {
-        method: 'POST',
+      // Debug: Log the data being sent
+      console.log("Sending order data:", JSON.stringify(orderData, null, 2));
+
+      const response = await fetch("http://localhost:5000/api/order/place", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(orderData)
+        body: JSON.stringify(orderData),
       });
 
-      const result = await response.json();
+      const contentType = response.headers.get("content-type");
+      let result = {};
+
+      if (contentType && contentType.includes("application/json")) {
+        result = await response.json();
+      } else {
+        const text = await response.text();
+        console.error("Non-JSON response:", text);
+        result = { message: "Server returned non-JSON response", raw: text };
+      }
+
+      console.log("Server response:", result);
 
       if (response.ok) {
         // Clear cart if order was from cart
         if (!location.state?.product) {
-          clearCart();
+          clearLocalCart();
         }
-        
-        // Navigate to success page
-        navigate('/order-success', { 
-          state: { orderId: result.data._id } 
-        });
+
+        const orderId =
+          result?.order?._id ||
+          result?.data?._id ||
+          result?._id ||
+          null;
+
+        navigate("/order-success", { state: { orderId } });
       } else {
-        setError(result.message || 'Failed to place order');
+        const serverMessage =
+          result?.message ||
+          result?.error ||
+          `Failed with status ${response.status}`;
+        console.error("Order failed:", serverMessage);
+        setError(`Failed to place order: ${serverMessage}`);
       }
     } catch (err) {
-      console.error('Order error:', err);
-      setError('Failed to place order. Please try again.');
+      console.error("Order error:", err);
+      setError("Network error. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }
   };
 
   if (orderItems.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container">
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   return (
@@ -138,25 +244,28 @@ const OrderPage = () => {
         <h1>Complete Your Order</h1>
 
         <div className="order-content">
-          {/* Order Items Section */}
           <div className="order-items-section">
             <h2>Order Items</h2>
             {orderItems.map((item, index) => (
               <div key={index} className="order-item">
-                <img src={item.image} alt={item.Product_Name} />
+                <img
+                  src={item.image || PLACEHOLDER_SVG}
+                  alt={item.Product_Name}
+                />
                 <div className="item-info">
                   <h3>{item.Product_Name}</h3>
                   <p className="item-type">{item.Product_Type}</p>
                   <p className="item-weight">{item.Weight}kg</p>
-                  <p className="item-price">Rs. {item.Price.toFixed(2)} × {item.quantity}</p>
+                  <p className="item-price">
+                    Rs. {Number(item.Price).toFixed(2)} × {item.quantity}
+                  </p>
                 </div>
                 <div className="item-total">
-                  Rs. {(item.Price * item.quantity).toFixed(2)}
+                  Rs. {(Number(item.Price) * Number(item.quantity)).toFixed(2)}
                 </div>
               </div>
             ))}
 
-            {/* Message on Cake */}
             <div className="cake-messages">
               <h3>Message on Cake (Optional)</h3>
               {orderItems.map((item, index) => (
@@ -165,20 +274,21 @@ const OrderPage = () => {
                   <input
                     type="text"
                     placeholder="e.g., Happy Birthday Sarah!"
-                    value={item.messageOnCake}
+                    value={item.messageOnCake || ""}
                     onChange={(e) => handleMessageChange(index, e.target.value)}
                     maxLength="50"
                   />
-                  <small>{item.messageOnCake.length}/50 characters</small>
+                  <small>
+                    {(item.messageOnCake || "").length}/50 characters
+                  </small>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Order Form */}
           <div className="order-form-section">
             <h2>Delivery Details</h2>
-            
+
             {error && <div className="error-message">{error}</div>}
 
             <form onSubmit={handleSubmit} className="order-form">
@@ -238,20 +348,27 @@ const OrderPage = () => {
                     name="deliveryDate"
                     value={formData.deliveryDate}
                     onChange={handleChange}
-                    min={new Date().toISOString().split('T')[0]}
+                    min={new Date().toISOString().split("T")[0]}
                     required
                   />
                 </div>
-                 </div>
+                </div>
 
-
-              {/* Order Summary */}
               <div className="order-summary">
                 <h3>Order Summary</h3>
                 <div className="summary-row">
                   <span>Subtotal</span>
-                  <span>Rs. {orderItems.reduce((total, item) => 
-                    total + (item.Price * item.quantity), 0).toFixed(2)}</span>
+                  <span>
+                    Rs.{" "}
+                    {orderItems
+                      .reduce(
+                        (total, item) =>
+                          total +
+                          Number(item.Price || 0) * Number(item.quantity || 0),
+                        0
+                      )
+                      .toFixed(2)}
+                  </span>
                 </div>
                 <div className="summary-row">
                   <span>Delivery Fee</span>
@@ -264,8 +381,12 @@ const OrderPage = () => {
                 </div>
               </div>
 
-              <button type="submit" className="place-order-btn" disabled={loading}>
-                {loading ? 'Placing Order...' : 'Place Order'}
+              <button
+                type="submit"
+                className="place-order-btn"
+                disabled={loading}
+              >
+                {loading ? "Placing Order..." : "Place Order"}
               </button>
             </form>
           </div>

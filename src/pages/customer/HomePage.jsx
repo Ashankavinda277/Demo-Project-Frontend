@@ -19,7 +19,6 @@ const HomePage = () => {
     <MainOfferGrid />
     <Featuregrid />
     <Footer />
-    <ImageUpload />
     
 
 

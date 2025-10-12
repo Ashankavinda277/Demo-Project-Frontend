@@ -1,110 +1,112 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Navbar from "../../component/common/Navbar/Navbar.jsx";
-import Footer from "../../component/common/Footer/Footer.jsx";
-import productService from "../../services/productAPI.js";
+import React, { useState, useEffect } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import '../../css/pages/ProductDetails.css'
+import axios from 'axios'
+
+const URL = 'http://localhost:5000'
 
 const ProductDetails = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+  const { slug } = useParams()
+
+  const [Id, setID] = useState(slug);
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (!id) return;
-    setLoading(true);
-    productService
-      .getProductById(id)
-      .then((data) => {
-        setProduct(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message || "Failed to load product");
-        setLoading(false);
-      });
-  }, [id]);
+    const fetchProductData = async () => {
+      try {
+        const response = await axios.get(`${URL}/api/product/get/${Id}`)
+        setProduct(response.data.data)
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    }
 
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <div className="loading-container">
-          <div className="spinner"></div>
-          <p>Loading product...</p>
-        </div>
-        <Footer />
-      </>
-    );
-  }
+    if (Id) {
+      fetchProductData()
+    }
+  }, [Id])
 
   if (error) {
     return (
-      <>
-        <Navbar />
-        <div className="error-container">
-          <h2>Error</h2>
-          <p>{error}</p>
+      <div className="product-details-page container">
+        <div className="error-message">
+          <p>Error:{error}</p>
           <button onClick={() => navigate(-1)}>Go Back</button>
         </div>
-        <Footer />
-      </>
-    );
+      </div>
+    )
   }
 
   if (!product) {
     return (
-      <>
-        <Navbar />
-        <div className="no-products">
-          <p>Product not found.</p>
-          <button onClick={() => navigate(-1)}>Go Back</button>
-        </div>
-        <Footer />
-      </>
-    );
+      <div className="product-details-page container">
+        <h2>Loading product...</h2>
+      </div>
+    )
   }
-   const handleOrderNow = () => {
-    navigate('/order', { 
-      state: { 
-        product: product,
-        quantity: quantity 
-      } 
-    });
-  };
+
+  const clickHandler = () => {
+    console.log(product)
+  }
+
 
   return (
-    <>
-      <Navbar />
-      <div className="product-details-page container">
-        <div className="product-details-card">
+    <div className="product-details-page container">
+      {/* <div className="product-details-card">
+        <h1 className="product-page-title">{product.Product_Name}</h1>
+        <h4 className="product-page-title">{product.Description}</h4>
+        <h2 className="product-page-title">{product.Price}</h2>
+        <h3 className="product-page-title">{product.Product_Type}</h3>
+        <h3 className="product-page-title">{product.Weight}</h3>
+        
+        <h1 className="product-page-title">{product.image}</h1>
+        
+        <h3 className="product-page-title">{product.status}</h3>
+        
+      </div> */}
+
+      <div className="product-details-card">
+        <div>
+          <h1 className="product-page-title">{product.Product_Name}</h1>
           <div className="product-image">
-            <img
-              src={product.image || "/placeholder.jpg"}
-              alt={product.Product_Name}
-            />
-          </div>
-          <div className="product-info">
-            <h2>{product.Product_Name}</h2>
-            <p className="product-type">{product.Product_Type}</p>
-            <p className="product-description">{product.Description}</p>
-            <div className="product-meta">
-              <span>Weight: {product.Weight}kg</span>
-              <span>Price: Rs. {Number(product.Price).toFixed(2)}</span>
-            </div>
-            <div className="product-actions">
-              <button className="order-now-btn" onClick={handleOrderNow}>
-                Order Now
-              </button>
-              <button onClick={() => navigate(-1)}>Back</button>
-            </div>
+            <img src={product.image || '/placeholder.jpg'} alt={product.Product_Name || 'product'} onError={(e)=>{e.target.src='/placeholder.jpg'}} />
           </div>
         </div>
-      </div>
-      <Footer />
-    </>
-  );
-};
 
-export default ProductDetails;
+
+
+      <div>
+          <p className="product-description">{product.Description}</p>
+          <p className="product-type">{product.Product_Type}</p>
+
+          <div className="product-meta">
+            <div className="product-weight">Weight:{product.Weight ?? 'N/A'}</div>
+            <div className="product-price">Price: Rs. {product.Price ? Number(product.Price).toFixed(2) : 'N/A'}</div>
+          </div>
+
+           <div className="product-quantity">
+            <label>Quantity</label>
+            <div className="qty-controls">
+              <button type="button" onClick={()=>setQuantity((q)=>Math.max(1, q-1))} aria-label="Decrease quantity">-</button>
+              <input type="number" value={quantity} readOnly />
+              <button type="button" onClick={()=>setQuantity((q)=>q+1)} aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+           <div className="product-quantity">
+            <button onClick={()=>alert(`Order ${quantity} of ${product.Product_Name}-demo only`)}>Order Now</button>
+            <button className="back-btn" onClick={()=>navigate_-1}>Back</button>
+          </div> 
+        </div>
+      </div>
+      
+
+    </div>
+
+  )
+}
+export default ProductDetails
+

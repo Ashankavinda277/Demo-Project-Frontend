@@ -14,8 +14,14 @@ import CartPage from './pages/customer/CartPage.jsx';
 import ProductDetails from './pages/customer/ProductDetails.jsx';
 import OrderSuccessPage from './pages/customer/OrderSuccessPage.jsx';
 import OrderPage from './pages/customer/OrderPage.jsx'; 
+
 import './index.css'
 import ViewOrders from './pages/admin/ViewOrders.jsx';
+
+
+import ManageOffers from './pages/admin/ManageOffers.jsx';
+
+
 
 
 const router = createBrowserRouter([
@@ -53,6 +59,12 @@ const router = createBrowserRouter([
     element: <ManageProduct />,
     errorElement: <div>Page Not Found</div>,
   },
+{
+    path: '/ManageOffers',
+    element: <ManageOffers />,
+    errorElement: <div>Page Not Found</div>,
+  },
+
 
    {
     path: '/aboutUs',
