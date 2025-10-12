@@ -1,33 +1,44 @@
+// ...existing code...
 import React from 'react'
 import '../../css/aboutUs.css/aboutUsIntro.css'
 
 const Introduction = ({
-  title = "Who We Are",
   children,
-  imageSrc,       
+  imageSrc,
   imageAlt = "Our cake shop",
-  imagePosition = "right", 
+  imagePosition = "right",
   rounded = true
 }) => {
   const rootClass = `about-intro about-intro--image-${imagePosition}`
 
+  // when imagePosition is 'background' we set a CSS variable so the CSS can use the image as a section background
+  const cssVarStyle = imageSrc && imagePosition === 'background'
+    ? { ['--about-bg-image']: `url(${imageSrc})` }
+    : undefined
+
   return (
-    <section className={rootClass}>
+    <section className={rootClass} style={cssVarStyle}>
       <div className="about-intro__container">
         <div className="about-intro__content">
-          <h2 className="about-intro__title">{title}</h2>
-          <p className="about-intro__text">
+          {/* changed: use semantic headings and a paragraph wrapper */}
+          <header className="about-intro__header">
+            <h1>
+              Welcome to <span className="about-intro__brand">Slice of Heaven</span>
+            </h1>
+            <h2>– Where Every Moment Tastes Divine!</h2>
+          </header>
+
+          <div className="about-intro__text">
             {children || (
               <>
-                Welcome to our cake shop — a cozy, family-run bakery where every cake is made
-                with love and the finest ingredients. We bake classic favorites and creative
-                custom cakes for birthdays, weddings, and special moments.
+                At Slice of Heaven, we believe that life's sweetest moments deserve to be celebrated with something truly special. Since our founding, we've been crafting exquisite cakes that bring joy to every occasion – from birthdays and weddings to those simple moments when you just need a little sweetness in your day. Using only the finest ingredients and time-honored baking techniques, each cake we create is a masterpiece of flavor and artistry. Our passionate bakers pour their hearts into every layer, every swirl of frosting, every delicate decoration – because we know that a cake is more than just dessert. It's a memory in the making, a celebration of love, and a taste of pure happiness. Welcome to Slice of Heaven, where every bite is bliss.
               </>
             )}
-          </p>
+          </div>
         </div>
 
-        {imageSrc && (
+        {/* Render a foreground image unless we're using the image as a section background */}
+        {imageSrc && imagePosition !== 'background' && (
           <figure className={`about-intro__media ${rounded ? 'about-intro__media--rounded' : ''}`}>
             <picture>
               <img
@@ -47,3 +58,4 @@ const Introduction = ({
 }
 
 export default Introduction
+// ...existing code...
