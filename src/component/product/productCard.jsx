@@ -17,9 +17,21 @@ const ProductCard = ({ product }) => {
     }, 2000);
   };
 
+  // helper to make a URL-friendly slug from product name
+  const makeSlug = (name) =>
+    name
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/[\s_]+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+
+  const slug = makeSlug(product.Product_Name || product.name || 'product')
+
   return (
     <div className="product-card">
-      <Link to={`/product/${product._id}`} className="product-card-link">
+      <Link to={`/product/${slug}`} state={{ id: product._id }} className="product-card-link">
         <div className="product-image">
           <img 
             src={product.image || '/placeholder.jpg'} 
@@ -35,7 +47,7 @@ const ProductCard = ({ product }) => {
         </div>
       </Link>
 
-      <div className="product-footer">
+  <div className="product-footer">
         <p className="product-price">Rs. {product.Price.toFixed(2)}</p>
         <button 
           className="add-to-cart-btn"

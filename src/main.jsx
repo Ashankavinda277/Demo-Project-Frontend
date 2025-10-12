@@ -61,8 +61,8 @@ const router = createBrowserRouter([
 },
 
 {
-  path:'/product/:id',
-  element:<ProductDetails/>
+  path: '/product/:slug',
+  element: <ProductDetails />,
 }
 
 ]);
