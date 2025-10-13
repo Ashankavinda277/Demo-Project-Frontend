@@ -80,7 +80,7 @@
 
 .offer-card .offer-title {
   position: absolute;
-  top: 5px;        
+  top: 28px;        
   left: 5px;              
   transform: rotate(-10deg);
   transform-origin: left top;
