@@ -4,6 +4,7 @@ import { FaSearch, FaRegHeart, FaShoppingCart, FaRegUser, FaAngleDown } from 're
 import{useCart} from '../../../context/CartContext';
 
 
+
 function Navbar() {
     const{cartItems} = useCart();
     const cartCount = cartItems ? cartItems.length : 0;
