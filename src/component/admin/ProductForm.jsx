@@ -134,12 +134,12 @@ const AddProductPage = () => {
               <option value="">Select Type</option>
               <option value="birthday-cakes">Birthday Cakes</option>
               <option value="wedding-cakes">Wedding Cakes</option>
-              <option value="cup-cakes">Cup Cakes</option>
               <option value="muffins">Muffins</option>
               <option value="chocolate-cakes">Chocolate Cakes</option>
               <option value="signature-gateau-cakes">
                 Signature Gateau Cakes
               </option>
+              <option value="cup-cakes">Others</option>
             </select>
           </div>
 
