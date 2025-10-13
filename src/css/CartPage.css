@@ -1,7 +1,7 @@
 .cart-page {
   padding: 40px 20px;
   min-height: 100vh;
-  background: #f9f9f9;
+  background: linear-gradient(135deg, #fbfafa 0%, #5D2F77 60%, #fbfafb 100%)
 }
 
 .container {
@@ -21,7 +21,7 @@
 
 .cart-header h1 {
   font-size: 2.5rem;
-  color: #333;
+  color: #3E1E68;
   margin: 0;
 }
 
@@ -255,7 +255,7 @@
 .checkout-btn {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+  background: linear-gradient(135deg, #5D2F77 0%, #E45A92 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -264,7 +264,7 @@
   cursor: pointer;
   margin-bottom: 15px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+  box-shadow: 0 4px 15px rgba(221, 178, 193, 0.3);
 }
 
 .checkout-btn:hover {

@@ -19,7 +19,7 @@ import OrderSuccessPage from './pages/customer/OrderSuccessPage.jsx';
 import OrderPage from './pages/customer/OrderPage.jsx'; 
 
 import './index.css'
-import ViewOrders from './pages/admin/ViewOrders.jsx';
+import Order from  './pages/admin/Orders.jsx';
 
 
 import ManageOffers from './pages/admin/ManageOffers.jsx';
@@ -112,7 +112,7 @@ const router = createBrowserRouter([
 
 {
  path: '/ViewOrders',
- element: <ViewOrders />,
+ element: <Order />,
  errorElement: <div>Page Not Found</div>, 
 },
 

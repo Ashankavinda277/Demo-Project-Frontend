@@ -30,11 +30,11 @@
   font-size: 28px;
   font-weight: 700;
   margin: 0;
-  background: linear-gradient(45deg, #840049, #ff6f91);
+  background: linear-gradient(45deg, #5D2F77, #E45A92);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(250, 247, 247, 0.3);
   letter-spacing: 1px;
 }
 

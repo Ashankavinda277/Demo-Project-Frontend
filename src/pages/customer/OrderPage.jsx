@@ -296,7 +296,7 @@ const OrderPage = () => {
                   <label>{item.Product_Name}</label>
                   <input
                     type="text"
-                    placeholder="e.g., Happy Birthday Sarah!"
+                    placeholder="e.g., Happy Birthday Ashan"
                     value={item.messageOnCake || ""}
                     onChange={(e) => handleMessageChange(index, e.target.value)}
                     maxLength="50"

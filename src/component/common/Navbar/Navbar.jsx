@@ -49,20 +49,21 @@ function Navbar() {
               <Link to="/ContactUs">Contact Us</Link>
             </div>
 
-            <div className="nav-icons">
-              <Link to="/wishlist" aria-label="Wishlist">
-                <FaRegHeart />
-              </Link>
-              <Link to="/cart" className="cart-icon" aria-label="Shopping Cart">
-                <FaShoppingCart />
-                <span className="cart-badge">{cartCount}</span>
-              </Link>
+                    <div className="nav-icons">
+                  
+                        <Link to="/cart" className="cart-icon" aria-label="Shopping Cart">
+                            <FaShoppingCart />
+                            <span className="cart-badge">{cartCount}</span>
+                        </Link>
+                       
+                     
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </nav>
-    </>
-  );
+        </nav>
+
+        </>
+    );
 }
 
 export default Navbar;

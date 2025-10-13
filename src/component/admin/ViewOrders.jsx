@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../../css/ViewOrders.css'
+import '../../css/ViewOrders.css';
 
 const ViewOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -10,6 +10,7 @@ const ViewOrders = () => {
       setLoading(true);
       const response = await fetch('http://localhost:5000/api/order/viewAll');
       const data = await response.json();
+      console.log('Sample order:', data.orders[0]); // To check data structure
       setOrders(data.orders);
     } catch (error) {
       console.log("Error fetching orders:", error.message);
@@ -63,8 +64,22 @@ const ViewOrders = () => {
 
               <div className="order-details">
                 <div className="detail-row">
-                  <span className="detail-label">Customer ID:</span>
-                  <span className="detail-value">{order.customerId}</span>
+                  <span className="detail-label">Customer:</span>
+                  <span className="detail-value">
+                    {order.customerId?.Customer_Name || 'N/A'}
+                  </span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Email:</span>
+                  <span className="detail-value">
+                    {order.customerId?.Email || 'N/A'}
+                  </span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Contact:</span>
+                  <span className="detail-value">
+                    {order.customerId?.Contact_Number || 'N/A'}
+                  </span>
                 </div>
                 <div className="detail-row">
                   <span className="detail-label">Delivery:</span>

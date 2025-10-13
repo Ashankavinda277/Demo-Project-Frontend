@@ -33,7 +33,9 @@
   align-items: stretch;
   color: #111;
   background: transparent;      
-  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  box-shadow: 0 6px 18px #5D2F77;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -78,7 +80,7 @@
 
 .offer-card .offer-title {
   position: absolute;
-  top: 5px;        
+  top: 28px;        
   left: 5px;              
   transform: rotate(-10deg);
   transform-origin: left top;
