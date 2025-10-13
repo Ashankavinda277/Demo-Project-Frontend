@@ -41,9 +41,7 @@ function Navbar() {
                     </div>
 
                     <div className="nav-icons">
-                        <Link to="/wishlist" aria-label="Wishlist">
-                            <FaRegHeart />
-                        </Link>
+                  
                         <Link to="/cart" className="cart-icon" aria-label="Shopping Cart">
                             <FaShoppingCart />
                             <span className="cart-badge">{cartCount}</span>

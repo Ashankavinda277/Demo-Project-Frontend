@@ -10,13 +10,10 @@ const CartPage = () => {
 
   const handleCheckout = () => {
     try {
-      // persist cart so OrderPage can load full cart if needed
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
     } catch (e) {
       console.warn('Failed to save cart before checkout', e);
-    }
-
-    // also pass cart via navigation state for immediate use
+    }  
     navigate('/order', { state: { cartItems } });
   };
 
