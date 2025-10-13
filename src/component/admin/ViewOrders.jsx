@@ -1,16 +1,17 @@
+import '../../css/ViewOrders.css';  
 import { useEffect, useState } from 'react';
-import '../../css/ViewOrders.css';
 
 const ViewOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [updatingOrderId, setUpdatingOrderId] = useState(null);
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await fetch('http://localhost:5000/api/order/viewAll');
       const data = await response.json();
-      console.log('Sample order:', data.orders[0]); // To check data structure
+      console.log('Sample order:', data.orders[0]);
       setOrders(data.orders);
     } catch (error) {
       console.log("Error fetching orders:", error.message);
@@ -22,6 +23,36 @@ const ViewOrders = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleStatusUpdate = async (orderId, newStatus) => {
+    try {
+      setUpdatingOrderId(orderId);
+      const response = await fetch(`http://localhost:5000/api/order/updateStatus/${orderId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (response.ok) {
+        // Update the local state
+        setOrders(orders.map(order => 
+          order._id === orderId 
+            ? { ...order, status: newStatus }
+            : order
+        ));
+        alert('Order status updated successfully!');
+      } else {
+        alert('Failed to update order status');
+      }
+    } catch (error) {
+      console.log("Error updating order status:", error.message);
+      alert('Error updating order status');
+    } finally {
+      setUpdatingOrderId(null);
+    }
+  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -57,9 +88,22 @@ const ViewOrders = () => {
                   <p className="order-id">Order #{order._id.slice(-8)}</p>
                   <p className="order-date">{formatDate(order.createdAt)}</p>
                 </div>
-                <span className={getStatusClass(order.status)}>
-                  {order.status}
-                </span>
+                <div className="status-section">
+                  <span className={getStatusClass(order.status)}>
+                    {order.status}
+                  </span>
+                  <select 
+                    className="status-update-dropdown"
+                    value={order.status}
+                    onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
+                    disabled={updatingOrderId === order._id}
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </div>
               </div>
 
               <div className="order-details">
