@@ -1,7 +1,7 @@
 .add-product-page {
   padding: 40px 20px;
   min-height: 100vh;
-  background: #f5f5f5;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .add-product-page .container {
