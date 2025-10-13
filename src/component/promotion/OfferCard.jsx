@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 const OfferCard = ({ offer }) => {
   const navigate = useNavigate();
 
-  const offerCardClick = () => {
-    navigate("/order");
-  };
-
+  // const offerCardClick = () => {
+  //   navigate("/order");
+  // };
+const offerCardClick = () => {
+  navigate("/order", { state: { offer } });
+};
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     return new Date(dateString).toLocaleDateString();

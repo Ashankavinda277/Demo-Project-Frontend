@@ -23,8 +23,6 @@ const OrderPage = () => {
     customerPhone: "",
     deliveryAddress: "",
     deliveryDate: "",
-    deliveryTime: "",
-    specialInstructions: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -48,8 +46,32 @@ const OrderPage = () => {
     }
   };
 
+  // Convert offer data to product format for OrderPage
+  const convertOfferToProduct = (offer) => {
+    return {
+      _id: offer._id,
+      id: offer._id,
+      Product_Name: offer.Promotion_Name,
+      Product_Type: "Special Offer",
+      Weight: offer.Weight,
+      Price: offer.Discount_Price,
+      image: offer.Icon,
+      quantity: 1,
+      messageOnCake: "",
+      isOffer: true, // ADDED: Flag to identify this is an offer
+    };
+  };
+
   useEffect(() => {
-    // Priority: single-product checkout -> navigation state cartItems -> localStorage
+    // Priority: offer product -> single-product checkout -> navigation state cartItems -> localStorage
+
+    // Check if coming from offer card
+    if (location.state?.offer) {
+      const convertedProduct = convertOfferToProduct(location.state.offer);
+      setOrderItems([convertedProduct]);
+      return;
+    }
+
     if (location.state?.product) {
       setOrderItems([
         {
@@ -167,14 +189,15 @@ const OrderPage = () => {
           phone: formData.customerPhone.trim(),
         },
         items: orderItems.map((item) => ({
-          productId: item._id || item.id,
+          productId: item.isOffer ? null : (item._id || item.id),
+          offerId: item.isOffer ? (item._id || item.id) : null,
+          isOffer: item.isOffer || false,
           quantity: Number(item.quantity) || 1,
           messageOnCake: item.messageOnCake || "",
         })),
         deliveryAddress: formData.deliveryAddress.trim(),
         deliveryDate: formData.deliveryDate,
-        deliveryTime: formData.deliveryTime || "",
-        specialInstructions: formData.specialInstructions || "",
+        
       };
 
       // Debug: Log the data being sent
@@ -203,7 +226,7 @@ const OrderPage = () => {
 
       if (response.ok) {
         // Clear cart if order was from cart
-        if (!location.state?.product) {
+        if (!location.state?.product && !location.state?.offer) {
           clearLocalCart();
         }
 
@@ -352,7 +375,7 @@ const OrderPage = () => {
                     required
                   />
                 </div>
-                </div>
+              </div>
 
               <div className="order-summary">
                 <h3>Order Summary</h3>
