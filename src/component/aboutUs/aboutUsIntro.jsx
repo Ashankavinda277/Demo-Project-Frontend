@@ -1,61 +1,101 @@
-import React from 'react'
-import '../../css/aboutUs.css/aboutUsIntro.css'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaHeart, FaAward, FaLeaf, FaClock, FaBirthdayCake, FaArrowRight } from 'react-icons/fa';
+import '../../css/aboutUs.css/aboutUsIntro.css';
 
-const Introduction = ({
-  children,
-  imageSrc,
-  imageAlt = "Our cake shop",
-  imagePosition = "right",
-  rounded = true
-}) => {
-  const rootClass = `about-intro about-intro--image-${imagePosition}`
-
-  // when imagePosition is 'background' we set a CSS variable so the CSS can use the image as a section background
-  const cssVarStyle = imageSrc && imagePosition === 'background'
-    ? { ['--about-bg-image']: `url(${imageSrc})` }
-    : undefined
-
+const Introduction = ({ imageSrc, imageAlt = "Slice of Heaven artisanal baking" }) => {
   return (
-    <section className={rootClass} style={cssVarStyle}>
-      <div className="about-intro__container">
-        <div className="about-intro__content">
-          {/* changed: use semantic headings and a paragraph wrapper */}
-          <header className="about-intro__header">
-            <h1>
-              Welcome to <span className="about-intro__brand">Slice of Heaven</span>
-            </h1>
-            <h2 className="about-intro__subtitle">– Where Every Moment Tastes Divine!</h2>
-            <a className="about-intro__cta" href="/products">Explore Our Cakes</a>
-          </header>
+    <section className="about-hero-section">
+      {/* Top Banner */}
+      <div className="about-header-banner">
+        <div className="container">
+          <span className="eyebrow">Our Heritage & Craft</span>
+          <h1 className="about-page-headline">The Art of Handcrafted Celebrations</h1>
+          <p className="about-page-tagline">
+            Where every single slice is baked with passion, pure ingredients, and timeless patisserie mastery.
+          </p>
+        </div>
+      </div>
 
-          <div className="about-intro__text">
-            {children || (
-              <>
-                At Slice of Heaven, we believe that life's sweetest moments deserve to be celebrated with something truly special. Since our founding, we've been crafting exquisite cakes that bring joy to every occasion – from birthdays and weddings to those simple moments when you just need a little sweetness in your day. Using only the finest ingredients and time-honored baking techniques, each cake we create is a masterpiece of flavor and artistry. Our passionate bakers pour their hearts into every layer, every swirl of frosting, every delicate decoration – because we know that a cake is more than just dessert. It's a memory in the making, a celebration of love, and a taste of pure happiness. Welcome to Slice of Heaven, where every bite is bliss.
-              </>
-            )}
+      <div className="container about-main-container">
+        {/* Editorial Story Row */}
+        <div className="about-story-row">
+          <div className="about-story-visual">
+            <div className="about-visual-frame">
+              <img
+                src={imageSrc || "https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=800&q=80"}
+                alt={imageAlt}
+                className="about-visual-img"
+              />
+              <div className="about-visual-overlay-card">
+                <FaBirthdayCake className="about-card-icon" />
+                <span className="about-card-title">Handmade with Devotion</span>
+                <span className="about-card-sub">Daily in Colombo, Sri Lanka</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="about-story-content">
+            <span className="eyebrow">Welcome to Slice of Heaven</span>
+            <h2 className="about-story-title">Where Every Moment Tastes Truly Divine</h2>
+            <p className="about-lead-text">
+              At Slice of Heaven, we believe that life's sweetest milestones deserve to be celebrated with something extraordinary.
+            </p>
+            <p className="about-body-text">
+              Since our founding, we have been dedicated to crafting exquisite cakes and confections that ignite joy across occasions—from grand weddings and birthdays to intimate celebrations. Using only 100% pure dairy butter, rich Belgian chocolate, and time-honored European baking techniques, each creation is a harmonious masterpiece of flavor and visual artistry.
+            </p>
+            <p className="about-body-text">
+              Our passionate bakers and pastry decorators pour their souls into every delicate layer, silky swirl of ganache, and hand-sculpted sugar flower. Because a cake is never just a dessert—it is a cherished memory in the making.
+            </p>
+
+            <div className="about-cta-row">
+              <Link to="/products" className="btn btn-primary btn-lg">
+                <span>Explore Cake Menu</span>
+                <FaArrowRight />
+              </Link>
+              <Link to="/ContactUs" className="btn btn-outline btn-lg">
+                Visit Our Patisserie
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Render a foreground image unless we're using the image as a section background */}
-        {imageSrc && imagePosition !== 'background' && (
-          <figure className={`about-intro__media ${rounded ? 'about-intro__media--rounded' : ''}`}>
-            <picture>
-              <img
-                src={imageSrc}
-                alt={imageAlt}
-                loading="lazy"
-                className="about-intro__img"
-                decoding="async"
-              />
-            </picture>
-            <figcaption className="about-intro__overlay" aria-hidden="true" />
-          </figure>
-        )}
+        {/* Pillars / Values Grid */}
+        <div className="about-values-section">
+          <div className="section-header">
+            <span className="eyebrow">Our Guiding Standards</span>
+            <h2>Baked by Principles of Excellence</h2>
+          </div>
+
+          <div className="about-values-grid">
+            <div className="value-card">
+              <div className="value-icon-box"><FaLeaf /></div>
+              <h3>Pure, Natural Ingredients</h3>
+              <p>We source authentic real dairy butter, unadulterated cocoa, and farm-fresh ingredients without artificial compromises.</p>
+            </div>
+
+            <div className="value-card">
+              <div className="value-icon-box"><FaAward /></div>
+              <h3>Masterful Patisserie Art</h3>
+              <p>Every cake is sculpted by seasoned pastry chefs trained in classic and modern confectionery techniques.</p>
+            </div>
+
+            <div className="value-card">
+              <div className="value-icon-box"><FaClock /></div>
+              <h3>Baked Fresh Daily</h3>
+              <p>We never serve frozen stockpiles. Your cake is baked to order on the morning of your event.</p>
+            </div>
+
+            <div className="value-card">
+              <div className="value-icon-box"><FaHeart /></div>
+              <h3>Memories in Every Layer</h3>
+              <p>Dedicated customer service ensuring your celebrations are seamless, punctual, and joyful.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Introduction
-// ...existing code...
+export default Introduction;

@@ -1,26 +1,29 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaArrowRight } from 'react-icons/fa';
 
-const MainOfferCard = ({ image, title, discount }) => {
-  // background div uses the inline background-image so we can blur it independently
-  const bgStyle = image ? { backgroundImage: `url(${image})` } : { backgroundColor: '#ccc' }
-
+const MainOfferCard = ({ image, title, subtitle, discount, validity }) => {
   return (
-    <div className="offer-card">
-      <div className="offer-bg" style={bgStyle} />
-      <div className="offer-content">
-        <h2 className="offer-title">{title}</h2>
-        <div className="offer-spacer" />
-        <p className="offer-discount">{discount}</p>
-        {!image && <small style={{ opacity: 0.8 }}>No image provided</small>}
-      </div>
-
-    <div className="offer-badge" aria-hidden>
-        <div className="badge-circle">
-          <span className="badge-text">{discount}</span>
+    <div className="main-deal-card">
+      <div className="deal-image-wrapper">
+        <img src={image} alt={title} className="deal-image" />
+        <div className="deal-discount-badge">
+          <span>{discount}</span>
         </div>
       </div>
+      
+      <div className="deal-content">
+        {validity && <span className="deal-validity">{validity}</span>}
+        <h3 className="deal-title">{title}</h3>
+        {subtitle && <p className="deal-subtitle">{subtitle}</p>}
+        
+        <Link to="/offers" className="deal-action-link">
+          <span>Claim Offer</span>
+          <FaArrowRight className="deal-arrow" />
+        </Link>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default MainOfferCard
+export default MainOfferCard;

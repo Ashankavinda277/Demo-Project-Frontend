@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import Navbar from "../../component/common/Navbar/Navbar.jsx";
+import Footer from "../../component/common/Footer/Footer.jsx";
+import { 
+  FaShoppingBag, 
+  FaCalendarAlt, 
+  FaMapMarkerAlt, 
+  FaUser, 
+  FaEnvelope, 
+  FaPhoneAlt, 
+  FaPenFancy, 
+  FaTruck, 
+  FaShieldAlt, 
+  FaArrowLeft, 
+  FaExclamationCircle 
+} from "react-icons/fa";
 import "../../css/pages/OrderPage.css";
 
-const PLACEHOLDER_SVG =
-  "data:image/svg+xml;utf8," +
-  encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">' +
-      '<rect width="100%" height="100%" fill="#f3f4f6"/>' +
-      '<text x="50%" y="50%" fill="#9ca3af" dominant-baseline="middle" text-anchor="middle" font-size="20">No image</text>' +
-      "</svg>"
-  );
+const PLACEHOLDER_IMG =
+  "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80";
 
 const OrderPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [orderItems, setOrderItems] = useState([]);
 
-  // Initialize all form fields with empty strings (fixes uncontrolled input warning)
+  // Initialize all form fields with empty strings
   const [formData, setFormData] = useState({
     customerName: "",
     customerEmail: "",
@@ -52,20 +61,18 @@ const OrderPage = () => {
       _id: offer._id,
       id: offer._id,
       Product_Name: offer.Promotion_Name,
-      Product_Type: "Special Offer",
+      Product_Type: "Special Promotional Offer",
       Weight: offer.Weight,
       Price: offer.Discount_Price,
       image: offer.Icon,
       quantity: 1,
       messageOnCake: "",
-      isOffer: true, // ADDED: Flag to identify this is an offer
+      isOffer: true,
     };
   };
 
   useEffect(() => {
     // Priority: offer product -> single-product checkout -> navigation state cartItems -> localStorage
-
-    // Check if coming from offer card
     if (location.state?.offer) {
       const convertedProduct = convertOfferToProduct(location.state.offer);
       setOrderItems([convertedProduct]);
@@ -127,15 +134,14 @@ const OrderPage = () => {
     });
   };
 
-  const calculateTotal = () => {
-    const subtotal = orderItems.reduce(
-      (total, item) =>
-        total + Number(item.Price || 0) * Number(item.quantity || 0),
-      0
-    );
-    const deliveryFee = 250;
-    return subtotal + deliveryFee;
-  };
+  const subtotal = orderItems.reduce(
+    (total, item) =>
+      total + Number(item.Price || 0) * Number(item.quantity || 0),
+    0
+  );
+
+  const deliveryFee = subtotal >= 5000 || subtotal === 0 ? 0 : 250;
+  const calculateTotal = () => subtotal + deliveryFee;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -181,7 +187,7 @@ const OrderPage = () => {
     }
 
     try {
-      // Construct order data with proper structure
+      // Construct order data exactly as required by the backend
       const orderData = {
         customer: {
           name: formData.customerName.trim(),
@@ -197,10 +203,8 @@ const OrderPage = () => {
         })),
         deliveryAddress: formData.deliveryAddress.trim(),
         deliveryDate: formData.deliveryDate,
-        
       };
 
-      // Debug: Log the data being sent
       console.log("Sending order data:", JSON.stringify(orderData, null, 2));
 
       const response = await fetch("http://localhost:5000/api/order/place", {
@@ -247,7 +251,7 @@ const OrderPage = () => {
       }
     } catch (err) {
       console.error("Order error:", err);
-      setError("Network error. Please check your connection and try again.");
+      setError("Network error. Please make sure the backend server is running on port 5000 and try again.");
     } finally {
       setLoading(false);
     }
@@ -255,167 +259,245 @@ const OrderPage = () => {
 
   if (orderItems.length === 0) {
     return (
-      <div className="loading-container">
-        <p>Loading...</p>
-      </div>
+      <>
+        <Navbar />
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p>Preparing your order items...</p>
+        </div>
+        <Footer />
+      </>
     );
   }
 
   return (
-    <div className="order-page">
-      <div className="container">
-        <h1>Complete Your Order</h1>
+    <>
+      <Navbar />
+      <main className="order-page-wrapper">
+        <div className="container">
+          {/* Header */}
+          <div className="order-page-header">
+            <Link to="/cart" className="back-link">
+              <FaArrowLeft />
+              <span>Back to Bag</span>
+            </Link>
+            <span className="eyebrow">Direct Checkout</span>
+            <h1 className="order-headline">Complete Your Order</h1>
+            <p className="order-subheadline">
+              Please review your selected items and provide delivery coordinates for our pastry courier.
+            </p>
+          </div>
 
-        <div className="order-content">
-          <div className="order-items-section">
-            <h2>Order Items</h2>
-            {orderItems.map((item, index) => (
-              <div key={index} className="order-item">
-                <img
-                  src={item.image || PLACEHOLDER_SVG}
-                  alt={item.Product_Name}
-                />
-                <div className="item-info">
-                  <h3>{item.Product_Name}</h3>
-                  <p className="item-type">{item.Product_Type}</p>
-                  <p className="item-weight">{item.Weight}kg</p>
-                  <p className="item-price">
-                    Rs. {Number(item.Price).toFixed(2)} × {item.quantity}
-                  </p>
+          {error && (
+            <div className="order-error-banner">
+              <FaExclamationCircle className="error-banner-icon" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          <div className="order-checkout-grid">
+            {/* Left Column: Order Items & Inscriptions */}
+            <div className="order-items-column">
+              <div className="checkout-card items-summary-card">
+                <div className="checkout-card-header">
+                  <h2>Order Items ({orderItems.length})</h2>
+                  <span className="badge badge-caramel">Fresh Baked</span>
                 </div>
-                <div className="item-total">
-                  Rs. {(Number(item.Price) * Number(item.quantity)).toFixed(2)}
+
+                <div className="checkout-items-list">
+                  {orderItems.map((item, index) => (
+                    <div key={index} className="checkout-item-row">
+                      <div className="checkout-item-thumb">
+                        <img
+                          src={item.image || PLACEHOLDER_IMG}
+                          alt={item.Product_Name}
+                          onError={(e) => {
+                            e.target.src = PLACEHOLDER_IMG;
+                            e.target.onerror = null;
+                          }}
+                        />
+                      </div>
+                      <div className="checkout-item-info">
+                        <h3>{item.Product_Name}</h3>
+                        <div className="checkout-item-meta">
+                          {item.Product_Type && <span>{item.Product_Type}</span>}
+                          {item.Weight && <span>• {item.Weight} kg</span>}
+                        </div>
+                        <div className="checkout-item-qty-price">
+                          Qty: {item.quantity} × Rs. {Number(item.Price).toFixed(2)}
+                        </div>
+                      </div>
+                      <div className="checkout-item-total">
+                        Rs. {(Number(item.Price) * Number(item.quantity)).toFixed(2)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Cake Messages / Custom Inscription */}
+                <div className="cake-inscriptions-section">
+                  <div className="inscription-header">
+                    <FaPenFancy className="inscription-icon" />
+                    <div>
+                      <h3>Message on Cake (Optional)</h3>
+                      <p>Custom chocolate plaque inscription for your celebrations</p>
+                    </div>
+                  </div>
+
+                  {orderItems.map((item, index) => (
+                    <div key={index} className="inscription-input-group">
+                      <label htmlFor={`msg-${index}`}>
+                        Inscription for: <strong>{item.Product_Name}</strong>
+                      </label>
+                      <div className="input-with-counter">
+                        <input
+                          id={`msg-${index}`}
+                          type="text"
+                          placeholder="e.g., Happy Birthday Amaya! 🎉"
+                          value={item.messageOnCake || ""}
+                          onChange={(e) => handleMessageChange(index, e.target.value)}
+                          maxLength="50"
+                        />
+                        <span className="char-count">
+                          {(item.messageOnCake || "").length}/50
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            </div>
 
-            <div className="cake-messages">
-              <h3>Message on Cake (Optional)</h3>
-              {orderItems.map((item, index) => (
-                <div key={index} className="message-input-group">
-                  <label>{item.Product_Name}</label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Happy Birthday Ashan"
-                    value={item.messageOnCake || ""}
-                    onChange={(e) => handleMessageChange(index, e.target.value)}
-                    maxLength="50"
-                  />
-                  <small>
-                    {(item.messageOnCake || "").length}/50 characters
-                  </small>
+            {/* Right Column: Customer & Delivery Details Form */}
+            <div className="order-form-column">
+              <div className="checkout-card form-card">
+                <div className="checkout-card-header">
+                  <h2>Delivery Information</h2>
                 </div>
-              ))}
+
+                <form onSubmit={handleSubmit} className="checkout-form">
+                  <div className="form-group">
+                    <label>
+                      <FaUser className="form-icon" /> Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="customerName"
+                      value={formData.customerName}
+                      onChange={handleChange}
+                      placeholder="e.g. Ruwan Fernando"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>
+                        <FaEnvelope className="form-icon" /> Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        name="customerEmail"
+                        value={formData.customerEmail}
+                        onChange={handleChange}
+                        placeholder="ruwan@example.com"
+                        required
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>
+                        <FaPhoneAlt className="form-icon" /> Contact Number *
+                      </label>
+                      <input
+                        type="tel"
+                        name="customerPhone"
+                        value={formData.customerPhone}
+                        onChange={handleChange}
+                        placeholder="+94 77 123 4567"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>
+                      <FaMapMarkerAlt className="form-icon" /> Delivery Address *
+                    </label>
+                    <textarea
+                      name="deliveryAddress"
+                      value={formData.deliveryAddress}
+                      onChange={handleChange}
+                      placeholder="Street address, apartment or landmark in Sri Lanka..."
+                      rows="3"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>
+                      <FaCalendarAlt className="form-icon" /> Delivery Date *
+                    </label>
+                    <input
+                      type="date"
+                      name="deliveryDate"
+                      value={formData.deliveryDate}
+                      onChange={handleChange}
+                      min={new Date().toISOString().split("T")[0]}
+                      required
+                    />
+                    <small className="field-hint">
+                      Cakes are baked fresh on the morning of your selected date.
+                    </small>
+                  </div>
+
+                  {/* Financial Breakdown */}
+                  <div className="checkout-summary-box">
+                    <div className="summary-row">
+                      <span>Items Subtotal</span>
+                      <span>Rs. {subtotal.toFixed(2)}</span>
+                    </div>
+
+                    <div className="summary-row">
+                      <span>Delivery Service</span>
+                      <span>{deliveryFee === 0 ? <strong style={{color: 'var(--color-success)'}}>FREE</strong> : `Rs. ${deliveryFee.toFixed(2)}`}</span>
+                    </div>
+
+                    <div className="summary-divider"></div>
+
+                    <div className="summary-row total">
+                      <span>Total Amount</span>
+                      <span className="total-price">Rs. {calculateTotal().toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-lg place-order-submit-btn"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <div className="spinner-sm"></div>
+                        <span>Processing Order...</span>
+                      </>
+                    ) : (
+                      <span>Place & Confirm Order</span>
+                    )}
+                  </button>
+
+                  <div className="security-note">
+                    <FaShieldAlt className="shield-icon" />
+                    <span>Payment on Delivery / Direct Bank Confirmation</span>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-
-          <div className="order-form-section">
-            <h2>Delivery Details</h2>
-
-            {error && <div className="error-message">{error}</div>}
-
-            <form onSubmit={handleSubmit} className="order-form">
-              <div className="form-group">
-                <label>Full Name *</label>
-                <input
-                  type="text"
-                  name="customerName"
-                  value={formData.customerName}
-                  onChange={handleChange}
-                  placeholder="Enter your full name"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Email *</label>
-                <input
-                  type="email"
-                  name="customerEmail"
-                  value={formData.customerEmail}
-                  onChange={handleChange}
-                  placeholder="your.email@example.com"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Phone Number *</label>
-                <input
-                  type="tel"
-                  name="customerPhone"
-                  value={formData.customerPhone}
-                  onChange={handleChange}
-                  placeholder="+94 XX XXX XXXX"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Delivery Address *</label>
-                <textarea
-                  name="deliveryAddress"
-                  value={formData.deliveryAddress}
-                  onChange={handleChange}
-                  placeholder="Enter complete delivery address"
-                  rows="3"
-                  required
-                />
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Delivery Date *</label>
-                  <input
-                    type="date"
-                    name="deliveryDate"
-                    value={formData.deliveryDate}
-                    onChange={handleChange}
-                    min={new Date().toISOString().split("T")[0]}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="order-summary">
-                <h3>Order Summary</h3>
-                <div className="summary-row">
-                  <span>Subtotal</span>
-                  <span>
-                    Rs.{" "}
-                    {orderItems
-                      .reduce(
-                        (total, item) =>
-                          total +
-                          Number(item.Price || 0) * Number(item.quantity || 0),
-                        0
-                      )
-                      .toFixed(2)}
-                  </span>
-                </div>
-                <div className="summary-row">
-                  <span>Delivery Fee</span>
-                  <span>Rs. 250.00</span>
-                </div>
-                <div className="summary-divider"></div>
-                <div className="summary-row total">
-                  <span>Total Amount</span>
-                  <span>Rs. {calculateTotal().toFixed(2)}</span>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="place-order-btn"
-                disabled={loading}
-              >
-                {loading ? "Placing Order..." : "Place Order"}
-              </button>
-            </form>
-          </div>
         </div>
-      </div>
-    </div>
+      </main>
+      <Footer />
+    </>
   );
 };
 

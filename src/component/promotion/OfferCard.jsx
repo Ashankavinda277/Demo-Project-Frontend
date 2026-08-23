@@ -1,78 +1,93 @@
 import React from "react";
-import "../../css/promotions.css/offercard.css";
 import { useNavigate } from "react-router-dom";
+import { FaClock, FaBolt, FaWeightHanging } from "react-icons/fa";
+import "../../css/promotions.css/offercard.css";
+
+const PLACEHOLDER_CAKE =
+  "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80";
 
 const OfferCard = ({ offer }) => {
   const navigate = useNavigate();
 
-  // const offerCardClick = () => {
-  //   navigate("/order");
-  // };
-const offerCardClick = () => {
-  navigate("/order", { state: { offer } });
-};
-  const formatDate = (dateString) => {
-    if (!dateString) return "N/A";
-    return new Date(dateString).toLocaleDateString();
-  };
-  const calculateDiscount = () => {
-    // Add safety checks
-    if (!offer.Current_Price || !offer.Discount_Price) return 0;
-    return Math.round(
-      ((offer.Current_Price - offer.Discount_Price) / offer.Current_Price) * 100
-    );
+  const offerCardClick = () => {
+    navigate("/order", { state: { offer } });
   };
 
-  const descHandler = (desc) => {
-    if (!desc) return "No description available";
-    if (desc.length > 30) {
-      return desc.slice(0, 30) + "...";
-    } else {
-      return desc;
-    }
+  const formatDate = (dateString) => {
+    if (!dateString) return "Limited Time";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
   };
+
+  const calculateDiscount = () => {
+    if (!offer.Current_Price || !offer.Discount_Price) return null;
+    const current = Number(offer.Current_Price);
+    const discount = Number(offer.Discount_Price);
+    if (current <= 0 || discount >= current) return null;
+    return Math.round(((current - discount) / current) * 100);
+  };
+
+  const discountPercent = calculateDiscount();
 
   return (
-    <div className="offer-card">
-      <div className="offer-icon">
-        <div className="expiry-date">Expires: {formatDate(offer.End_Date)}</div>
+    <div className="promo-card">
+      <div className="promo-card-visual">
         <img
-          src={offer.Icon || "/placeholder-cake.jpg"}
-          alt={offer.Promotion_Name || "Offer"}
-          className="card-image"
+          src={offer.Icon || PLACEHOLDER_CAKE}
+          alt={offer.Promotion_Name || "Offer Cake"}
+          className="promo-image"
           onError={(e) => {
-            e.target.src = "/placeholder-cake.jpg";
+            e.target.src = PLACEHOLDER_CAKE;
             e.target.onerror = null;
           }}
         />
+        {discountPercent && (
+          <div className="promo-ribbon">
+            <span>{discountPercent}% OFF</span>
+          </div>
+        )}
+        <div className="promo-expiry-pill">
+          <FaClock className="expiry-icon" />
+          <span>Valid until: {formatDate(offer.End_Date)}</span>
+        </div>
       </div>
 
-      <div className="discount-badge">{calculateDiscount()}% OFF</div>
+      <div className="promo-card-body">
+        <h3 className="promo-title">{offer.Promotion_Name || "Special Offer"}</h3>
+        <p className="promo-desc">
+          {offer.Description || "Handcrafted celebration gateau prepared with our secret recipe and finest Belgian chocolate."}
+        </p>
 
-      <h3 className="product-title">
-        {offer.Promotion_Name || "Special Offer"}
-      </h3>
+        {offer.Weight && (
+          <div className="promo-weight-badge">
+            <FaWeightHanging className="weight-ico" />
+            <span>Weight: {offer.Weight} kg</span>
+          </div>
+        )}
 
-      <p className="product-description">{descHandler(offer.Description)}</p>
+        <div className="promo-price-block">
+          <div className="price-compare-stack">
+            {offer.Current_Price && (
+              <span className="promo-original-price">
+                Regular: Rs. {Number(offer.Current_Price).toFixed(2)}
+              </span>
+            )}
+            <span className="promo-deal-price">
+              Rs. {Number(offer.Discount_Price || 0).toFixed(2)}
+            </span>
+          </div>
 
-      <p className="product-weight">Weight: {offer.Weight || "N/A"}</p>
-
-      <div className="price-info">
-        <span className="original-price">
-          Price: Rs.{offer.Current_Price || "0"}
-        </span>
-        <span className="discount-price">
-          Discount: Rs.{offer.Discount_Price || "0"}
-        </span>
-      </div>
-
-      <div>
-        <button className="cart-button" onClick={offerCardClick}>
-          {" "}
-          Order Now
-        </button>
+          <button className="btn btn-primary promo-order-btn" onClick={offerCardClick}>
+            <FaBolt />
+            <span>Order Deal</span>
+          </button>
+        </div>
       </div>
     </div>
   );
 };
+
 export default OfferCard;

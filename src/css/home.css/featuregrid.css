@@ -1,82 +1,83 @@
-.featurecard .row {
-    display: flex;
-    justify-content: space-between; 
-    gap: 0px;                      
-    padding: 2px;
+/* ==========================================================================
+   FEATURE / TRUST PROPOSITIONS COMPONENT STYLES
+   ========================================================================== */
+
+.features-section {
+  background-color: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border-subtle);
 }
 
-.featurecard .row > div {
-    flex: 1;                    
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
 }
-
 
 .feature-card {
-    background: radial-gradient(circle at 30% 30%, #f1ecec 0%, #f7f0d4 40%, #E45A92 100%);            
-    border-radius: 15px;           
-    padding: 2px;
-    width: 400px;
-    height: 160px;
-    text-align: center;
-    box-shadow: 0px 4px 10px #5D2F77; 
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.feature-card .icon img {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    margin-bottom: 0px;
-}
-
-.feature-card .title{
-    color: brown;
-}
-
-.offer-card .offer-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 80px;           
-  height: 80px;
-  z-index: 6;
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.offer-card .offer-badge svg {
-  width: 100%;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-normal);
   height: 100%;
-  display: block;
 }
 
-.offer-card .offer-badge svg polygon {
-  fill: #ffd54a;      
-  stroke: #000;       
-  stroke-width: 3;
-  stroke-linejoin: round;
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-brand-secondary);
 }
 
-.offer-card .offer-badge .badge-text {
-  position: absolute;
-  inset: 0;
+.feature-icon-wrapper {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background-color: var(--color-brand-secondary-light);
+  color: var(--color-brand-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  color: #000;              
-  font-size: 0.9rem;        
-  line-height: 1;
-  z-index: 8;
-  pointer-events: none;
-  padding-top: 2px;      
+  font-size: 1.5rem;
+  margin-bottom: var(--space-5);
+  transition: all var(--transition-normal);
 }
 
-
-@media (max-width: 480px) {
-  .offer-card .offer-badge { width: 56px; height: 56px; top: 8px; right: 8px; }
-  .offer-card .offer-badge .badge-text { font-size: 0.7rem; }
+.feature-card:hover .feature-icon-wrapper {
+  background-color: var(--color-brand-secondary);
+  color: #FFFFFF;
+  transform: rotate(-8deg) scale(1.08);
 }
 
+.feature-title {
+  font-size: 1.15rem;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary);
+  margin-bottom: var(--space-3);
+  line-height: 1.25;
+}
+
+.feature-description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Responsive Grid */
+@media (max-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}

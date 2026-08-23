@@ -1,39 +1,73 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import MainOfferCard from '../component/home/Main-OfferCard';
+import { FaTag, FaArrowRight } from 'react-icons/fa';
 import '../css/home.css/Main-OfferGrids.css';
 
 const MainOfferGrid = () => {
-  return (
-  <div className="MainOfferGrid">
-    <h1 className = "text1">Exclusive Offers & Sweet Deals</h1>
-    <p className = "text2">Unwrap irresistible discounts on your favorite treats—because 
-      every celebration deserves a little extra sweetness without the 
-      extra cost</p>
-    <div className="row">
-        <div className="card1">
-            <MainOfferCard 
-            image={new URL('../assets/img6.jpeg', import.meta.url).href}
-            title="New Year offers"
-            discount="20% Off"
-            />
-        </div>
-        <div className="card2">
-            <MainOfferCard 
-            image={new URL('../assets/img4.jpeg', import.meta.url).href}
-            title="Valentine Special"
-            discount="15% Off"
-            />
-        </div>
-        <div className="card3">
-            <MainOfferCard 
-            image={new URL('../assets/img3.jpeg', import.meta.url).href}
-            title="Merry Discount"
-            discount="25% Off"
-            />
-        </div>
-    </div>
-  </div>
-  )
-}
+  const offers = [
+    {
+      id: 1,
+      image: new URL('../assets/img6.jpeg', import.meta.url).href,
+      title: 'Celebration Grand Offer',
+      subtitle: 'Premium tiered gateaux with custom frosting',
+      discount: '20% OFF',
+      validity: 'Limited Time Deal',
+    },
+    {
+      id: 2,
+      image: new URL('../assets/img4.jpeg', import.meta.url).href,
+      title: 'Romantic Sweetheart Special',
+      subtitle: 'Hand-dipped strawberries & chocolate ganache',
+      discount: '15% OFF',
+      validity: 'Weekend Special',
+    },
+    {
+      id: 3,
+      image: new URL('../assets/img3.jpeg', import.meta.url).href,
+      title: 'Festive Delight Hamper',
+      subtitle: 'Assorted muffins, tarts & mini gateaux',
+      discount: '25% OFF',
+      validity: 'Seasonal Exclusive',
+    },
+  ];
 
-export default MainOfferGrid
+  return (
+    <section className="main-offer-section section-padding">
+      <div className="container">
+        <div className="section-header">
+          <span className="eyebrow">
+            <FaTag className="eyebrow-icon" /> Limited Time Deals
+          </span>
+          <h2>Exclusive Offers & Sweet Deals</h2>
+          <p>
+            Unwrap irresistible savings on your favorite handcrafted treats—because every celebration deserves extra sweetness without compromise.
+          </p>
+        </div>
+
+        <div className="main-offer-grid">
+          {offers.map((offer) => (
+            <div key={offer.id} className="offer-col">
+              <MainOfferCard 
+                image={offer.image}
+                title={offer.title}
+                subtitle={offer.subtitle}
+                discount={offer.discount}
+                validity={offer.validity}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="offer-cta-container">
+          <Link to="/offers" className="btn btn-primary btn-lg">
+            <span>View All Current Promotions</span>
+            <FaArrowRight />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default MainOfferGrid;

@@ -1,7 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import { useNavigate } from 'react-router-dom';
+import Navbar from '../../component/common/Navbar/Navbar.jsx';
+import Footer from '../../component/common/Footer/Footer.jsx';
+import { 
+  FaTrashAlt, 
+  FaArrowLeft, 
+  FaShoppingBag, 
+  FaTruck, 
+  FaShieldAlt, 
+  FaArrowRight, 
+  FaCheckCircle 
+} from 'react-icons/fa';
 import '../../css/CartPage.css';
 
 const CartPage = () => {
@@ -17,120 +27,191 @@ const CartPage = () => {
     navigate('/order', { state: { cartItems } });
   };
 
-  if (cartItems.length === 0) {
-    return (
-      <div className="cart-page empty-cart">
-        <div className="container">
-          <div className="empty-cart-content">
-            <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2">
-              <circle cx="9" cy="21" r="1"/>
-              <circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            <h2>Your Cart is Empty</h2>
-            <p>Looks like you haven't added any delicious treats yet!</p>
-            <Link to="/products" className="continue-shopping-btn">
-              Browse Our Cakes
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const subtotal = getTotalPrice();
+  const deliveryFee = subtotal >= 5000 || subtotal === 0 ? 0 : 250;
+  const grandTotal = subtotal + deliveryFee;
+  const freeDeliveryThreshold = 5000;
+  const progressToFreeDelivery = Math.min(100, (subtotal / freeDeliveryThreshold) * 100);
 
   return (
-    <div className="cart-page">
-      <div className="container">
-        <div className="cart-header">
-          <h1>Shopping Cart</h1>
-          <button onClick={clearCart} className="clear-cart-btn">
-            Clear Cart
-          </button>
-        </div>
-
-        <div className="cart-content">
-          <div className="cart-items">
-            {cartItems.map(item => (
-              <div key={item._id} className="cart-item">
-                <img src={item.image} alt={item.Product_Name} />
-                
-                <div className="item-details">
-                  <h3>{item.Product_Name}</h3>
-                  <p className="item-type">{item.Product_Type}</p>
-                  <p className="item-description">{item.Description}</p>
-                  <p className="item-weight">Weight: {item.Weight}kg</p>
+    <>
+      <Navbar />
+      <main className="cart-page-wrapper">
+        <div className="container">
+          {cartItems.length === 0 ? (
+            <div className="empty-cart-card">
+              <div className="empty-cart-icon-wrapper">
+                <FaShoppingBag className="empty-cart-icon" />
+              </div>
+              <h2>Your Shopping Bag is Empty</h2>
+              <p>Looks like you haven't added any sweet treats or celebration cakes yet.</p>
+              <Link to="/products" className="btn btn-primary btn-lg">
+                <span>Browse Cake Collection</span>
+                <FaArrowRight />
+              </Link>
+            </div>
+          ) : (
+            <div className="cart-container">
+              {/* Header */}
+              <div className="cart-header-row">
+                <div>
+                  <span className="eyebrow">Checkout Review</span>
+                  <h1 className="cart-title">Your Shopping Bag</h1>
                 </div>
-
-                <div className="item-quantity">
-                  <button 
-                    onClick={() => updateQuantity(item._id, Math.max(1, item.quantity - 1))}
-                    className="qty-btn"
-                  >
-                    −
-                  </button>
-                  <span className="quantity">{item.quantity}</span>
-                  <button 
-                    onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                    className="qty-btn"
-                  >
-                    +
-                  </button>
-                </div>
-
-                <div className="item-price">
-                  <p className="price">Rs. {(item.Price * item.quantity).toFixed(2)}</p>
-                  <p className="unit-price">Rs. {item.Price.toFixed(2)} each</p>
-                </div>
-
-                <button 
-                  onClick={() => removeFromCart(item._id)}
-                  className="remove-btn"
-                  title="Remove item"
-                >
-                  ✕
+                <button onClick={clearCart} className="btn-clear-cart" aria-label="Clear all items in cart">
+                  <FaTrashAlt />
+                  <span>Clear Bag</span>
                 </button>
               </div>
-            ))}
-          </div>
 
-          <div className="cart-summary">
-            <h2>Order Summary</h2>
-            
-            <div className="summary-details">
-              <div className="summary-row">
-                <span>Subtotal ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})</span>
-                <span>Rs. {getTotalPrice().toFixed(2)}</span>
+              {/* Free Delivery Bar */}
+              <div className="free-delivery-progress-card">
+                <div className="delivery-progress-header">
+                  <div className="delivery-progress-title">
+                    <FaTruck className="progress-truck-icon" />
+                    {subtotal >= freeDeliveryThreshold ? (
+                      <span><strong>Congratulations!</strong> You unlocked <strong>FREE Delivery</strong></span>
+                    ) : (
+                      <span>Add <strong>Rs. {(freeDeliveryThreshold - subtotal).toFixed(2)}</strong> more for <strong>FREE Delivery</strong></span>
+                    )}
+                  </div>
+                  <span className="progress-percentage">{Math.round(progressToFreeDelivery)}%</span>
+                </div>
+                <div className="delivery-progress-bar">
+                  <div 
+                    className="delivery-progress-fill" 
+                    style={{ width: `${progressToFreeDelivery}%` }}
+                  />
+                </div>
               </div>
 
-              <div className="summary-row">
-                <span>Delivery Fee</span>
-                <span>Rs. 250.00</span>
-              </div>
+              {/* Layout Grid */}
+              <div className="cart-main-grid">
+                {/* Items List */}
+                <div className="cart-items-column">
+                  <div className="cart-items-list">
+                    {cartItems.map((item) => (
+                      <div key={item._id} className="cart-item-card">
+                        <div className="cart-item-img-frame">
+                          <img 
+                            src={item.image || 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80'} 
+                            alt={item.Product_Name} 
+                            onError={(e) => {
+                              e.target.src = 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80';
+                              e.target.onerror = null;
+                            }}
+                          />
+                        </div>
 
-              <div className="summary-divider"></div>
+                        <div className="cart-item-details">
+                          <div className="item-title-row">
+                            <h3 className="item-name">{item.Product_Name}</h3>
+                            <button 
+                              onClick={() => removeFromCart(item._id)}
+                              className="item-delete-btn"
+                              aria-label={`Remove ${item.Product_Name}`}
+                              title="Remove item"
+                            >
+                              <FaTrashAlt />
+                            </button>
+                          </div>
+                          
+                          <div className="item-tags">
+                            {item.Product_Type && <span className="item-tag">{item.Product_Type}</span>}
+                            {item.Weight && <span className="item-tag">{item.Weight} kg</span>}
+                          </div>
 
-              <div className="summary-row total">
-                <span>Total</span>
-                <span>Rs. {(getTotalPrice() + 250).toFixed(2)}</span>
+                          <div className="item-pricing-stepper-row">
+                            {/* Stepper */}
+                            <div className="cart-qty-stepper">
+                              <button 
+                                onClick={() => updateQuantity(item._id, Math.max(1, item.quantity - 1))}
+                                className="qty-btn"
+                                aria-label="Decrease quantity"
+                              >
+                                −
+                              </button>
+                              <span className="qty-count">{item.quantity}</span>
+                              <button 
+                                onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                                className="qty-btn"
+                                aria-label="Increase quantity"
+                              >
+                                +
+                              </button>
+                            </div>
+
+                            {/* Price */}
+                            <div className="item-price-calc">
+                              <span className="item-total-price">
+                                Rs. {(item.Price * item.quantity).toFixed(2)}
+                              </span>
+                              {item.quantity > 1 && (
+                                <span className="item-unit-price">
+                                  Rs. {Number(item.Price).toFixed(2)} each
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link to="/products" className="continue-shopping-link">
+                    <FaArrowLeft />
+                    <span>Continue Browsing More Treats</span>
+                  </Link>
+                </div>
+
+                {/* Order Summary Column */}
+                <div className="cart-summary-column">
+                  <div className="summary-card">
+                    <h2 className="summary-card-title">Order Summary</h2>
+
+                    <div className="summary-rows-group">
+                      <div className="summary-line">
+                        <span>Items Subtotal ({cartItems.reduce((acc, i) => acc + (i.quantity || 1), 0)} items)</span>
+                        <span>Rs. {subtotal.toFixed(2)}</span>
+                      </div>
+
+                      <div className="summary-line">
+                        <span>Estimated Delivery</span>
+                        <span>{deliveryFee === 0 ? <strong style={{color: 'var(--color-success)'}}>FREE</strong> : `Rs. ${deliveryFee.toFixed(2)}`}</span>
+                      </div>
+
+                      <div className="summary-divider"></div>
+
+                      <div className="summary-line total-line">
+                        <span>Total to Pay</span>
+                        <span className="grand-total-amount">Rs. {grandTotal.toFixed(2)}</span>
+                      </div>
+                    </div>
+
+                    <button className="btn btn-primary btn-lg checkout-submit-btn" onClick={handleCheckout}>
+                      <span>Proceed to Order Details</span>
+                      <FaArrowRight />
+                    </button>
+
+                    <div className="summary-perks-list">
+                      <div className="perk-item">
+                        <FaCheckCircle className="perk-icon" />
+                        <span>Freshly baked on your delivery morning</span>
+                      </div>
+                      <div className="perk-item">
+                        <FaShieldAlt className="perk-icon" />
+                        <span>Safe, climate-controlled temperature delivery</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <button className="checkout-btn" onClick={handleCheckout}>
-              Proceed to Order
-            </button>
-
-            <Link to="/products" className="continue-link">
-              ← Continue Shopping
-            </Link>
-
-            <div className="delivery-info">
-              <p>🚚 Free delivery on orders above Rs. 5,000</p>
-              <p>⏰ Delivery within 2-3 hours</p>
-            </div>
-          </div>
+          )}
         </div>
-      </div>
-    </div>
+      </main>
+      <Footer />
+    </>
   );
 };
 

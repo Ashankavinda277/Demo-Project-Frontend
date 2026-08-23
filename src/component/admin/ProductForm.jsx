@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ImageUpload from "./ImageUpload";
+import { FaPlus, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 import "../../css/ProductForm.css";
 
 const AddProductPage = () => {
@@ -41,7 +42,7 @@ const AddProductPage = () => {
       ) {
         setMessage({
           type: "error",
-          text: "Please fill in all required fields",
+          text: "Please fill in all required fields marked with *",
         });
         setLoading(false);
         return;
@@ -68,7 +69,7 @@ const AddProductPage = () => {
         status: formData.status,
       });
 
-      const response = await fetch("/api/product/add", {
+      const response = await fetch("http://localhost:5000/api/product/add", {
         method: "POST",
         body: data,
       });
@@ -76,7 +77,7 @@ const AddProductPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        setMessage({ type: "success", text: "Product added successfully!" });
+        setMessage({ type: "success", text: "Product added to catalog successfully!" });
         setFormData({
           Product_Name: "",
           Product_Type: "",
@@ -94,110 +95,125 @@ const AddProductPage = () => {
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      setMessage({ type: "error", text: "Error: " + error.message });
+      setMessage({ type: "error", text: "Network error: " + error.message });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="add-product-page">
-      <div className="container">
-        <h1>Add New Product</h1>
+    <div className="admin-page-container">
+      <div className="container container-narrow">
+        <div className="admin-page-header">
+          <span className="eyebrow">Inventory & Catalog</span>
+          <h1 className="admin-page-title">Add New Product</h1>
+          <p className="admin-page-desc">Create a new artisanal cake, muffin, or patisserie item for customer ordering.</p>
+        </div>
 
         {message.text && (
-          <div className={`message ${message.type}`}>{message.text}</div>
+          <div className={`admin-alert ${message.type === 'success' ? 'admin-alert-success' : 'admin-alert-error'}`}>
+            {message.type === 'success' ? <FaCheckCircle /> : <FaExclamationCircle />}
+            <span>{message.text}</span>
+          </div>
         )}
 
-        <form onSubmit={handleSubmit} className="product-form">
-          <ImageUpload onImageSelect={handleImageSelect} currentImage={null} />
+        <div className="admin-form-card">
+          <form onSubmit={handleSubmit} className="admin-product-form">
+            <div className="form-section-group">
+              <label className="section-label">Product Imagery</label>
+              <ImageUpload onImageSelect={handleImageSelect} currentImage={null} />
+            </div>
 
-          <div className="form-group">
-            <label>Product Name *</label>
-            <input
-              type="text"
-              name="Product_Name"
-              value={formData.Product_Name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Product Type *</label>
-            <select
-              name="Product_Type"
-              value={formData.Product_Type}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Type</option>
-              <option value="birthday-cakes">Birthday Cakes</option>
-              <option value="wedding-cakes">Wedding Cakes</option>
-              <option value="muffins">Muffins</option>
-              <option value="chocolate-cakes">Chocolate Cakes</option>
-              <option value="signature-gateau-cakes">
-                Signature Gateau Cakes
-              </option>
-              <option value="cup-cakes">Others</option>
-            </select>
-          </div>
-
-          <div className="form-row">
             <div className="form-group">
-              <label>Price (Rs) *</label>
+              <label>Product Name *</label>
               <input
-                type="number"
-                name="Price"
-                value={formData.Price}
+                type="text"
+                name="Product_Name"
+                value={formData.Product_Name}
                 onChange={handleChange}
-                min="0"
-                step="0.01"
+                placeholder="e.g. Belgian Chocolate Gateau"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label>Weight (kg) *</label>
-              <input
-                type="number"
-                name="Weight"
-                value={formData.Weight}
+              <label>Collection / Category *</label>
+              <select
+                name="Product_Type"
+                value={formData.Product_Type}
                 onChange={handleChange}
-                min="0"
-                step="0.01"
+                required
+              >
+                <option value="">Select Category</option>
+                <option value="birthday-cakes">Birthday Cakes</option>
+                <option value="wedding-cakes">Wedding Cakes</option>
+                <option value="muffins">Muffins</option>
+                <option value="chocolate-cakes">Chocolate Cakes</option>
+                <option value="signature-gateau-cakes">Signature Gateau Cakes</option>
+                <option value="cup-cakes">Others / Cupcakes</option>
+              </select>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Price (Rs) *</label>
+                <input
+                  type="number"
+                  name="Price"
+                  value={formData.Price}
+                  onChange={handleChange}
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g. 3500"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Weight (kg) *</label>
+                <input
+                  type="number"
+                  name="Weight"
+                  value={formData.Weight}
+                  onChange={handleChange}
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g. 1.5"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Description *</label>
+              <textarea
+                name="Description"
+                value={formData.Description}
+                onChange={handleChange}
+                rows="4"
+                placeholder="Describe the layers, flavors, ganache, and decorations..."
                 required
               />
             </div>
-          </div>
 
-          <div className="form-group">
-            <label>Description *</label>
-            <textarea
-              name="Description"
-              value={formData.Description}
-              onChange={handleChange}
-              rows="4"
-              required
-            />
-          </div>
+            <div className="form-group">
+              <label>Availability Status</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+              >
+                <option value="active">Active (Available for Orders)</option>
+                <option value="inactive">Inactive (Hidden from Menu)</option>
+              </select>
+            </div>
 
-          <div className="form-group">
-            <label>Status</label>
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
-
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Adding Product..." : "Add Product"}
-          </button>
-        </form>
+            <button type="submit" className="btn btn-primary btn-lg admin-submit-btn" disabled={loading}>
+              <FaPlus />
+              <span>{loading ? "Adding Product..." : "Save & Publish Product"}</span>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

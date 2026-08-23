@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Offercard from "./OfferCard";
+import OfferCard from "./OfferCard";
 import offerService from "../../services/offerAPI";
+import { FaTag, FaExclamationCircle } from "react-icons/fa";
 import "../../css/promotions.css/offerGrid.css";
 
 const OfferGrid = () => {
@@ -11,32 +12,29 @@ const OfferGrid = () => {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
+        setLoading(true);
         const response = await offerService.getAllOffers();
-        console.log("Full API Response:", response); // Debug log
+        console.log("Full API Response:", response);
 
         // Handle different response structures
         let offersData = [];
-        
         if (Array.isArray(response)) {
           offersData = response;
         } else if (response?.data && Array.isArray(response.data)) {
-          offersData = response.data; // If data is nested
+          offersData = response.data;
         } else if (response?.offers && Array.isArray(response.offers)) {
-          offersData = response.offers; // Alternative nesting
+          offersData = response.offers;
         }
 
-        console.log("Processed offers:", offersData); // Debug log
-        
         if (offersData.length > 0) {
           setOffers(offersData);
         } else {
-          setError("No offers found in the database");
+          setOffers([]);
         }
-        
-        setLoading(false);
       } catch (err) {
         console.error("Error fetching offers:", err);
-        setError(`Failed to fetch offers: ${err.message}`);
+        setError("Could not load promotional offers. Please ensure backend is running.");
+      } finally {
         setLoading(false);
       }
     };
@@ -44,19 +42,42 @@ const OfferGrid = () => {
     fetchOffers();
   }, []);
 
-  if (loading) return <div className="loading">Loading offers...</div>;
-  if (error) return <div className="error">{error}</div>;
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading current promotional discounts...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <h2>Promotions Unavailable</h2>
+        <p>{error}</p>
+        <button className="btn btn-primary" onClick={() => window.location.reload()}>
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="offer-grid-container">
-      <h2>Featured Offers</h2>
-      <div className="offer-grid">
-        {offers.length > 0 ? (
-          offers.map((offer) => <Offercard key={offer._id} offer={offer} />)
-        ) : (
-          <div className="no-offers">No offers available</div>
-        )}
-      </div>
+    <div className="offer-grid-wrapper">
+      {offers.length > 0 ? (
+        <div className="promotions-grid">
+          {offers.map((offer) => (
+            <OfferCard key={offer._id || offer.id} offer={offer} />
+          ))}
+        </div>
+      ) : (
+        <div className="empty-offers-card">
+          <div className="empty-offers-icon">🎁</div>
+          <h3>No Active Offers Right Now</h3>
+          <p>We are preparing seasonal festive discounts. Check back soon or explore our everyday signature menu.</p>
+        </div>
+      )}
     </div>
   );
 };

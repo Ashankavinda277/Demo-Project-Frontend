@@ -1,70 +1,73 @@
-
-import CategoryCard from '../component/home/categories'
-import '../css/home.css/categorygrid.css'
+import React from 'react';
 import { Link } from 'react-router-dom';
+import CategoryCard from '../component/home/categories';
+import '../css/home.css/categorygrid.css';
 
-function CategoryGrid(){
-    return(
-        <div className="categoryGrid">
-            <h1 className="text1">Shop By Categories</h1>
-            <h3 className="text">"From timeless classics to signature delights, explore the flavors that make every occasion sweeter."</h3>
-            <div className="row">
-                <div className="col1">
-                    <Link to="/categories/birthday-cakes">
-                    <CategoryCard 
-                      title="Birthday Cakes"
-                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBGSekzdDLaxj9MCrgroeaJb1aiaAzHOeog&s"
-                    />
-                  </Link>  
-                </div>
-                <div className="col2">
-                    <Link to="/categories/wedding-cakes">
-                    <CategoryCard
-                    title="Wedding Cakes"
-                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnMU2YMhC8HEV_qXzaiLDfiXh2E-QiAItMpA&s"
-                    />
-                    </Link>
-                </div>
+const categoriesData = [
+  {
+    slug: 'birthday-cakes',
+    title: 'Birthday Cakes',
+    count: 'Festive & Custom',
+    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=700&q=80',
+  },
+  {
+    slug: 'wedding-cakes',
+    title: 'Wedding Cakes',
+    count: 'Tiers of Elegance',
+    image: 'https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=700&q=80',
+  },
+  {
+    slug: 'chocolate-cakes',
+    title: 'Chocolate Cakes',
+    count: 'Rich Belgian Cocoa',
+    image: 'https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=700&q=80',
+  },
+  {
+    slug: 'signature-gateau-cakes',
+    title: 'Signature Gateaux',
+    count: 'Layered Masterpieces',
+    image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=700&q=80',
+  },
+  {
+    slug: 'muffins',
+    title: 'Artisan Muffins',
+    count: 'Freshly Baked Daily',
+    image: 'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=700&q=80',
+  },
+  {
+    slug: 'others',
+    title: 'Cupcakes & Treats',
+    count: 'Sweet Confections',
+    image: 'https://images.unsplash.com/photo-1587668178277-295251f900ce?auto=format&fit=crop&w=700&q=80',
+  },
+];
 
-                <div className="col3">
-                    <Link to="/categories/muffins">
-                    <CategoryCard 
-                    title="Muffins"
-                    image="https://www.rainbownourishments.com/wp-content/uploads/2024/02/vegan-chocolate-muffins-1.jpg"
-                    />
-                    </Link>
-                </div>
-                
-                <div className="col4">
-                    <Link to="/categories/chocolate-cakes">
-                    <CategoryCard 
-                    title="Chocolate Cakes"
-                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkqFBqM0cGb-Odo4rurW8Qy46qkHd5UHCKPw&s"
-                    />
-                    </Link>
-                </div>
-
-                <div className="col5">
-                    <Link to="/categories/signature-gateau-cakes">
-                    <CategoryCard 
-                    title="Signature Gateau Cakes"
-                    image="https://caravanfresh.lk/wp-content/uploads/2024/12/Black-forest-Gateau-3.png"
-                    />
-                    </Link>
-                </div>
-
-                 <div className="col6">
-                    <Link to="/categories/others">
-                    <CategoryCard 
-                    title="Others"
-                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3MmSNxmae4CD0CVZV9RsdxRXi_XkOFYj3M6cnbrK1PXXt84_8682Sn7rDqr-61zpggG8&usqp=CAU"
-                    />
-                    </Link>
-                </div>
-                
-            </div>
+function CategoryGrid() {
+  return (
+    <section className="category-section section-padding">
+      <div className="container">
+        <div className="section-header">
+          <span className="eyebrow">Handcrafted Flavors</span>
+          <h2>Shop by Category</h2>
+          <p>
+            From timeless classics to exquisite signature delights, explore our collections crafted to make every celebration unforgettable.
+          </p>
         </div>
-    )
-};
+
+        <div className="category-grid">
+          {categoriesData.map((cat) => (
+            <Link key={cat.slug} to={`/categories/${cat.slug}`} className="category-link">
+              <CategoryCard 
+                title={cat.title} 
+                subtitle={cat.count} 
+                image={cat.image} 
+              />
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default CategoryGrid;

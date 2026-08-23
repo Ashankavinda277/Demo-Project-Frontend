@@ -1,32 +1,73 @@
-import React from 'react'
-import '../css/home.css/MiddleBar.css'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaHeart, FaAward, FaLeaf } from 'react-icons/fa';
+import '../css/home.css/MiddleBar.css';
 
 const MidBar = () => {
-  const bgUrl = new URL('../assets/img11.jpeg', import.meta.url).href
-  const leftStyle = { backgroundImage: `url(${bgUrl})` }
+  const bgUrl = new URL('../assets/img11.jpeg', import.meta.url).href;
 
   return (
-    <section className="MidBar" role="region" aria-label="Feature">
-      <div className="mid-row">
-        <div className="mid-left" style={leftStyle}>
-          <div className="mid-left-overlay">
-            <h2 className="mid-left-title">Slice Of Heaven</h2>
+    <section className="story-section section-padding" role="region" aria-label="Brand Philosophy">
+      <div className="container">
+        <div className="story-grid">
+          {/* Left Column: Image Composition */}
+          <div className="story-visual">
+            <div className="story-image-main" style={{ backgroundImage: `url(${bgUrl})` }}>
+              <div className="story-image-badge">
+                <span className="badge-number">10+</span>
+                <span className="badge-text">Years of Artisanal Excellence</span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="mid-right">
-          <small className="mid-kicker">Turning celebrations into sweet memories</small>
-          <h1 className="mid-heading">
-            Allow us to ensure that your event is more than just an event, but rather a memorable food experience that will create lasting memories for you and your guests.
-          </h1>
-          <p className="mid-text">
-            We don’t just bake cakes—we craft edible celebrations designed to elevate your special occasions
-            with elegance, flavor, and unforgettable charm. From the very first slice to the last bite, we ensure every celebration becomes a cherished memory.
-          </p>
+          {/* Right Column: Editorial Copy */}
+          <div className="story-content">
+            <span className="eyebrow">Our Philosophy & Passion</span>
+            <h2 className="story-heading">
+              Turning Ordinary Moments into Exquisite Sweet Memories
+            </h2>
+            <p className="story-lead">
+              Allow us to ensure that your celebration is more than just an event, but rather an unforgettable sensory experience that leaves lasting impressions on you and your guests.
+            </p>
+            <p className="story-text">
+              We don’t just bake cakes—we craft edible works of art designed to elevate your milestone occasions with elegance, uncompromising flavor, and artisanal charm. Every single sponge, swirl of cream, and delicate garnish is handmade daily with pure devotion.
+            </p>
+
+            <div className="story-pillars">
+              <div className="pillar-item">
+                <div className="pillar-icon">
+                  <FaLeaf />
+                </div>
+                <div className="pillar-info">
+                  <h4>100% Pure Ingredients</h4>
+                  <p>Real butter, Belgian chocolate, fresh vanilla beans</p>
+                </div>
+              </div>
+
+              <div className="pillar-item">
+                <div className="pillar-icon">
+                  <FaAward />
+                </div>
+                <div className="pillar-info">
+                  <h4>Master Patissiers</h4>
+                  <p>Hand-decorated with meticulous precision</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="story-cta-row">
+              <Link to="/aboutUs" className="btn btn-primary">
+                Read Our Story
+              </Link>
+              <Link to="/products" className="btn btn-outline">
+                Explore Menu
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default MidBar
+export default MidBar;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ImageUpload from "./ImageUpload";
+import { FaTag, FaCheckCircle, FaExclamationCircle, FaPercent } from "react-icons/fa";
 import "../../css/OfferForm.css";
 
 const AddOfferPage = () => {
@@ -45,7 +46,6 @@ const AddOfferPage = () => {
     setMessage({ type: "", text: "" });
 
     try {
-      // Validation
       if (
         !formData.Promotion_Name ||
         !formData.Discount_Price ||
@@ -56,13 +56,12 @@ const AddOfferPage = () => {
       ) {
         setMessage({
           type: "error",
-          text: "Please fill in all required fields",
+          text: "Please fill in all required fields marked with *",
         });
         setLoading(false);
         return;
       }
 
-      // Validate prices
       const currentPrice = parseFloat(formData.Current_Price);
       const discountPrice = parseFloat(formData.Discount_Price);
       const weight = parseFloat(formData.Weight);
@@ -79,17 +78,16 @@ const AddOfferPage = () => {
       if (discountPrice >= currentPrice) {
         setMessage({
           type: "error",
-          text: "Discount price must be less than current price",
+          text: "Discount price must be less than regular current price",
         });
         setLoading(false);
         return;
       }
 
-      // Validate end date
       const endDate = new Date(formData.End_Date);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
+
       if (endDate < today) {
         setMessage({
           type: "error",
@@ -111,17 +109,7 @@ const AddOfferPage = () => {
         data.append("icon", imageFile);
       }
 
-      console.log("Submitting offer data:", {
-        Promotion_Name: formData.Promotion_Name,
-        Discount_Price: discountPrice,
-        End_Date: formData.End_Date,
-        Description: formData.Description,
-        Weight: weight,
-        Current_Price: currentPrice,
-        hasIcon: !!imageFile,
-      });
-
-      const response = await fetch("/api/promotion/add", {
+      const response = await fetch("http://localhost:5000/api/promotion/add", {
         method: "POST",
         body: data,
       });
@@ -129,8 +117,7 @@ const AddOfferPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        setMessage({ type: "success", text: "Offer added successfully!" });
-        // Reset form
+        setMessage({ type: "success", text: "Promotional offer created successfully!" });
         setFormData({
           Promotion_Name: "",
           Discount_Price: "",
@@ -143,12 +130,12 @@ const AddOfferPage = () => {
       } else {
         setMessage({
           type: "error",
-          text: result.message || "Failed to add offer",
+          text: result.message || "Failed to create offer",
         });
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      setMessage({ type: "error", text: "Error: " + error.message });
+      setMessage({ type: "error", text: "Network error: " + error.message });
     } finally {
       setLoading(false);
     }
@@ -157,42 +144,42 @@ const AddOfferPage = () => {
   const savings = calculateSavings();
 
   return (
-    <div className="add-offer-page">
-      <div className="container">
-        <h1>Create New Offer</h1>
-        <p className="subtitle">Set up special promotional pricing for your products</p>
+    <div className="admin-page-container">
+      <div className="container container-narrow">
+        <div className="admin-page-header">
+          <span className="eyebrow">Promotions & Marketing</span>
+          <h1 className="admin-page-title">Create Special Offer</h1>
+          <p className="admin-page-desc">Set up discounted pricing and limited-time deals for customer celebration gateaux.</p>
+        </div>
 
         {message.text && (
-          <div className={`message ${message.type}`}>{message.text}</div>
+          <div className={`admin-alert ${message.type === 'success' ? 'admin-alert-success' : 'admin-alert-error'}`}>
+            {message.type === 'success' ? <FaCheckCircle /> : <FaExclamationCircle />}
+            <span>{message.text}</span>
+          </div>
         )}
 
-        <form onSubmit={handleSubmit} className="offer-form">
-          <div className="form-section">
-            <h3 className="form-section-title">Offer Icon</h3>
-            <ImageUpload onImageSelect={handleImageSelect} currentImage={null} />
-          </div>
+        <div className="admin-form-card">
+          <form onSubmit={handleSubmit} className="admin-offer-form">
+            <div className="form-section-group">
+              <label className="section-label">Offer Photo / Banner</label>
+              <ImageUpload onImageSelect={handleImageSelect} currentImage={null} />
+            </div>
 
-          <div className="form-section">
-            <h3 className="form-section-title">Basic Information</h3>
-            
             <div className="form-group">
-              <label>
-                Promotion Name <span className="required">*</span>
-              </label>
+              <label>Promotion Title *</label>
               <input
                 type="text"
                 name="Promotion_Name"
                 value={formData.Promotion_Name}
                 onChange={handleChange}
-                placeholder="e.g., Weekend Special Chocolate Cake"
+                placeholder="e.g. Weekend Special Chocolate Gateau"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label>
-                Weight (kg) <span className="required">*</span>
-              </label>
+              <label>Cake Weight (kg) *</label>
               <input
                 type="number"
                 name="Weight"
@@ -200,20 +187,14 @@ const AddOfferPage = () => {
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                placeholder="e.g., 1.5"
+                placeholder="e.g. 1.5"
                 required
               />
             </div>
-          </div>
 
-          <div className="form-section">
-            <h3 className="form-section-title">Pricing Details</h3>
-            
             <div className="form-row">
               <div className="form-group">
-                <label>
-                  Current Price (Rs) <span className="required">*</span>
-                </label>
+                <label>Regular Price (Rs) *</label>
                 <input
                   type="number"
                   name="Current_Price"
@@ -221,15 +202,13 @@ const AddOfferPage = () => {
                   onChange={handleChange}
                   min="0"
                   step="0.01"
-                  placeholder="e.g., 2500"
+                  placeholder="e.g. 4500"
                   required
                 />
               </div>
 
               <div className="form-group">
-                <label>
-                  Discount Price (Rs) <span className="required">*</span>
-                </label>
+                <label>Discounted Price (Rs) *</label>
                 <input
                   type="number"
                   name="Discount_Price"
@@ -237,67 +216,54 @@ const AddOfferPage = () => {
                   onChange={handleChange}
                   min="0"
                   step="0.01"
-                  placeholder="e.g., 1999"
+                  placeholder="e.g. 3600"
                   required
                 />
               </div>
             </div>
 
             {savings && (
-              <div className="savings-display">
-                <span className="savings-badge">
-                  🎉 Save {savings}% (Rs {(parseFloat(formData.Current_Price) - parseFloat(formData.Discount_Price)).toFixed(2)})
+              <div className="savings-preview-pill">
+                <FaPercent className="savings-ico" />
+                <span>
+                  <strong>Customer Saves {savings}%</strong> (Rs. {(parseFloat(formData.Current_Price) - parseFloat(formData.Discount_Price)).toFixed(2)} off regular price)
                 </span>
               </div>
             )}
-          </div>
 
-          <div className="form-section">
-            <h3 className="form-section-title">Offer Duration</h3>
-            
             <div className="form-group">
-              <label>
-                End Date <span className="required">*</span>
-              </label>
+              <label>Offer Expiration Date *</label>
               <input
                 type="date"
                 name="End_Date"
                 value={formData.End_Date}
                 onChange={handleChange}
+                min={new Date().toISOString().split("T")[0]}
                 required
               />
-              <p className="date-info">
-                Offer will be active until the selected end date
-              </p>
+              <small className="field-hint">
+                The offer will automatically display the validity badge until this date.
+              </small>
             </div>
-          </div>
 
-          <div className="form-section">
-            <h3 className="form-section-title">Description</h3>
-            
             <div className="form-group">
-              <label>
-                Offer Description <span className="required">*</span>
-              </label>
+              <label>Promotion Description *</label>
               <textarea
                 name="Description"
                 value={formData.Description}
                 onChange={handleChange}
                 rows="4"
-                placeholder="Describe the offer details, terms and conditions..."
+                placeholder="Describe special features, flavors, or celebration terms..."
                 required
               />
             </div>
-          </div>
 
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Creating Offer..." : "Create Offer"}
-          </button>
-
-          <div className="form-footer">
-            All fields marked with <span style={{color: '#e53e3e'}}>*</span> are required
-          </div>
-        </form>
+            <button type="submit" className="btn btn-primary btn-lg admin-submit-btn" disabled={loading}>
+              <FaTag />
+              <span>{loading ? "Publishing Offer..." : "Launch Special Offer"}</span>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

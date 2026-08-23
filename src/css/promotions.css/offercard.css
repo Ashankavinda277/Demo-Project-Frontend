@@ -1,151 +1,155 @@
-.offer-card {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* ==========================================================================
+   OFFER CARD COMPONENT STYLES
+   ========================================================================== */
+
+.promo-card {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-normal);
   display: flex;
   flex-direction: column;
   height: 100%;
-  position: relative;
-  overflow: hidden;
 }
 
-.offer-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+.promo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-medium);
 }
 
-.offer-icon {
+.promo-card-visual {
   position: relative;
   width: 100%;
-  height: 200px;
-  border-radius: 8px;
+  padding-top: 70%;
+  background-color: var(--color-bg-secondary);
   overflow: hidden;
-  margin-bottom: 12px;
-  background: #f5f5f5;
 }
 
-.offer-icon img.card-image {
+.promo-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.expiry-date {
+.promo-card:hover .promo-image {
+  transform: scale(1.06);
+}
+
+.promo-ribbon {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #ffffff;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  z-index: 2;
+  top: var(--space-4);
+  right: var(--space-4);
+  background: linear-gradient(135deg, var(--color-brand-secondary) 0%, #A85A32 100%);
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-bold);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.02em;
 }
 
-.discount-badge {
+.promo-expiry-pill {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-  color: #ffffff;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  z-index: 2;
-  box-shadow: 0 2px 6px rgba(255, 107, 107, 0.3);
+  bottom: var(--space-3);
+  left: var(--space-3);
+  background-color: rgba(44, 26, 20, 0.78);
+  backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.product-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #222222;
-  margin: 0 0 8px 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.expiry-icon {
+  color: var(--color-accent-gold);
+  font-size: 0.75rem;
 }
 
-.product-description {
-  font-size: 13px;
-  color: #666666;
-  margin: 0 0 8px 0;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.product-weight {
-  font-size: 12px;
-  color: #888888;
-  margin: 0 0 12px 0;
-  font-weight: 500;
-}
-
-.price-info {
+.promo-card-body {
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
-  padding: 10px;
-  background: #f9f9f9;
-  border-radius: 6px;
+  flex-grow: 1;
 }
 
-.original-price {
-  font-size: 13px;
-  color: #888888;
+.promo-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary);
+  line-height: 1.25;
+  margin-bottom: var(--space-2);
+}
+
+.promo-desc {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin-bottom: var(--space-4);
+  flex-grow: 1;
+}
+
+.promo-weight-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+  align-self: flex-start;
+}
+
+.weight-ico {
+  color: var(--color-brand-secondary);
+  font-size: 0.7rem;
+}
+
+.promo-price-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+  margin-top: auto;
+}
+
+.price-compare-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.promo-original-price {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
   text-decoration: line-through;
 }
 
-.discount-price {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ff6b6b;
+.promo-deal-price {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-secondary);
 }
 
-/* .add-to-cart-btn {
-    height: 20px !important;
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: auto;
-} */
-
- .cart-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+.promo-order-btn {
+  padding: 0.55rem 1rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
 }
-
-.cart-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
-} 
-
-  .cart-button {
-    padding: 10px;
-    font-size: 12px;
-
-    height: 40px !important;
-    margin-top: auto;
-    color: #667eea;
-    background: #ffffff;
-    border: 2px solid #667eea;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-  }
